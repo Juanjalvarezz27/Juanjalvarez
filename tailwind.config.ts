@@ -18,20 +18,32 @@ const config: Config = {
         space: ['var(--font-space)', 'sans-serif'],
         mono: ['var(--font-geist-mono)', 'monospace'],
       },
-      boxShadow: {
-        'brutal-black': '8px 8px 0px 0px rgba(0,0,0,1)',
-        'brutal-blue': '8px 8px 0px 0px #2563EB',
-        'brutal-orange': '8px 8px 0px 0px #FF6B00',
-        'brutal-black-lg': '12px 12px 0px 0px rgba(0,0,0,1)',
+      borderWidth: { '16': '16px' },
+      boxShadow: { 'brutal-black-lg': '12px 12px 0px 0px rgba(0,0,0,1)' },
+      
+      // REGISTRO LIMPIO DE ANIMACIONES
+      keyframes: {
+        movingDots: {
+          '0%': { backgroundPosition: '0 0' },
+          '100%': { backgroundPosition: '24px 24px' },
+        },
+        floatSlow: {
+          '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+          '50%': { transform: 'translate(15px, -15px) rotate(5deg)' },
+        },
+        floatMedium: {
+          '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+          '50%': { transform: 'translate(-20px, 10px) rotate(-10deg)' },
+        }
       },
-      borderWidth: {
-        '4': '4px',
-        '8': '8px',
-        '16': '16px',
+      animation: {
+        'moving-dots': 'movingDots 4s linear infinite',
+        'float-slow': 'floatSlow 10s ease-in-out infinite',
+        'float-medium': 'floatMedium 8s ease-in-out infinite',
+        'float-rotate': 'spin 20s linear infinite', // Usamos 'spin' que ya viene en Tailwind
       }
     },
   },
   plugins: [],
 };
-
 export default config;
