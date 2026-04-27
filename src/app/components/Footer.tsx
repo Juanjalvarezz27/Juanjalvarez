@@ -1,17 +1,17 @@
 import { MessageCircle } from "lucide-react";
+import Link from "next/link"; // Importación necesaria para la navegación
 
 export default function Footer() {
   return (
     <footer className="relative bg-[#0d0d0d] flex flex-col font-space antialiased selection:bg-brand-orange selection:text-black z-20 overflow-hidden">
       
-      {/* Fondo texturizado: Cuadrícula con Fade (Desvanecimiento) en los bordes para evitar cortes */}
+      {/* Fondo texturizado: Cuadrícula con Fade */}
       <div 
         className="absolute inset-0 opacity-[0.25] pointer-events-none z-0" 
         style={{ 
           backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)', 
           backgroundSize: '40px 40px',
           backgroundPosition: 'center top',
-          /* Esta máscara hace que los bordes izquierdo y derecho se difuminen suavemente */
           maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
           WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
         }}
@@ -32,9 +32,12 @@ export default function Footer() {
             Construyamos el sistema que tu negocio necesita.
           </p>
 
-          <button className="mt-4 bg-brand-blue border-4 border-white text-white font-anton text-3xl md:text-5xl px-10 py-5 uppercase transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_#ffffff] transition-all duration-300">
-            Iniciar Proyecto
-          </button>
+          {/* Redirección a la ruta de contacto */}
+          <Link href="/home/contacto">
+            <button className="mt-4 bg-brand-blue border-4 border-white text-white font-anton text-3xl md:text-5xl px-10 py-5 uppercase transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_#ffffff] transition-all duration-300">
+              Iniciar Proyecto
+            </button>
+          </Link>
         </div>
 
         {/* =============================================================================
