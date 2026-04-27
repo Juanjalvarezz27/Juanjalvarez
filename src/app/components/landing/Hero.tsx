@@ -14,7 +14,7 @@ export default function Hero() {
       {/* 2. Dispositivos Flotantes */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         
-        {/* LAPTOP - Se queda igual */}
+        {/* LAPTOP */}
         <div className="absolute top-1/4 -left-20 md:left-5 w-56 h-56 md:w-96 md:h-96 opacity-40 md:opacity-60 animate-float-slow transition-transform duration-300 group-hover:translate-x-6 group-hover:translate-y-6">
           <Image 
             src="/Laptop.png" 
@@ -22,10 +22,11 @@ export default function Hero() {
             fill
             className="object-contain"
             priority
+            sizes="(max-width: 768px) 50vw, 33vw"
           />
         </div>
         
-        {/* TELÉFONO - CORREGIDO: Más abajo en mobile (top-[65%]) */}
+        {/* TELÉFONO */}
         <div className="absolute top-[65%] md:top-1/2 -right-16 md:right-10 w-48 h-48 md:w-80 md:h-80 opacity-40 md:opacity-60 animate-float-medium transition-transform duration-500 group-hover:-translate-x-8 group-hover:translate-y-4">
           <Image 
             src="/Phone.png" 
@@ -33,6 +34,7 @@ export default function Hero() {
             fill
             className="object-contain"
             priority
+            sizes="(max-width: 768px) 50vw, 33vw"
           />
         </div>
       </div>
