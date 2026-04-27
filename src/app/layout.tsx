@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Anton, Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "./components/Footer"; 
+import Navbar from "./components/Navbar";
 
 const anton = Anton({
   weight: "400",
@@ -36,7 +37,8 @@ export default function RootLayout({
     >
       <body className="min-h-screen flex flex-col bg-brand-dark text-gray-300 overflow-x-hidden">
         
-        {/* Contenedor principal para el contenido de las vistas */}
+        <Navbar />
+
         <main className="flex-grow">
           {children}
         </main>
