@@ -89,7 +89,7 @@ export default function About() {
                 </div>
                 <ArrowUpRight className="w-6 h-6 text-brand-blue opacity-40 group-hover:opacity-100 transition-all" strokeWidth={3} />
               </div>
-              <h3 className="font-anton text-3xl md:text-4xl xl:text-[2.75rem] text-brand-blue uppercase leading-[0.9] mt-6">
+              <h3 className="font-anton text-5xl md:text-4xl lg:text-5xl text-brand-blue uppercase leading-[0.9] mt-6">
                 Soluciones<br/>Digitales
               </h3>
             </div>
