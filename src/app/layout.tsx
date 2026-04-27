@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
 import { Anton, Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Footer from "./components/Footer"; 
 
-// 1. Anton: Para el impacto brutalista en los H1
 const anton = Anton({
   weight: "400",
   variable: "--font-anton",
   subsets: ["latin"],
 });
 
-// 2. Space Grotesk: Para la identidad técnica y subtítulos
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space",
   subsets: ["latin"],
 });
 
-// 3. Geist Mono: Para descripciones y lectura
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -34,10 +32,17 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${anton.variable} ${spaceGrotesk.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${anton.variable} ${spaceGrotesk.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col font-mono text-gray-300">
-        {children}
+      <body className="min-h-screen flex flex-col bg-brand-dark text-gray-300 overflow-x-hidden">
+        
+        {/* Contenedor principal para el contenido de las vistas */}
+        <main className="flex-grow">
+          {children}
+        </main>
+
+        <Footer />
+        
       </body>
     </html>
   );
