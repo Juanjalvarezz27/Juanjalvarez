@@ -2,6 +2,7 @@ import ServiciosHero from "../../components/servicios/ServiciosHero";
 import { Metadata } from "next";
 import SistemasDetalle from "../../components/servicios/SistemasDetalle";
 import PaginasDetalle from "../../components/servicios/PaginasDetalle";
+import SolucionesDetalle from "../../components/servicios/SolucionesDetalle";
 
 export const metadata: Metadata = {
   title: "Servicios | Juan Alvarez",
@@ -14,6 +15,7 @@ export default function ServiciosPage() {
       <ServiciosHero />
       <SistemasDetalle />
       <PaginasDetalle/>
+      <SolucionesDetalle/>
     </main>
   );
 }
