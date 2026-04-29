@@ -93,7 +93,7 @@ export default function SistemasDetalle() {
                     {proyecto.nombre}
                   </h3>
                   <span className="font-anton text-xl md:text-2xl lg:text-3xl text-black uppercase tracking-tight mt-1 md:mt-0 opacity-90">
-                    {proyecto.significado}
+                    — {proyecto.significado}
                   </span>
                 </div>
 
@@ -113,16 +113,16 @@ export default function SistemasDetalle() {
                   ))}
                 </div>
 
-                {/* Área de Imágenes Reales - CALIDAD CORREGIDA */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow">
+                {/* Área de Imágenes Reales - DISEÑO MÓVIL OPTIMIZADO */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-auto">
                   {proyecto.images.map((src, i) => (
-                    <div key={i} className="aspect-[3/4] relative border-4 border-black bg-gray-100 overflow-hidden group-hover:border-brand-blue transition-colors">
+                    <div key={i} className="aspect-[9/16] relative border-4 border-black bg-white overflow-hidden shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors">
                       <Image 
                         src={src} 
                         alt={`${proyecto.nombre} vista ${i + 1}`}
                         fill
-                        unoptimized // Esto evita que Next.js comprima la imagen y baje la calidad
-                        className="object-contain p-2" // 'contain' para que se vea la captura completa sin cortes
+                        unoptimized 
+                        className="object-contain" 
                       />
                     </div>
                   ))}
