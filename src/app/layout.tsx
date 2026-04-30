@@ -23,6 +23,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Juan Álvarez | Soluciones Tech",
   description: "Desarrollo de software y sistemas de gestión a medida. Arquitecturas escalables, automatización de procesos y experiencias web de alto impacto.",
+  // Aquí agregamos la verificación de Google Search Console
+  verification: {
+    google: "-FI9xlSjbVOiRsTGy43fNK7Snw9I0d3oZgBmggCnzhw",
+  },
 };
 
 export default function RootLayout({
