@@ -30,6 +30,19 @@ export default function SistemasDetalle() {
       ],
       color: "bg-brand-blue",
       images: ["/Silav 1.png", "/Silav 2.png"]
+    },
+    {
+      nombre: "RUBEN'S",
+      significado: "SISTEMA POS PARA PIZZERÍA",
+      descripcion: "Gestión ágil enfocada en gastronomía. Sincronización en tiempo real con cocina (KDS), configuración manual de tasa BCV y cierres de caja diarios.",
+      beneficios: [
+        "Vista de ordenes para la cocina", 
+        "Gestión de caja y cierres", 
+        "Tasa BCV configurable",
+        "Estadísticas de ventas diarias"
+      ],
+      color: "bg-brand-orange", // Repetimos el naranja para mantener la estética
+      images: ["/IMG_7394.jpeg", "/IMG_7395.jpeg"]
     }
   ];
 
@@ -81,7 +94,11 @@ export default function SistemasDetalle() {
         {/* Grid de Sistemas */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-10">
           {proyectosSistemas.map((proyecto, index) => (
-            <div key={index} className="group relative w-full flex flex-col">
+            <div 
+              key={index} 
+              // Esta condición centra el tercer elemento en pantallas grandes
+              className={`group relative w-full flex flex-col ${index === 2 ? 'lg:col-span-2 lg:max-w-3xl lg:mx-auto' : ''}`}
+            >
               
               <div className={`absolute inset-0 ${proyecto.color} translate-x-3 translate-y-3 md:translate-x-4 md:translate-y-4 transition-transform group-hover:translate-x-6 group-hover:translate-y-6`}></div>
               
