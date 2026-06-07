@@ -141,14 +141,14 @@ export default function SistemasDetalle() {
                   {proyecto.descripcion}
                 </p>
 
-                {/* Beneficios con Diseño Redondeado */}
-                <div className="mb-6 md:mb-8 flex flex-wrap gap-2 md:gap-3 items-center justify-center">
+                {/* Beneficios con Diseño Redondeado en 2x2 */}
+                <div className="mb-6 md:mb-8 grid grid-cols-2 gap-2 md:gap-3 w-full">
                   {proyecto.beneficios.map((beneficio, i) => (
-                    <div key={i} className="group/benefit flex items-center gap-2.5 bg-white border border-gray-200 px-4 md:px-5 py-2 md:py-2.5 rounded-full shadow-sm hover:shadow-md hover:border-gray-300 hover:-translate-y-0.5 transition-all cursor-default">
-                      <div className={`flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded-full ${i % 2 === 0 ? 'bg-brand-orange text-white' : 'bg-brand-blue text-white'} shadow-sm group-hover/benefit:scale-110 transition-transform`}>
-                        <CheckCircle2 size={14} className="md:w-[16px] md:h-[16px]" strokeWidth={3} />
+                    <div key={i} className="group/benefit flex items-center justify-start gap-2.5 sm:gap-3 bg-white border border-gray-200 px-3 sm:px-4 py-3 sm:py-3.5 rounded-xl md:rounded-full shadow-sm hover:shadow-md hover:border-gray-300 hover:-translate-y-0.5 transition-all cursor-default w-full text-left">
+                      <div className={`shrink-0 flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full ${i % 2 === 0 ? 'bg-brand-orange text-white' : 'bg-brand-blue text-white'} shadow-sm group-hover/benefit:scale-110 transition-transform`}>
+                        <CheckCircle2 size={16} className="sm:w-[18px] sm:h-[18px]" strokeWidth={3} />
                       </div>
-                      <span className="font-space text-[13px] sm:text-[14px] md:text-[15px] font-bold text-gray-800 uppercase tracking-tighter">
+                      <span className="font-space text-[12px] sm:text-[13px] md:text-[14px] font-bold text-gray-800 uppercase tracking-tighter leading-snug">
                         {beneficio}
                       </span>
                     </div>
@@ -158,7 +158,7 @@ export default function SistemasDetalle() {
                 {/* Área de Imágenes Reales - Condicional */}
                 <div className={`mt-auto gap-4 md:gap-5 ${proyecto.isDesktopFormat ? 'flex flex-col' : 'grid grid-cols-2'}`}>
                   {proyecto.images.map((src, i) => (
-                    <div key={i} className={`${proyecto.isDesktopFormat ? 'aspect-[16/10]' : 'aspect-[9/16]'} relative border-4 border-black bg-white overflow-hidden shadow-[3px_3px_0px_#000] md:shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors`}>
+                    <div key={i} className={`${proyecto.isDesktopFormat ? 'aspect-video' : 'aspect-[9/16]'} relative border-4 border-black bg-white overflow-hidden shadow-[3px_3px_0px_#000] md:shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors`}>
                       <Image 
                         src={src} 
                         alt={`${proyecto.nombre} vista ${i + 1}`}
