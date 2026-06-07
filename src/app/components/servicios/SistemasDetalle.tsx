@@ -30,6 +30,19 @@ export default function SistemasDetalle() {
       ],
       color: "bg-brand-blue",
       images: ["/Silav 1.png", "/Silav 2.png"]
+    },
+    {
+      nombre: "RUBEN'S",
+      significado: "SISTEMA POS PARA PIZZERÍA",
+      descripcion: "Gestión ágil enfocada en gastronomía. Sincronización en tiempo real con cocina (KDS), configuración manual de tasa BCV y cierres de caja diarios.",
+      beneficios: [
+        "Vista de ordenes para la cocina", 
+        "Gestión de caja y cierres", 
+        "Tasa BCV configurable",
+        "Estadísticas de ventas diarias"
+      ],
+      color: "bg-brand-orange", // Repetimos el naranja para mantener la estética
+      images: ["/IMG_7394.jpeg", "/IMG_7395.jpeg"]
     }
   ];
 
@@ -88,7 +101,15 @@ export default function SistemasDetalle() {
         {/* Se añadió -mx-4 px-4 para que el scroll horizontal llegue hasta el borde de la pantalla en móviles sin cortarse feo */}
         <div className="-mx-4 px-4 lg:mx-0 lg:px-0 flex overflow-x-auto lg:grid lg:grid-cols-2 gap-4 md:gap-8 pb-8 lg:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
           {proyectosSistemas.map((proyecto, index) => (
+<<<<<<< HEAD
             <div key={index} className="group relative min-w-[85vw] sm:min-w-[60vw] lg:min-w-0 w-full flex flex-col snap-start h-full">
+=======
+            <div 
+              key={index} 
+              // Esta condición centra el tercer elemento en pantallas grandes
+              className={`group relative w-full flex flex-col ${index === 2 ? 'lg:col-span-2 lg:max-w-3xl lg:mx-auto' : ''}`}
+            >
+>>>>>>> 511f39b4809bf0aaf4e51ab3020577ebd781d176
               
               <div className={`absolute inset-0 ${proyecto.color} translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 md:group-hover:translate-x-5 md:group-hover:translate-y-5`}></div>
               
