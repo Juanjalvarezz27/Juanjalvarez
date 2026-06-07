@@ -1,4 +1,6 @@
-import { MessageCircle } from "lucide-react";
+"use client";
+
+import { MessageCircle, Share2 } from "lucide-react";
 import Link from "next/link"; // Importación necesaria para la navegación
 
 export default function Footer() {
@@ -83,6 +85,25 @@ export default function Footer() {
                 <MessageCircle className="w-6 h-6 md:w-7 md:h-7 text-black group-hover:scale-110 transition-transform" strokeWidth={2.5} />
                 <span className="font-anton text-xl md:text-2xl text-black uppercase tracking-wide pt-1">WhatsApp</span>
               </a>
+
+              {/* Botón Compartir */}
+              <button 
+                onClick={async () => {
+                  try {
+                    await navigator.share({
+                      title: 'Juan Álvarez - Desarrollo y Sistemas',
+                      url: 'https://juanjalvarezz.netlify.app'
+                    });
+                  } catch (err) {
+                    navigator.clipboard.writeText('https://juanjalvarezz.netlify.app');
+                    alert('¡Enlace copiado al portapapeles!');
+                  }
+                }}
+                className="px-6 py-4 bg-brand-blue border-4 border-black transform hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_#ffffff] transition-all flex items-center justify-center gap-3 group"
+              >
+                <Share2 className="w-6 h-6 md:w-7 md:h-7 text-white group-hover:scale-110 transition-transform" strokeWidth={2.5} />
+                <span className="font-anton text-xl md:text-2xl text-white uppercase tracking-wide pt-1">Compartir</span>
+              </button>
 
             </div>
         </div>

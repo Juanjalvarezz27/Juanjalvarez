@@ -1,4 +1,5 @@
 import { Globe, Cpu, Database, Rocket, ArrowUpRight, Zap } from "lucide-react";
+import Link from "next/link";
 
 export default function About() {
   return (
@@ -32,8 +33,8 @@ export default function About() {
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-stretch relative z-10 mb-16 md:mb-24">
           
           <div className="lg:w-5/12 flex flex-col justify-center gap-8 md:gap-12">
-            <p className="font-space text-2xl md:text-4xl text-white font-bold leading-[1.1] tracking-tight text-center md:text-left m-0">
-              Soy <span className="text-black font-black bg-brand-orange px-3 py-1 uppercase inline-block -rotate-2 transform hover:rotate-0 transition-transform">Juan Álvarez</span>. Mi objetivo es simple: desarrollar herramientas que te den el <span className="underline decoration-brand-blue decoration-4 md:decoration-8 underline-offset-4">control absoluto</span> de tu negocio.
+            <p className="font-space text-xl sm:text-2xl md:text-4xl text-white font-bold leading-[1.2] md:leading-[1.1] tracking-tight text-center md:text-left m-0">
+              Soy <span className="text-black font-black bg-brand-orange px-3 py-1 uppercase inline-block -rotate-2 transform hover:rotate-0 transition-transform">Juan Álvarez</span>. Mi objetivo es simple: desarrollar herramientas que te den el <span className="underline decoration-brand-blue decoration-3 md:decoration-8 underline-offset-4">control absoluto</span> de tu negocio.
             </p>
 
             <div className="relative inline-block mt-2 md:mt-4 self-center md:self-start group cursor-default z-10">
@@ -46,53 +47,53 @@ export default function About() {
           </div>
 
           <div className="lg:w-7/12 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 mt-4 lg:mt-0 flex-col relative z-10">
-            <div className="order-1 bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_#2563EB] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-default relative">
+            <Link href="/home/servicios#paginas" className="order-1 bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_#2563EB] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-pointer relative">
               <div className="flex justify-between items-start">
                 <div className="p-3 bg-brand-blue border-4 border-black rounded-full text-white transform group-hover:rotate-12 transition-transform duration-300">
                   <Globe className="w-6 h-6 md:w-8 md:h-8" strokeWidth={2.5} />
                 </div>
                 <ArrowUpRight className="w-6 h-6 text-brand-blue opacity-40 group-hover:opacity-100 transition-all" strokeWidth={3} />
               </div>
-              <h3 className="font-anton text-5xl md:text-4xl lg:text-5xl text-brand-blue uppercase leading-[0.9] mt-6">
+              <h3 className="font-anton text-4xl lg:text-5xl text-brand-blue uppercase leading-[0.9] mt-6">
                 Páginas<br/>Web
               </h3>
-            </div>
+            </Link>
 
-            <div className="order-2 bg-brand-orange border-4 border-black p-6 shadow-[8px_8px_0px_0px_#ffffff] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-default relative">
+            <Link href="/home/servicios#sistemas" className="order-2 bg-brand-orange border-4 border-black p-6 shadow-[8px_8px_0px_0px_#ffffff] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-pointer relative">
               <div className="flex justify-between items-start">
                 <div className="p-3 bg-white border-4 border-black rounded-full text-brand-orange transform group-hover:-rotate-12 transition-transform duration-300">
                   <Cpu className="w-6 h-6 md:w-8 md:h-8" strokeWidth={2.5} />
                 </div>
                 <ArrowUpRight className="w-6 h-6 text-white opacity-50 group-hover:opacity-100 transition-all" strokeWidth={3} />
               </div>
-              <h3 className="font-anton text-5xl md:text-4xl lg:text-5xl text-white uppercase leading-[0.9] mt-6">
+              <h3 className="font-anton text-4xl lg:text-5xl text-white uppercase leading-[0.9] mt-6">
                 Sistemas<br/>A Medida
               </h3>
-            </div>
+            </Link>
 
-            <div className="order-4 sm:order-3 bg-brand-orange border-4 border-black p-6 shadow-[8px_8px_0px_0px_#ffffff] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-default relative">
+            <Link href="/home/servicios#sistemas" className="order-4 sm:order-3 bg-brand-orange border-4 border-black p-6 shadow-[8px_8px_0px_0px_#ffffff] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-pointer relative">
               <div className="flex justify-between items-start">
                 <div className="p-3 bg-white border-4 border-black rounded-full text-brand-orange transform group-hover:rotate-12 transition-transform duration-300">
                   <Database className="w-6 h-6 md:w-8 md:h-8" strokeWidth={2.5} />
                 </div>
                 <ArrowUpRight className="w-6 h-6 text-white opacity-50 group-hover:opacity-100 transition-all" strokeWidth={3} />
               </div>
-              <h3 className="font-anton text-5xl md:text-4xl lg:text-5xl text-white uppercase leading-[0.9] mt-6">
+              <h3 className="font-anton text-4xl lg:text-5xl text-white uppercase leading-[0.9] mt-6">
                 Gestión<br/>Inventario
               </h3>
-            </div>
+            </Link>
 
-            <div className="order-3 sm:order-4 bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_#2563EB] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-default relative">
+            <Link href="/home/servicios#soluciones" className="order-3 sm:order-4 bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_#2563EB] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-pointer relative">
               <div className="flex justify-between items-start">
                 <div className="p-3 bg-brand-blue border-4 border-black rounded-full text-white transform group-hover:-rotate-12 transition-transform duration-300">
                   <Rocket className="w-6 h-6 md:w-8 md:h-8" strokeWidth={2.5} />
                 </div>
                 <ArrowUpRight className="w-6 h-6 text-brand-blue opacity-40 group-hover:opacity-100 transition-all" strokeWidth={3} />
               </div>
-              <h3 className="font-anton text-5xl md:text-4xl lg:text-5xl text-brand-blue uppercase leading-[0.9] mt-6">
+              <h3 className="font-anton text-4xl lg:text-5xl text-brand-blue uppercase leading-[0.9] mt-6">
                 Soluciones<br/>Digitales
               </h3>
-            </div>
+            </Link>
           </div>
         </div>
 

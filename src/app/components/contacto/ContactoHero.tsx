@@ -42,9 +42,28 @@ export default function ContactoHero() {
   return (
     <section className="relative min-h-screen pt-32 md:pt-40 pb-20 bg-brand-blue font-space overflow-hidden">
       
-      {/* Fondo de Puntos */}
+      {/* Fondo de Puntos y Accesorios Brutalistas */}
       <div className="absolute inset-0 opacity-[0.15] pointer-events-none z-0" 
            style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '32px 32px' }}></div>
+           
+      {/* Astérix gigante rotando en el fondo */}
+      <div className="absolute -top-32 -left-32 text-[50rem] text-black opacity-10 pointer-events-none animate-[spin_40s_linear_infinite] leading-none select-none font-anton">
+        *
+      </div>
+      
+      {/* Cinta cruzada animada (Marquee diagonal) */}
+      <div className="absolute top-[45%] left-[-10%] w-[120%] h-16 md:h-20 bg-brand-orange border-y-8 border-black transform -rotate-3 z-0 flex items-center overflow-hidden shadow-[0_10px_0_rgba(0,0,0,0.5)]">
+        <div className="animate-marquee whitespace-nowrap flex items-center gap-10 font-anton text-3xl md:text-5xl text-black uppercase tracking-widest">
+          <span>/// INICIAR PROYECTO</span>
+          <span>/// DISPONIBILIDAD INMEDIATA</span>
+          <span>/// SISTEMAS A MEDIDA</span>
+          <span>/// CONTACTO DIRECTO</span>
+          <span aria-hidden="true">/// INICIAR PROYECTO</span>
+          <span aria-hidden="true">/// DISPONIBILIDAD INMEDIATA</span>
+          <span aria-hidden="true">/// SISTEMAS A MEDIDA</span>
+          <span aria-hidden="true">/// CONTACTO DIRECTO</span>
+        </div>
+      </div>
 
       <div className="relative z-10 w-full max-w-[94%] mx-auto px-4 mb-20 md:mb-32">
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-10 items-center lg:items-end">
@@ -56,7 +75,7 @@ export default function ContactoHero() {
           </div>
           <div className="lg:col-span-5 w-full lg:pb-4 flex flex-col items-center lg:items-end text-center lg:text-right">
             <p className="font-anton text-3xl md:text-5xl lg:text-6xl text-white uppercase leading-[1.1] tracking-tight m-0 max-w-md lg:max-w-none">
-              Diseño <span className="inline-block bg-brand-orange text-black px-4 py-1 transform -rotate-1 shadow-[4px_4px_0px_0px_#000] mt-2 mb-2">Sistemas Reales</span> <br />
+              Diseño <span className="inline-block bg-brand-orange text-black px-4 py-1 transform -rotate-2 shadow-[4px_4px_0px_0px_#000] mt-2 mb-2 hover:rotate-2 transition-transform cursor-default">Sistemas Reales</span> <br />
               para negocios que <br />
               no se detienen.
             </p>

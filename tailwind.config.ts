@@ -34,13 +34,18 @@ const config: Config = {
         floatMedium: {
           '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
           '50%': { transform: 'translate(-20px, 10px) rotate(-10deg)' },
+        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
         }
       },
       animation: {
         'moving-dots': 'movingDots 4s linear infinite',
         'float-slow': 'floatSlow 10s ease-in-out infinite',
         'float-medium': 'floatMedium 8s ease-in-out infinite',
-        'float-rotate': 'spin 20s linear infinite', // Usamos 'spin' que ya viene en Tailwind
+        'float-rotate': 'spin 20s linear infinite',
+        'marquee': 'marquee 15s linear infinite',
       }
     },
   },

@@ -4,9 +4,19 @@ export default function ServiciosHero() {
   return (
     <section className="relative min-h-[75vh] flex flex-col items-center justify-center pt-32 pb-20 bg-white font-space overflow-hidden">
       
-      {/* Fondo de Cuadrícula con desvanecimiento en los bordes */}
+      <style>{`
+        @keyframes moveGridHero {
+          0% { background-position: 0 0; }
+          100% { background-position: 40px 40px; }
+        }
+        .animate-grid-hero {
+          animation: moveGridHero 2s linear infinite;
+        }
+      `}</style>
+
+      {/* Fondo de Cuadrícula Animada con desvanecimiento en los bordes */}
       <div 
-        className="absolute inset-0 pointer-events-none z-0 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_80%)]" 
+        className="absolute inset-0 pointer-events-none z-0 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_80%)] animate-grid-hero" 
         style={{ 
           backgroundImage: 'linear-gradient(#bbb 1.5px, transparent 1.5px), linear-gradient(90deg, #bbb 1.5px, transparent 1.5px)', 
           backgroundSize: '40px 40px',
@@ -18,7 +28,8 @@ export default function ServiciosHero() {
         
         {/* TÍTULO GIGANTE CON ESTILO JUAN ALVAREZ */}
         <div className="text-center mb-12 md:mb-16">
-          <h1 className="w-full text-center font-anton text-[22vw] md:text-[14rem] lg:text-[16rem] uppercase leading-[0.85] md:leading-[0.9] tracking-normal md:tracking-tighter select-none m-0 flex flex-col items-center whitespace-nowrap relative z-10 [-webkit-text-stroke:2px_white] md:[-webkit-text-stroke:4px_white] drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+          {/* Se eliminó whitespace-nowrap para que no se salga de la pantalla en teléfonos pequeños y se ajustó el tamaño de fuente inicial */}
+          <h1 className="w-full text-center font-anton text-[18vw] sm:text-[20vw] md:text-[14rem] lg:text-[16rem] uppercase leading-[0.85] md:leading-[0.9] tracking-normal md:tracking-tighter select-none m-0 flex flex-col items-center relative z-10 [-webkit-text-stroke:2px_white] md:[-webkit-text-stroke:4px_white] drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[8px_8px_0px_rgba(0,0,0,1)]">
             
             <span className="text-black block">MI ARSENAL</span>
             

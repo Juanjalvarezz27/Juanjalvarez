@@ -29,7 +29,7 @@ export default function SolucionesDetalle() {
   ];
 
   return (
-    <section className="relative py-24 bg-brand-orange font-space overflow-hidden">
+    <section id="soluciones" className="relative py-24 bg-brand-orange font-space overflow-hidden scroll-mt-20">
       
       <style jsx>{`
         @keyframes moveDotsOrange {
@@ -73,51 +73,58 @@ export default function SolucionesDetalle() {
           </div>
         </div>
 
-        {/* Grid de 3 Columnas en PC - Layout que respira */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {/* Indicador de Swipe para Mobile */}
+        <div className="flex lg:hidden items-center gap-2 mb-4 text-brand-orange font-mono text-sm font-bold uppercase tracking-wider animate-pulse">
+          <span>Desliza para ver más</span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+
+        {/* Carrusel Swipe en Mobile, Grid de 3 Columnas en PC */}
+        {/* Se añadió -mx-4 px-4 para que el scroll horizontal llegue hasta el borde de la pantalla en móviles */}
+        <div className="-mx-4 px-4 lg:mx-0 lg:px-0 flex overflow-x-auto lg:grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 pb-8 lg:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
           {soluciones.map((solucion, index) => (
-            <div key={index} className="group relative w-full flex flex-col h-full">
+            <div key={index} className="group relative min-w-[85vw] sm:min-w-[45vw] lg:min-w-0 w-full flex flex-col h-full snap-start">
               
               {/* Sombra de fondo negra */}
-              <div className="absolute inset-0 bg-black translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3 transition-transform group-hover:translate-x-5 group-hover:translate-y-5"></div>
+              <div className="absolute inset-0 bg-black translate-x-2 translate-y-2 transition-transform group-hover:translate-x-3 group-hover:translate-y-3"></div>
               
-              <div className="relative bg-white border-4 border-black p-6 md:p-8 h-full flex flex-col z-10 text-center md:text-left items-center md:items-start">
+              <div className="relative bg-white border-4 border-black p-4 md:p-6 h-full flex flex-col z-10 text-center md:text-left items-center md:items-start">
                 
                 {/* Header de la Card */}
-                <div className="mb-6 border-b-4 border-black pb-4 flex flex-col md:flex-row md:items-baseline gap-x-3 w-full">
-                  <h3 className="font-anton text-5xl xl:text-6xl uppercase leading-none m-0 tracking-tighter text-brand-orange">
+                <div className="mb-4 border-b-4 border-black pb-3 flex flex-col md:flex-row md:items-baseline gap-x-3 w-full">
+                  <h3 className="font-anton text-3xl md:text-4xl lg:text-5xl uppercase leading-none m-0 tracking-tighter text-brand-orange">
                     {solucion.nombre}
                   </h3>
-                  <span className="font-anton text-xl text-black uppercase tracking-tight opacity-90">
+                  <span className="font-anton text-sm md:text-base text-black uppercase tracking-tight opacity-90">
                     {solucion.significado}
                   </span>
                 </div>
 
-                {/* Descripción equilibrada (2 líneas) */}
-                <p className="font-space text-lg text-black font-bold leading-tight mb-6 flex-grow">
+                {/* Descripción equilibrada */}
+                <p className="font-space text-sm md:text-base text-black font-medium leading-tight mb-5 flex-grow">
                   {solucion.descripcion}
                 </p>
 
-                {/* Checks organizados y limpios */}
-                <div className="mb-8 flex flex-col md:flex-row gap-3 w-full md:gap-x-6">
+                {/* Checks convertidos en Píldoras/Tags para móvil */}
+                <div className="mb-5 flex flex-row flex-wrap gap-2 w-full justify-center md:justify-start">
                   {solucion.beneficios.map((beneficio, i) => (
-                    <div key={i} className="flex flex-col md:flex-row items-center gap-3 md:gap-4 justify-center md:justify-start border-b border-gray-100 md:border-none pb-3 md:pb-0">
-                      <CheckCircle2 size={24} className="text-brand-orange shrink-0" strokeWidth={2.5} />
-                      <span className="font-mono text-base font-black text-black uppercase tracking-tighter text-center md:text-left">
+                    <div key={i} className="flex flex-row items-center gap-1.5 bg-gray-100 border-2 border-black px-2 py-1">
+                      <CheckCircle2 size={14} className="text-brand-orange shrink-0" strokeWidth={3} />
+                      <span className="font-mono text-[10px] md:text-[12px] font-bold text-black uppercase tracking-tighter">
                         {beneficio}
                       </span>
                     </div>
                   ))}
                 </div>
 
-                {/* Imagen Vertical - Sin Recortes - Centrada en Móvil */}
-                <div className="aspect-[3/4] relative border-4 border-black bg-gray-100 overflow-hidden shadow-[4px_4px_0px_#000] w-full mt-auto">
+                {/* Imagen más apaisada para ahorrar altura */}
+                <div className="aspect-[16/10] relative border-4 border-black bg-gray-100 overflow-hidden shadow-[4px_4px_0px_#000] w-full mt-auto group-hover:border-brand-orange transition-colors">
                   <Image 
                     src={solucion.image} 
                     alt={`${solucion.nombre} preview`}
                     fill
                     unoptimized
-                    className="object-contain p-2 md:p-4" // 'contain' para que la imagen vertical se vea entera
+                    className="object-cover md:object-contain p-0 md:p-2" 
                   />
                 </div>
 

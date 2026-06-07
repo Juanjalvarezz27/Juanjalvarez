@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[100svh] bg-brand-orange flex flex-col justify-center items-center text-center px-4 md:px-8 border-b-8 md:border-b-16 border-black overflow-hidden font-space antialiased selection:bg-black selection:text-white group z-0">
+    <section className="relative min-h-[100svh] bg-brand-orange flex flex-col justify-center items-center text-center px-4 md:px-8 pt-20 md:pt-28 pb-20 md:pb-28 border-b-8 md:border-b-16 border-black overflow-hidden font-space antialiased selection:bg-black selection:text-white group z-0">
       
       {/* 1. Textura Animada: Puntos Visibles */}
       <div 
@@ -59,7 +60,7 @@ export default function Hero() {
       <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-[92%] md:max-w-7xl mx-auto mt-12 md:mt-0">
         
         {/* Tu Nombre: CON BORDE BLANCO (-webkit-text-stroke) */}
-        <h1 className="w-full text-center font-anton text-[26vw] md:text-[12vw] leading-[0.85] md:leading-[0.9] text-black uppercase tracking-normal md:tracking-tighter select-none mb-4 md:mb-8 whitespace-nowrap relative z-10 [-webkit-text-stroke:2px_white] md:[-webkit-text-stroke:4px_white] drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+        <h1 className="w-full text-center font-anton text-[15vw] sm:text-[18vw] md:text-[12vw] leading-[0.85] md:leading-[0.9] text-black uppercase tracking-tight md:tracking-tighter select-none mb-4 md:mb-8 relative z-10 [-webkit-text-stroke:2px_white] md:[-webkit-text-stroke:4px_white] drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[8px_8px_0px_rgba(0,0,0,1)]">
           JUAN<br className="block" />ALVAREZ
         </h1>
 
@@ -92,6 +93,21 @@ export default function Hero() {
             </span>
           </div>
 
+        </div>
+
+        {/* NUEVO: BOTÓN CTA Y PRUEBA SOCIAL PARA ATRAER CLIENTES */}
+        <div className="mt-12 md:mt-16 relative z-10 flex flex-col items-center">
+          <Link href="/home/contacto" className="group/btn relative inline-flex items-center justify-center">
+            {/* Sombra negra */}
+            <div className="absolute inset-0 bg-black translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:translate-y-1"></div>
+            {/* Botón principal */}
+            <div className="relative bg-white border-4 border-black px-8 py-4 md:px-12 md:py-5 flex items-center gap-3 md:gap-4 group-hover/btn:bg-brand-blue transition-colors duration-300">
+              <span className="font-anton text-2xl md:text-4xl uppercase tracking-wider text-black group-hover/btn:text-white transition-colors mt-1">
+                Iniciar Proyecto
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10 text-brand-orange group-hover/btn:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </Link>
         </div>
       </div>
     </section>

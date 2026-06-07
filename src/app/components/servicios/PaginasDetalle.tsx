@@ -22,7 +22,7 @@ export default function PaginasDetalle() {
   ];
 
   return (
-    <section className="relative py-24 bg-brand-blue font-space overflow-hidden">
+    <section id="paginas" className="relative py-24 bg-brand-blue font-space overflow-hidden scroll-mt-20">
       
       <style jsx>{`
         @keyframes moveDotsWeb {
@@ -68,66 +68,77 @@ export default function PaginasDetalle() {
         </div>
 
         {/* Tarjeta de Proyecto */}
-        <div className="flex justify-center">
+        <div className="flex justify-center w-full">
           {proyectosWeb.map((proyecto, index) => (
-            <div key={index} className="group relative w-full flex flex-col">
+            <div key={index} className="group relative w-full flex flex-col max-w-full">
               
-              <div className="absolute inset-0 bg-brand-orange translate-x-3 translate-y-3 md:translate-x-4 md:translate-y-4 transition-transform group-hover:translate-x-6 group-hover:translate-y-6"></div>
+              <div className="absolute inset-0 bg-brand-orange translate-x-2 translate-y-2 md:translate-x-4 md:translate-y-4 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 md:group-hover:translate-x-6 md:group-hover:translate-y-6"></div>
               
-              <div className="relative bg-white border-4 border-black p-6 md:p-12 lg:p-16 h-full flex flex-col z-10 text-center md:text-left items-center md:items-start">
+              {/* Contenedor Principal: Vertical en móvil/tablet, Horizontal en Desktop */}
+              <div className="relative bg-white border-4 border-black p-5 md:p-8 h-full flex flex-col lg:flex-row z-10 text-center md:text-left gap-8 lg:gap-12 items-center lg:items-stretch w-full overflow-hidden">
                 
-                {/* Header de la Card */}
-                <div className="mb-10 border-b-4 border-black pb-8 flex flex-col md:flex-row items-center justify-between w-full gap-6">
-                  <div className="flex flex-col md:flex-row items-center gap-x-6 gap-y-2">
-                    <h3 className="font-anton text-5xl md:text-6xl lg:text-7xl uppercase leading-none m-0 tracking-tighter text-brand-blue">
-                      {proyecto.nombre}
-                    </h3>
-                    <span className="font-anton text-xl md:text-2xl lg:text-3xl text-black uppercase tracking-tight opacity-90">
-                      {proyecto.significado}
-                    </span>
-                  </div>
+                {/* Columna Izquierda: Información */}
+                <div className="flex-1 flex flex-col w-full justify-center">
                   
-                  <Link 
-                    href={proyecto.link} 
-                    target="_blank"
-                    className="inline-flex items-center justify-center gap-3 bg-brand-orange text-white px-8 py-4 font-anton text-xl uppercase border-4 border-black shadow-[4px_4px_0px_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all group/btn shrink-0 w-full md:w-auto"
-                  >
-                    VISITAR <ExternalLink size={24} />
-                  </Link>
+                  {/* Header de la Card */}
+                  <div className="mb-6 md:mb-8 border-b-4 border-black pb-4 md:pb-5 flex flex-col xl:flex-row items-center xl:items-baseline justify-between w-full gap-4">
+                    <div className="flex flex-col md:flex-row items-center xl:items-baseline gap-x-4 gap-y-2 w-full text-center xl:text-left">
+                      <h3 className="font-anton text-4xl md:text-5xl lg:text-6xl uppercase leading-none m-0 tracking-tighter text-brand-blue">
+                        {proyecto.nombre}
+                      </h3>
+                      <span className="font-anton text-base md:text-xl text-black uppercase tracking-tight opacity-90">
+                        {proyecto.significado}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* CUERPO */}
+                  <div className="flex flex-col gap-5 mb-6 md:mb-8 w-full">
+                    <p className="font-space text-sm md:text-base lg:text-lg text-black font-medium leading-snug w-full text-center xl:text-left">
+                      {proyecto.descripcion}
+                    </p>
+
+                    {/* Beneficios */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 md:gap-y-3 w-full mt-2">
+                      {proyecto.beneficios.map((beneficio, i) => (
+                        <div key={i} className="flex flex-row items-center gap-2 justify-start border-b border-gray-100 pb-1.5 sm:border-0 sm:pb-0">
+                          <CheckCircle2 size={18} className="text-brand-orange shrink-0" strokeWidth={3} />
+                          <span className="font-mono text-xs md:text-sm font-bold text-black uppercase tracking-tighter text-left">
+                            {beneficio}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Botón */}
+                  <div className="mt-auto pt-4 flex justify-center xl:justify-start">
+                    <Link 
+                      href={proyecto.link} 
+                      target="_blank"
+                      className="inline-flex items-center justify-center gap-3 bg-brand-orange text-white px-8 py-3 font-anton text-lg uppercase border-4 border-black shadow-[4px_4px_0px_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all group/btn shrink-0 w-full sm:w-auto"
+                    >
+                      VISITAR PROYECTO <ExternalLink size={20} />
+                    </Link>
+                  </div>
+
                 </div>
 
-                {/* CUERPO */}
-                <div className="flex flex-col gap-10 mb-12 w-full">
-                  <p className="font-space text-lg md:text-xl lg:text-2xl text-black font-bold leading-snug w-full">
-                    {proyecto.descripcion}
-                  </p>
-
-                  {/* Grid de Beneficios: Estilo lista premium en mobile */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-4 md:gap-y-6 w-full">
-                    {proyecto.beneficios.map((beneficio, i) => (
-                      <div key={i} className="flex flex-col md:flex-row items-center gap-3 md:gap-4 justify-center md:justify-start border-b border-gray-100 md:border-none pb-4 md:pb-0">
-                        <CheckCircle2 size={28} className="text-brand-orange shrink-0" strokeWidth={2.5} />
-                        <span className="font-mono text-base md:text-lg lg:text-xl font-black text-black uppercase tracking-tighter text-center md:text-left">
-                          {beneficio}
-                        </span>
+                {/* Columna Derecha: Imágenes */}
+                <div className="w-full lg:w-[45%] shrink-0 flex items-center justify-center">
+                  <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 w-full pb-4 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+                    {proyecto.images.map((src, i) => (
+                      <div key={i} className="min-w-[85vw] md:min-w-0 aspect-[16/10] relative border-4 border-black bg-gray-100 overflow-hidden shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors snap-center">
+                        <Image 
+                          src={src} 
+                          alt={`${proyecto.nombre} vista ${i + 1}`}
+                          fill
+                          unoptimized
+                          className="object-cover md:object-contain p-0 md:p-2"
+                        />
                       </div>
                     ))}
                   </div>
-                </div>
-
-                {/* Área de Imágenes: Full width en mobile */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 w-full">
-                  {proyecto.images.map((src, i) => (
-                    <div key={i} className="aspect-[4/3] md:aspect-[16/10] relative border-4 border-black bg-gray-100 overflow-hidden shadow-[8px_8px_0px_#000]">
-                      <Image 
-                        src={src} 
-                        alt={`${proyecto.nombre} vista ${i + 1}`}
-                        fill
-                        unoptimized
-                        className="object-contain p-2 md:p-4"
-                      />
-                    </div>
-                  ))}
                 </div>
 
               </div>
