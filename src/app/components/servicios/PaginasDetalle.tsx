@@ -10,14 +10,28 @@ export default function PaginasDetalle() {
       nombre: "DOMENICO D'ORAZIO",
       significado: "BRANDING & EVENTOS",
       descripcion: "Desarrollo de landing page premium enfocada en marca personal. Un sitio rápido, elegante y diseñado para convertir mediante una sección de contacto profesional y gestión de eventos.",
-      beneficios: [
-        "Diseño Premium & Elegante",
-        "Optimización de Conversión",
-        "Sección de Eventos Dinámica",
-        "Arquitectura de Contacto Profesional"
-      ],
+      beneficios: [],
       link: "https://domenico-dorazio.vercel.app/",
-      images: ["/Dome1.png", "/Dome2.png"] 
+      images: ["/Domenico.jpg", "/Domenico2.jpg"],
+      isMobileFormat: true
+    },
+    {
+      nombre: "LICORERÍA RIZZO",
+      significado: "CATÁLOGO B2B AL MAYOR",
+      descripcion: "Catálogo digital de alto rendimiento. Filtrado interactivo y búsqueda de licores premium para impulsar las ventas al mayor.",
+      beneficios: [],
+      link: "https://catalogo-rizzo.vercel.app/",
+      images: ["/rizzo1.jpg", "/rizzo2.jpg"],
+      isMobileFormat: true
+    },
+    {
+      nombre: "JUAN GRATEROL",
+      significado: "MEDIA KIT DIGITAL",
+      descripcion: "Landing page de impacto para atleta fitness y creador UGC. Diseño inmersivo para conectar marcas y proyectar una imagen profesional.",
+      beneficios: [],
+      link: "https://juangraterol.vercel.app/",
+      images: ["/juangraterol1.jpg", "/juangraterol2.jpg"],
+      isMobileFormat: true
     }
   ];
 
@@ -55,7 +69,7 @@ export default function PaginasDetalle() {
             </div>
             
             {/* Título responsivo: text-6xl en mobile para impacto */}
-            <h2 className="font-anton text-6xl md:text-7xl lg:text-8xl text-white uppercase leading-[0.8] tracking-tighter m-0 select-none">
+            <h2 className="font-anton text-6xl sm:text-7xl lg:text-8xl text-white uppercase leading-none tracking-tighter m-0 select-none">
               PÁGINAS <span className="text-brand-orange italic drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]">WEB.</span>
             </h2>
           </div>
@@ -67,78 +81,77 @@ export default function PaginasDetalle() {
           </div>
         </div>
 
-        {/* Tarjeta de Proyecto */}
-        <div className="flex justify-center w-full">
+        {/* Indicador de Swipe para Mobile */}
+        <div className="flex lg:hidden items-center justify-center gap-3 w-full mb-8 text-brand-orange animate-pulse">
+          <span className="font-mono text-lg sm:text-xl font-black uppercase tracking-widest underline decoration-black decoration-2 sm:decoration-4 underline-offset-[6px]">
+            Desliza para ver más
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+
+        {/* Contenedor Carrusel/Grid */}
+        <div className="-mx-4 px-4 lg:mx-0 lg:px-0 flex overflow-x-auto lg:grid lg:grid-cols-1 lg:max-w-4xl lg:mx-auto gap-4 md:gap-8 pb-8 lg:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
           {proyectosWeb.map((proyecto, index) => (
-            <div key={index} className="group relative w-full flex flex-col max-w-full">
+            <div key={index} className="group relative min-w-[85vw] sm:min-w-[60vw] lg:min-w-0 w-full flex flex-col snap-start h-full">
               
-              <div className="absolute inset-0 bg-brand-orange translate-x-2 translate-y-2 md:translate-x-4 md:translate-y-4 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 md:group-hover:translate-x-6 md:group-hover:translate-y-6"></div>
+              <div className="absolute inset-0 bg-brand-orange translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 md:group-hover:translate-x-5 md:group-hover:translate-y-5"></div>
               
-              {/* Contenedor Principal: Vertical en móvil/tablet, Horizontal en Desktop */}
-              <div className="relative bg-white border-4 border-black p-5 md:p-8 h-full flex flex-col lg:flex-row z-10 text-center md:text-left gap-8 lg:gap-12 items-center lg:items-stretch w-full overflow-hidden">
+              <div className="relative bg-white border-4 border-black p-4 md:p-8 h-full flex flex-col z-10 text-center md:text-left">
                 
-                {/* Columna Izquierda: Información */}
-                <div className="flex-1 flex flex-col w-full justify-center">
-                  
-                  {/* Header de la Card */}
-                  <div className="mb-6 md:mb-8 border-b-4 border-black pb-4 md:pb-5 flex flex-col xl:flex-row items-center xl:items-baseline justify-between w-full gap-4">
-                    <div className="flex flex-col md:flex-row items-center xl:items-baseline gap-x-4 gap-y-2 w-full text-center xl:text-left">
-                      <h3 className="font-anton text-4xl md:text-5xl lg:text-6xl uppercase leading-none m-0 tracking-tighter text-brand-blue">
-                        {proyecto.nombre}
-                      </h3>
-                      <span className="font-anton text-base md:text-xl text-black uppercase tracking-tight opacity-90">
-                        {proyecto.significado}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* CUERPO */}
-                  <div className="flex flex-col gap-5 mb-6 md:mb-8 w-full">
-                    <p className="font-space text-sm md:text-base lg:text-lg text-black font-medium leading-snug w-full text-center xl:text-left">
-                      {proyecto.descripcion}
-                    </p>
-
-                    {/* Beneficios */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 md:gap-y-3 w-full mt-2">
-                      {proyecto.beneficios.map((beneficio, i) => (
-                        <div key={i} className="flex flex-row items-center gap-2 justify-start border-b border-gray-100 pb-1.5 sm:border-0 sm:pb-0">
-                          <CheckCircle2 size={18} className="text-brand-orange shrink-0" strokeWidth={3} />
-                          <span className="font-mono text-xs md:text-sm font-bold text-black uppercase tracking-tighter text-left">
-                            {beneficio}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Botón */}
-                  <div className="mt-auto pt-4 flex justify-center xl:justify-start">
-                    <Link 
-                      href={proyecto.link} 
-                      target="_blank"
-                      className="inline-flex items-center justify-center gap-3 bg-brand-orange text-white px-8 py-3 font-anton text-lg uppercase border-4 border-black shadow-[4px_4px_0px_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all group/btn shrink-0 w-full sm:w-auto"
-                    >
-                      VISITAR PROYECTO <ExternalLink size={20} />
-                    </Link>
-                  </div>
-
+                {/* Header de la Card */}
+                <div className="mb-4 md:mb-6 border-b-4 border-black pb-3 md:pb-4 flex flex-col xl:flex-row xl:items-baseline xl:justify-start gap-x-4">
+                  <h3 className={`font-anton uppercase leading-none m-0 tracking-tighter text-brand-blue ${proyecto.nombre.length > 14 ? 'text-4xl sm:text-5xl lg:text-6xl' : 'text-5xl sm:text-6xl lg:text-7xl'}`}>
+                    {proyecto.nombre}
+                  </h3>
+                  <span className="font-anton text-base md:text-xl lg:text-2xl text-black uppercase tracking-tight mt-1 xl:mt-0 opacity-90">
+                    — {proyecto.significado}
+                  </span>
                 </div>
 
-                {/* Columna Derecha: Imágenes */}
-                <div className="w-full lg:w-[45%] shrink-0 flex items-center justify-center">
-                  <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 w-full pb-4 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-                    {proyecto.images.map((src, i) => (
-                      <div key={i} className="min-w-[85vw] md:min-w-0 aspect-[16/10] relative border-4 border-black bg-gray-100 overflow-hidden shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors snap-center">
-                        <Image 
-                          src={src} 
-                          alt={`${proyecto.nombre} vista ${i + 1}`}
-                          fill
-                          unoptimized
-                          className="object-cover md:object-contain p-0 md:p-2"
-                        />
+                <p className="font-space text-sm md:text-base lg:text-lg text-black font-medium leading-tight mb-5 md:mb-6">
+                  {proyecto.descripcion}
+                </p>
+
+                {/* Beneficios con Diseño Redondeado */}
+                {proyecto.beneficios && proyecto.beneficios.length > 0 && (
+                  <div className="mb-6 md:mb-8 flex flex-wrap gap-2 md:gap-3 items-center justify-center">
+                    {proyecto.beneficios.map((beneficio, i) => (
+                      <div key={i} className="group/benefit flex items-center gap-2.5 bg-white border border-gray-200 px-4 md:px-5 py-2 md:py-2.5 rounded-full shadow-sm hover:shadow-md hover:border-gray-300 hover:-translate-y-0.5 transition-all cursor-default">
+                        <div className={`flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded-full ${i % 2 === 0 ? 'bg-brand-orange text-white' : 'bg-brand-blue text-white'} shadow-sm group-hover/benefit:scale-110 transition-transform`}>
+                          <CheckCircle2 size={14} className="md:w-[16px] md:h-[16px]" strokeWidth={3} />
+                        </div>
+                        <span className="font-space text-[13px] sm:text-[14px] md:text-[15px] font-bold text-gray-800 uppercase tracking-tighter">
+                          {beneficio}
+                        </span>
                       </div>
                     ))}
                   </div>
+                )}
+
+                {/* Botón */}
+                <div className="mb-8 flex justify-center md:justify-start">
+                  <Link 
+                    href={proyecto.link} 
+                    target="_blank"
+                    className="inline-flex items-center justify-center gap-3 bg-brand-orange text-white px-8 py-3 font-anton text-lg uppercase border-4 border-black shadow-[4px_4px_0px_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all group/btn shrink-0 w-full sm:w-auto"
+                  >
+                    VISITAR PROYECTO <ExternalLink size={20} />
+                  </Link>
+                </div>
+
+                {/* Imágenes (Condicional Desktop/Mobile) */}
+                <div className={`mt-auto gap-4 md:gap-5 ${proyecto.isMobileFormat ? 'grid grid-cols-2' : 'flex flex-col'}`}>
+                  {proyecto.images.map((src, i) => (
+                    <div key={i} className={`${proyecto.isMobileFormat ? 'aspect-[9/16]' : 'aspect-[16/10]'} relative border-4 border-black bg-gray-100 overflow-hidden shadow-[3px_3px_0px_#000] md:shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors`}>
+                      <Image 
+                        src={src} 
+                        alt={`${proyecto.nombre} vista ${i + 1}`}
+                        fill
+                        unoptimized
+                        className="object-contain"
+                      />
+                    </div>
+                  ))}
                 </div>
 
               </div>

@@ -6,6 +6,33 @@ import Image from "next/image";
 export default function SistemasDetalle() {
   const proyectosSistemas = [
     {
+      nombre: "RUBEN'S",
+      significado: "SISTEMA POS PARA PIZZERÍA",
+      descripcion: "Gestión ágil enfocada en gastronomía. Sincronización en tiempo real con cocina (KDS), configuración manual de tasa BCV y cierres de caja diarios.",
+      beneficios: [
+        "Vista de ordenes para la cocina", 
+        "Gestión de caja y cierres", 
+        "Tasa BCV configurable",
+        "Estadísticas de ventas diarias"
+      ],
+      color: "bg-brand-orange",
+      images: ["/IMG_7394.jpeg", "/IMG_7395.jpeg"]
+    },
+    {
+      nombre: "LEYMA",
+      significado: "SISTEMA DE GESTIÓN DE LABORATORIO",
+      descripcion: "Sistema de gestión integral y seguro para el control de pacientes, exámenes y resultados clínicos bacteriológicos.",
+      beneficios: [
+        "Control de pacientes", 
+        "Resultados clínicos", 
+        "Gestión de exámenes",
+        "Acceso seguro"
+      ],
+      color: "bg-brand-blue",
+      images: ["/Leyma1.png", "/Leyma2.png"],
+      isDesktopFormat: true
+    },
+    {
       nombre: "SIGEVE",
       significado: "SISTEMA DE GESTIÓN DE VENTAS",
       descripcion: "El fin del desorden operativo. Control absoluto de stock y ventas con conversión automática de tasas BCV en tiempo real.",
@@ -30,19 +57,6 @@ export default function SistemasDetalle() {
       ],
       color: "bg-brand-blue",
       images: ["/Silav 1.png", "/Silav 2.png"]
-    },
-    {
-      nombre: "RUBEN'S",
-      significado: "SISTEMA POS PARA PIZZERÍA",
-      descripcion: "Gestión ágil enfocada en gastronomía. Sincronización en tiempo real con cocina (KDS), configuración manual de tasa BCV y cierres de caja diarios.",
-      beneficios: [
-        "Vista de ordenes para la cocina", 
-        "Gestión de caja y cierres", 
-        "Tasa BCV configurable",
-        "Estadísticas de ventas diarias"
-      ],
-      color: "bg-brand-orange", // Repetimos el naranja para mantener la estética
-      images: ["/IMG_7394.jpeg", "/IMG_7395.jpeg"]
     }
   ];
 
@@ -79,7 +93,7 @@ export default function SistemasDetalle() {
               <span className="font-mono text-brand-orange font-black text-xl uppercase tracking-widest">PROYECTOS_01</span>
             </div>
             
-            <h2 className="font-anton text-5xl md:text-7xl lg:text-8xl text-white uppercase leading-none tracking-tight m-0 select-none">
+            <h2 className="font-anton text-6xl sm:text-7xl lg:text-8xl text-white uppercase leading-none tracking-tight m-0 select-none">
             SISTEMAS <span className="text-white drop-shadow-[4px_4px_0px_#3b82f6]">A MEDIDA.</span>
             </h2>
           </div>
@@ -92,9 +106,11 @@ export default function SistemasDetalle() {
         </div>
 
         {/* Indicador de Swipe para Mobile */}
-        <div className="flex lg:hidden items-center gap-2 mb-4 text-brand-orange font-mono text-sm font-bold uppercase tracking-wider animate-pulse">
-          <span>Desliza para ver más</span>
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <div className="flex lg:hidden items-center justify-center gap-3 w-full mb-8 text-brand-orange animate-pulse">
+          <span className="font-mono text-lg sm:text-xl font-black uppercase tracking-widest underline decoration-white decoration-2 sm:decoration-4 underline-offset-[6px]">
+            Desliza para ver más
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </div>
 
         {/* Grid de Sistemas (Swipe en Mobile, Grid en PC) */}
@@ -113,7 +129,7 @@ export default function SistemasDetalle() {
                 
                 {/* Header de la Card */}
                 <div className="mb-4 md:mb-6 border-b-4 border-black pb-3 md:pb-4 flex flex-col xl:flex-row xl:items-baseline xl:justify-start gap-x-4">
-                  <h3 className="font-anton text-4xl md:text-6xl lg:text-7xl uppercase leading-none m-0 tracking-tighter text-brand-blue">
+                  <h3 className="font-anton text-5xl sm:text-6xl lg:text-7xl uppercase leading-none m-0 tracking-tighter text-brand-blue">
                     {proyecto.nombre}
                   </h3>
                   <span className="font-anton text-base md:text-xl lg:text-2xl text-black uppercase tracking-tight mt-1 xl:mt-0 opacity-90">
@@ -139,10 +155,10 @@ export default function SistemasDetalle() {
                   ))}
                 </div>
 
-                {/* Área de Imágenes Reales - Apiladas al final */}
-                <div className="grid grid-cols-2 gap-2 md:gap-5 mt-auto">
+                {/* Área de Imágenes Reales - Condicional */}
+                <div className={`mt-auto gap-4 md:gap-5 ${proyecto.isDesktopFormat ? 'flex flex-col' : 'grid grid-cols-2'}`}>
                   {proyecto.images.map((src, i) => (
-                    <div key={i} className="aspect-[9/16] relative border-4 border-black bg-white overflow-hidden shadow-[3px_3px_0px_#000] md:shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors">
+                    <div key={i} className={`${proyecto.isDesktopFormat ? 'aspect-[16/10]' : 'aspect-[9/16]'} relative border-4 border-black bg-white overflow-hidden shadow-[3px_3px_0px_#000] md:shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors`}>
                       <Image 
                         src={src} 
                         alt={`${proyecto.nombre} vista ${i + 1}`}
