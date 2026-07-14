@@ -3,6 +3,7 @@ import { Anton, Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "./components/Footer"; 
 import Navbar from "./components/Navbar";
+import { LanguageProvider } from "../i18n/LanguageContext";
 
 const anton = Anton({
   weight: "400",
@@ -37,18 +38,20 @@ export default function RootLayout({
   return (
     <html
       lang="es"
+      translate="no"
+      suppressHydrationWarning
       className={`${anton.variable} ${spaceGrotesk.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-screen flex flex-col bg-brand-dark text-gray-300 overflow-x-hidden">
-        
-        <Navbar />
+      <body className="min-h-screen flex flex-col bg-brand-dark text-gray-300 overflow-x-hidden" suppressHydrationWarning>
+        <LanguageProvider>
+          <Navbar />
 
-        <main className="flex-grow">
-          {children}
-        </main>
+          <main className="flex-grow">
+            {children}
+          </main>
 
-        <Footer />
-        
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

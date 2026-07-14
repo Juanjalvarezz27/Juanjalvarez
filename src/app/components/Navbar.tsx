@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ArrowRight } from "lucide-react";
+import { useLanguage } from "../../i18n/LanguageContext";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const { lang, toggleLanguage, t } = useLanguage();
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -34,9 +36,9 @@ export default function Navbar() {
   }, [isOpen]);
 
   const navLinks = [
-    { name: "Inicio", href: "/" },
-    { name: "Servicios", href: "/home/servicios" },
-    { name: "Contacto", href: "/home/contacto" },
+    { name: t.navbar.links.inicio, href: "/" },
+    { name: t.navbar.links.servicios, href: "/home/servicios" },
+    { name: t.navbar.links.contacto, href: "/home/contacto" },
   ];
 
   return (
@@ -55,10 +57,10 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col justify-center border-l-4 md:border-l-8 border-brand-blue pl-3 md:pl-4">
               <span className="font-anton text-xl md:text-3xl text-black uppercase leading-none pt-1">
-                Juan Alvarez
+                {t.navbar.title}
               </span>
               <span className="hidden sm:block font-mono text-[10px] md:text-sm font-black text-brand-blue uppercase tracking-tighter mt-1">
-                Soluciones digitales
+                {t.navbar.subtitle}
               </span>
             </div>
           </Link>
@@ -74,6 +76,19 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
+            
+            {/* Language Switch Desktop */}
+            <div className="h-full flex items-center px-6 border-l-8 border-black">
+              <button 
+                onClick={toggleLanguage}
+                className="flex border-4 border-black cursor-pointer bg-white hover:bg-gray-50 transition-colors shadow-[4px_4px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[0px_0px_0px_rgba(0,0,0,1)]"
+                aria-label="Toggle Language"
+              >
+                <span className={`px-3 py-1 font-anton text-xl transition-colors ${lang === 'es' ? 'bg-brand-orange text-black' : 'text-gray-300'}`}>ES</span>
+                <span className="w-1 bg-black"></span>
+                <span className={`px-3 py-1 font-anton text-xl transition-colors ${lang === 'en' ? 'bg-brand-blue text-white' : 'text-gray-300'}`}>EN</span>
+              </button>
+            </div>
           </div>
 
           <button onClick={() => setIsOpen(true)} className="md:hidden flex items-center justify-center text-black p-2">
@@ -94,14 +109,26 @@ export default function Navbar() {
             <div className="relative h-8 w-8">
               <Image src="/Logo.png" alt="Logo" fill className="object-contain" />
             </div>
-            <span className="font-anton text-2xl text-black pt-1">MENÚ</span>
+            <span className="font-anton text-2xl text-black pt-1">{t.navbar.menu}</span>
           </div>
-          <button 
-            onClick={() => setIsOpen(false)} 
-            className="bg-black text-white p-2 border-2 border-black active:bg-brand-blue"
-          >
-            <X size={28} strokeWidth={3} />
-          </button>
+          <div className="flex gap-2">
+            {/* Language Switch Mobile */}
+            <button 
+              onClick={toggleLanguage}
+              className="flex border-2 border-black cursor-pointer bg-white"
+              aria-label="Toggle Language"
+            >
+              <span className={`px-2 py-1 font-anton text-lg transition-colors ${lang === 'es' ? 'bg-brand-orange text-black' : 'text-gray-300'}`}>ES</span>
+              <span className="w-[2px] bg-black"></span>
+              <span className={`px-2 py-1 font-anton text-lg transition-colors ${lang === 'en' ? 'bg-brand-blue text-white' : 'text-gray-300'}`}>EN</span>
+            </button>
+            <button 
+              onClick={() => setIsOpen(false)} 
+              className="bg-black text-white p-2 border-2 border-black active:bg-brand-blue"
+            >
+              <X size={28} strokeWidth={3} />
+            </button>
+          </div>
         </div>
 
         {/* Links con Doble Fondo Azul (Sin Borde) y Flechas Naranjas */}
@@ -130,10 +157,10 @@ export default function Navbar() {
         {/* FOOTER REDISEÑADO: MÍNIMO E IMPACTANTE */}
         <div className="bg-black text-white p-10 border-t-8 flex flex-col items-center text-center">
           <span className="font-mono text-xs text-brand-orange font-bold uppercase tracking-[0.3em] mb-2">
-            Elevando el estándar digital
+            {t.navbar.footer_text}
           </span>
           <h3 className="font-anton text-4xl uppercase leading-none mb-1">
-            Juan Alvarez
+            {t.navbar.title}
           </h3>
           <div className="w-12 h-1 bg-brand-blue mt-4"></div>
         </div>

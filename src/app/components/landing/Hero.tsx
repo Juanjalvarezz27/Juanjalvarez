@@ -1,7 +1,11 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "../../../i18n/LanguageContext";
 
 export default function Hero() {
+  const { t } = useLanguage();
   return (
     <section className="relative min-h-[100svh] bg-brand-orange flex flex-col justify-center items-center text-center px-4 md:px-8 pt-20 md:pt-28 pb-20 md:pb-28 border-b-8 md:border-b-16 border-black overflow-hidden font-space antialiased selection:bg-black selection:text-white group z-0">
       
@@ -46,13 +50,13 @@ export default function Hero() {
         <div className="flex flex-col items-start text-left relative z-30">
           <span className="flex items-center gap-1.5 md:gap-2">
             <div className="w-2 h-2 md:w-2.5 md:h-2.5 bg-black rounded-full animate-pulse"></div> 
-            STATUS: ONLINE
+            {t.hero.status}
           </span>
           <span>BUILD_ID: 0024-TRJ</span>
         </div>
         <div className="hidden md:flex flex-col items-end text-right relative z-30">
-          <span>SOPORTE_SISTEMAS_24/7</span>
-          <span>TRUJILLO_VENEZUELA</span>
+          <span>{t.hero.support}</span>
+          <span>{t.hero.location}</span>
         </div>
       </div>
 
@@ -60,9 +64,10 @@ export default function Hero() {
       <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-[92%] md:max-w-7xl mx-auto mt-12 md:mt-0">
         
         {/* Tu Nombre: CON BORDE BLANCO (-webkit-text-stroke) */}
-        <h1 className="w-full text-center font-anton text-[15vw] sm:text-[18vw] md:text-[12vw] leading-[0.85] md:leading-[0.9] text-black uppercase tracking-tight md:tracking-tighter select-none mb-4 md:mb-8 relative z-10 [-webkit-text-stroke:2px_white] md:[-webkit-text-stroke:4px_white] drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[8px_8px_0px_rgba(0,0,0,1)]">
-          JUAN<br className="block" />ALVAREZ
-        </h1>
+        <h1 
+          className="w-full text-center font-anton text-[15vw] sm:text-[18vw] md:text-[12vw] leading-[0.85] md:leading-[0.9] text-black uppercase tracking-tight md:tracking-tighter select-none mb-4 md:mb-8 relative z-10 [-webkit-text-stroke:2px_white] md:[-webkit-text-stroke:4px_white] drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[8px_8px_0px_rgba(0,0,0,1)]"
+          dangerouslySetInnerHTML={{ __html: t.hero.name }}
+        />
 
         {/* LA BOX CENTRAL */}
         <div className="relative inline-flex flex-col items-center group/box w-full max-w-sm md:max-w-2xl z-10">
@@ -71,13 +76,13 @@ export default function Hero() {
 
             {/* Etiqueta Superior (Rol) */}
             <div className="inline-block bg-black text-white font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1 md:px-4 md:py-2 mb-3 md:mb-4 group-hover/box:rotate-0 transition-transform">
-              Ingeniero Full-Stack
+              {t.hero.role}
             </div>
 
             {/* Textos Principales */}
             <h2 className="font-anton text-3xl md:text-5xl lg:text-[3.5rem] text-black uppercase leading-[0.95] md:leading-[0.9] tracking-tight m-0">
-              Desarrollo de Software
-              <span className="block text-brand-blue mt-1 md:mt-2">& Soluciones Tech</span>
+              {t.hero.title}
+              <span className="block text-brand-blue mt-1 md:mt-2">{t.hero.subtitle}</span>
             </h2>
 
           </div>
@@ -89,7 +94,7 @@ export default function Hero() {
               <span className="relative inline-flex rounded-full h-2 w-2 md:h-3 md:w-3 bg-white"></span>
             </span>
             <span className="font-anton text-lg md:text-xl uppercase tracking-wider mt-1">
-              Disponible
+              {t.hero.available}
             </span>
           </div>
 
@@ -103,7 +108,7 @@ export default function Hero() {
             {/* Botón principal */}
             <div className="relative bg-white border-4 border-black px-8 py-4 md:px-12 md:py-5 flex items-center gap-3 md:gap-4 group-hover/btn:bg-brand-blue transition-colors duration-300">
               <span className="font-anton text-2xl md:text-4xl uppercase tracking-wider text-black group-hover/btn:text-white transition-colors mt-1">
-                Iniciar Proyecto
+                {t.hero.cta}
               </span>
               <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 md:w-10 md:h-10 text-brand-orange group-hover/btn:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </div>

@@ -1,13 +1,17 @@
+'use client';
+
 import { Database, Globe, LayoutDashboard, Handshake } from "lucide-react";
+import { useLanguage } from "../../../i18n/LanguageContext";
 
 export default function Benefits() {
+  const { t } = useLanguage();
   const benefits = [
     {
       number: "01",
       icon: <Database className="w-6 h-6 md:w-8 md:h-8 text-black" strokeWidth={2.5} />,
-      title: "SISTEMAS AUTÓNOMOS",
-      desc: "El software hace el trabajo manual por ti.",
-      tags: ["INVENTARIOS", "VENTAS", "REPORTES"],
+      title: t.benefits.items[0].title,
+      desc: t.benefits.items[0].desc,
+      tags: t.benefits.items[0].tags,
       borderHover: "hover:border-brand-orange",
       shadowNormal: "shadow-[6px_6px_0px_#222]",
       shadowHover: "hover:shadow-[8px_8px_0px_#FF6B00]",
@@ -19,9 +23,9 @@ export default function Benefits() {
     {
       number: "02",
       icon: <Globe className="w-6 h-6 md:w-8 md:h-8 text-black" strokeWidth={2.5} />,
-      title: "WEBS DE CONVERSIÓN",
-      desc: "Diseñadas estratégicamente para vender más.",
-      tags: ["EMBUDOS", "VELOCIDAD", "SEO"],
+      title: t.benefits.items[1].title,
+      desc: t.benefits.items[1].desc,
+      tags: t.benefits.items[1].tags,
       borderHover: "hover:border-brand-blue",
       shadowNormal: "shadow-[6px_6px_0px_#222]",
       shadowHover: "hover:shadow-[8px_8px_0px_#2563EB]",
@@ -33,9 +37,9 @@ export default function Benefits() {
     {
       number: "03",
       icon: <LayoutDashboard className="w-6 h-6 md:w-8 md:h-8 text-black" strokeWidth={2.5} />,
-      title: "CONTROL TOTAL",
-      desc: "Dirige tu empresa desde cualquier lugar.",
-      tags: ["PANELES A MEDIDA", "DATOS 24/7"],
+      title: t.benefits.items[2].title,
+      desc: t.benefits.items[2].desc,
+      tags: t.benefits.items[2].tags,
       borderHover: "hover:border-white",
       shadowNormal: "shadow-[6px_6px_0px_#222]",
       shadowHover: "hover:shadow-[8px_8px_0px_#FFFFFF]",
@@ -47,9 +51,9 @@ export default function Benefits() {
     {
       number: "04",
       icon: <Handshake className="w-6 h-6 md:w-8 md:h-8 text-black" strokeWidth={2.5} />,
-      title: "ALIANZA CONTINUA",
-      desc: "Sin intermediarios. Crece con soporte directo.",
-      tags: ["SOPORTE V.I.P", "MEJORAS"],
+      title: t.benefits.items[3].title,
+      desc: t.benefits.items[3].desc,
+      tags: t.benefits.items[3].tags,
       borderHover: "hover:border-brand-blue",
       shadowNormal: "shadow-[6px_6px_0px_#222]",
       shadowHover: "hover:shadow-[8px_8px_0px_#2563EB]",
@@ -87,15 +91,9 @@ export default function Benefits() {
       {/* Ticker de Estadísticas (Marquee Animado) */}
       <div className="w-full bg-brand-orange border-b-4 md:border-b-8 border-black flex overflow-hidden py-3 md:py-4 relative z-20">
         <div className="animate-marquee whitespace-nowrap flex items-center gap-8 md:gap-16 font-anton text-2xl md:text-4xl uppercase tracking-wider text-black">
-          <span>• Soluciones Tecnológicas</span>
-          <span>• +20 proyectos completados</span>
-          <span>• Soporte técnico 24/7</span>
-          <span>• Sistemas a medida</span>
+          {t.benefits.ticker.map((item, i) => <span key={i}>{item}</span>)}
           {/* Duplicado para efecto infinito */}
-          <span aria-hidden="true">• Soluciones Tecnológicas</span>
-          <span aria-hidden="true">• +20 proyectos completados</span>
-          <span aria-hidden="true">• Soporte técnico 24/7</span>
-          <span aria-hidden="true">• Sistemas a medida</span>
+          {t.benefits.ticker.map((item, i) => <span key={i + 'dup'} aria-hidden="true">{item}</span>)}
         </div>
       </div>
 
@@ -116,17 +114,17 @@ export default function Benefits() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-black"></span>
               </span>
-              <span>Socio Tecnológico</span>
+              <span>{t.benefits.badge}</span>
             </div>
           </div>
           
-          <h2 className="font-anton text-5xl md:text-6xl lg:text-7xl xl:text-[5rem] text-white uppercase leading-[0.95] tracking-tight mb-8">
-            TU COMPETENCIA <br className="hidden sm:block" />
-            <span className="text-gray-400">YA SE DIGITALIZÓ.</span>
-          </h2>
+          <h2 
+            className="font-anton text-5xl md:text-6xl lg:text-7xl xl:text-[5rem] text-white uppercase leading-[0.95] tracking-tight mb-8"
+            dangerouslySetInnerHTML={{ __html: t.benefits.title + `<span class="text-gray-400">${t.benefits.subtitle}</span>` }}
+          />
           
           <p className="font-space text-xl md:text-2xl text-gray-300 leading-snug mb-10 max-w-xl">
-            No necesitas un programador que "haga páginas web". Necesitas a alguien que entienda de <span className="text-white font-bold underline decoration-brand-orange decoration-4 underline-offset-4">ventas, optimización y procesos automáticos.</span>
+            {t.benefits.desc} <span className="text-white font-bold underline decoration-brand-orange decoration-4 underline-offset-4">{t.benefits.desc_highlight}</span>
           </p>
 
           {/* Sello de Garantía Brutalista */}
@@ -135,8 +133,8 @@ export default function Benefits() {
             <div className="relative bg-black border-2 border-brand-blue p-6 flex items-center gap-4 md:gap-5">
               <span className="font-anton text-5xl text-white leading-none">100%</span>
               <div className="flex flex-col">
-                <span className="font-mono text-xs md:text-sm font-bold text-brand-orange uppercase tracking-widest">Enfoque Directo</span>
-                <span className="font-anton text-xl md:text-2xl text-white uppercase mt-1 leading-tight">En Aumentar Tus Ventas</span>
+                <span className="font-mono text-xs md:text-sm font-bold text-brand-orange uppercase tracking-widest">{t.benefits.guarantee.title}</span>
+                <span className="font-anton text-xl md:text-2xl text-white uppercase mt-1 leading-tight">{t.benefits.guarantee.subtitle}</span>
               </div>
             </div>
           </div>

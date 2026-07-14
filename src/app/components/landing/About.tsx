@@ -1,7 +1,11 @@
+'use client';
+
 import { Globe, Cpu, Database, Rocket, ArrowUpRight, Zap } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "../../../i18n/LanguageContext";
 
 export default function About() {
+  const { t } = useLanguage();
   return (
     <section className="relative min-h-screen bg-brand-dark flex flex-col justify-start px-4 md:px-8 pt-12 pb-24 md:py-24 border-b-16 border-black overflow-hidden font-space antialiased selection:bg-brand-orange selection:text-black group z-0">
       
@@ -16,8 +20,8 @@ export default function About() {
         <div className="flex flex-col-reverse md:flex-row justify-between items-center md:items-end gap-6 md:gap-4 mb-10 md:mb-20 border-b-8 border-white pb-6 w-full relative z-10">
           
           <h2 className="font-anton text-5xl md:text-7xl lg:text-[6.5rem] text-white uppercase leading-[0.85] tracking-tight relative z-10 text-center md:text-left">
-            Webs & Sistemas.<br />
-            <span className="text-brand-orange italic">Soluciones Reales.</span>
+            {t.about.title}<br />
+            <span className="text-brand-orange italic">{t.about.title_italic}</span>
           </h2>
 
           <div className="w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 flex-shrink-0 rounded-full border-4 md:border-8 border-brand-blue overflow-hidden shadow-brutal-orange relative bg-gray-800 transform -rotate-3 hover:rotate-0 transition-transform z-10">
@@ -34,14 +38,14 @@ export default function About() {
           
           <div className="lg:w-5/12 flex flex-col justify-center gap-8 md:gap-12">
             <p className="font-space text-xl sm:text-2xl md:text-4xl text-white font-bold leading-[1.2] md:leading-[1.1] tracking-tight text-center md:text-left m-0">
-              Soy <span className="text-black font-black bg-brand-orange px-3 py-1 uppercase inline-block -rotate-2 transform hover:rotate-0 transition-transform">Juan Álvarez</span>. Mi objetivo es simple: desarrollar herramientas que te den el <span className="underline decoration-brand-blue decoration-3 md:decoration-8 underline-offset-4">control absoluto</span> de tu negocio.
+              {t.about.description_1}<span className="text-black font-black bg-brand-orange px-3 py-1 uppercase inline-block -rotate-2 transform hover:rotate-0 transition-transform">{t.about.name}</span>{t.about.description_2}<span className="underline decoration-brand-blue decoration-3 md:decoration-8 underline-offset-4">{t.about.highlight}</span>{t.about.description_3}
             </p>
 
             <div className="relative inline-block mt-2 md:mt-4 self-center md:self-start group cursor-default z-10">
                <div className="absolute inset-0 bg-white translate-x-3 translate-y-3 md:translate-x-4 md:translate-y-4 border-4 border-black"></div>
                <div className="relative bg-brand-blue border-4 border-black px-8 py-8 md:px-10 md:py-10 flex flex-col transform hover:-translate-y-1 transition-transform text-center md:text-left">
-                  <span className="font-anton text-4xl md:text-5xl lg:text-7xl text-white uppercase leading-[0.85]">Tú Diriges.</span>
-                  <span className="font-anton text-4xl md:text-5xl lg:text-7xl text-black uppercase leading-[0.85] mt-2">Yo Programo.</span>
+                  <span className="font-anton text-4xl md:text-5xl lg:text-7xl text-white uppercase leading-[0.85]">{t.about.box_1}</span>
+                  <span className="font-anton text-4xl md:text-5xl lg:text-7xl text-black uppercase leading-[0.85] mt-2">{t.about.box_2}</span>
                </div>
             </div>
           </div>
@@ -54,9 +58,10 @@ export default function About() {
                 </div>
                 <ArrowUpRight className="w-6 h-6 text-brand-blue opacity-40 group-hover:opacity-100 transition-all" strokeWidth={3} />
               </div>
-              <h3 className="font-anton text-4xl lg:text-5xl text-brand-blue uppercase leading-[0.9] mt-6">
-                Páginas<br/>Web
-              </h3>
+              <h3 
+                className="font-anton text-4xl lg:text-5xl text-brand-blue uppercase leading-[0.9] mt-6"
+                dangerouslySetInnerHTML={{ __html: t.about.cards.web.title }}
+              />
             </Link>
 
             <Link href="/home/servicios#sistemas" className="order-2 bg-brand-orange border-4 border-black p-6 shadow-[8px_8px_0px_0px_#ffffff] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-pointer relative">
@@ -66,9 +71,10 @@ export default function About() {
                 </div>
                 <ArrowUpRight className="w-6 h-6 text-white opacity-50 group-hover:opacity-100 transition-all" strokeWidth={3} />
               </div>
-              <h3 className="font-anton text-4xl lg:text-5xl text-white uppercase leading-[0.9] mt-6">
-                Sistemas<br/>A Medida
-              </h3>
+              <h3 
+                className="font-anton text-4xl lg:text-5xl text-white uppercase leading-[0.9] mt-6"
+                dangerouslySetInnerHTML={{ __html: t.about.cards.systems.title }}
+              />
             </Link>
 
             <Link href="/home/servicios#sistemas" className="order-4 sm:order-3 bg-brand-orange border-4 border-black p-6 shadow-[8px_8px_0px_0px_#ffffff] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-pointer relative">
@@ -78,9 +84,10 @@ export default function About() {
                 </div>
                 <ArrowUpRight className="w-6 h-6 text-white opacity-50 group-hover:opacity-100 transition-all" strokeWidth={3} />
               </div>
-              <h3 className="font-anton text-4xl lg:text-5xl text-white uppercase leading-[0.9] mt-6">
-                Gestión<br/>Inventario
-              </h3>
+              <h3 
+                className="font-anton text-4xl lg:text-5xl text-white uppercase leading-[0.9] mt-6"
+                dangerouslySetInnerHTML={{ __html: t.about.cards.inventory.title }}
+              />
             </Link>
 
             <Link href="/home/servicios#soluciones" className="order-3 sm:order-4 bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_#2563EB] hover:-translate-y-2 transition-all flex flex-col justify-between min-h-[220px] group cursor-pointer relative">
@@ -90,9 +97,10 @@ export default function About() {
                 </div>
                 <ArrowUpRight className="w-6 h-6 text-brand-blue opacity-40 group-hover:opacity-100 transition-all" strokeWidth={3} />
               </div>
-              <h3 className="font-anton text-4xl lg:text-5xl text-brand-blue uppercase leading-[0.9] mt-6">
-                Soluciones<br/>Digitales
-              </h3>
+              <h3 
+                className="font-anton text-4xl lg:text-5xl text-brand-blue uppercase leading-[0.9] mt-6"
+                dangerouslySetInnerHTML={{ __html: t.about.cards.digital.title }}
+              />
             </Link>
           </div>
         </div>
@@ -123,8 +131,8 @@ export default function About() {
               {/* Título: El Beneficio (Aumenta de tamaño ligeramente en hover) */}
               <div className="flex items-center justify-center w-full">
                 <h4 className="font-anton text-[2.5rem] leading-[1.1] md:text-7xl lg:text-[6.5rem] text-black uppercase md:leading-[0.85] m-0 transform group-hover/banner:scale-105 transition-transform duration-500">
-                  SOLUCIONES EFICIENTES,<br />
-                  <span className="text-white">RÁPIDAS Y ESCALABLES.</span>
+                  <span dangerouslySetInnerHTML={{ __html: t.about.banner.title }} />
+                  <span className="text-white">{t.about.banner.subtitle}</span>
                 </h4>
               </div>
 
@@ -142,7 +150,7 @@ export default function About() {
                  </div>
                  
                  <p className="font-mono text-base md:text-xl lg:text-2xl font-black text-black uppercase tracking-tight md:tracking-widest text-center md:text-left m-0 leading-tight flex-1">
-                    Automatiza tu negocio y recupera tu tiempo. Digitalizamos tus procesos para que te enfoques en crecer.
+                    {t.about.banner.desc}
                  </p>
                </div>
             </div>

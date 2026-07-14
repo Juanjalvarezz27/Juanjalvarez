@@ -2,28 +2,30 @@
 
 import { Lightbulb, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "../../../i18n/LanguageContext";
 
 export default function SolucionesDetalle() {
+  const { t } = useLanguage();
   const soluciones = [
     {
-      nombre: "META RUN",
-      significado: "REGISTRO MASIVO",
-      descripcion: "Arquitectura de datos optimizada para inscripciones masivas y validación de pagos en tiempo real.",
-      beneficios: ["Gestión masiva", "Validación real"],
+      nombre: t.soluciones_detalle.items[0].nombre,
+      significado: t.soluciones_detalle.items[0].significado,
+      descripcion: t.soluciones_detalle.items[0].descripcion,
+      beneficios: t.soluciones_detalle.items[0].beneficios,
       image: "/Formulario.png"
     },
     {
-      nombre: "AMOR EN PAUSE",
-      significado: "E-BOOK DIGITAL",
-      descripcion: "Maquetación editorial disruptiva diseñada para captar atención y proyectar valor profesional.",
-      beneficios: ["Diseño Pro", "Multi-dispositivo"],
+      nombre: t.soluciones_detalle.items[1].nombre,
+      significado: t.soluciones_detalle.items[1].significado,
+      descripcion: t.soluciones_detalle.items[1].descripcion,
+      beneficios: t.soluciones_detalle.items[1].beneficios,
       image: "/book.png"
     },
     {
-      nombre: "DORSALES",
-      significado: "ENTREGA SMART",
-      descripcion: "Sistema de logística automatizada para la asignación y entrega eficiente de dorsales mediante QR.",
-      beneficios: ["Cero colas", "Control total"],
+      nombre: t.soluciones_detalle.items[2].nombre,
+      significado: t.soluciones_detalle.items[2].significado,
+      descripcion: t.soluciones_detalle.items[2].descripcion,
+      beneficios: t.soluciones_detalle.items[2].beneficios,
       image: "/Dorsales.jpg"
     }
   ];
@@ -58,20 +60,18 @@ export default function SolucionesDetalle() {
               <div className="w-12 h-12 bg-black flex items-center justify-center border-2 border-black">
                 <Lightbulb size={24} className="text-white" />
               </div>
-              <span className="font-mono text-black font-black text-xl uppercase tracking-widest">SOLUCIONES_03</span>
+              <span className="font-mono text-black font-black text-xl uppercase tracking-widest">{t.soluciones_detalle.badge}</span>
             </div>
             
-            <h2 className="font-anton text-6xl sm:text-7xl lg:text-8xl text-white uppercase leading-[1.1] md:leading-none tracking-tight m-0 select-none">
-              SOLUCIONES <br className="md:hidden" />
-              <span className="text-black bg-white px-3 md:px-4 pt-1 md:pt-2 pb-0 md:pb-1 inline-block mt-2 md:mt-0 md:ml-2 border-4 border-black shadow-[4px_4px_0px_#000] transform -rotate-2">
-                DIGITALES.
-              </span>
-            </h2>
+            <h2 
+              className="font-anton text-6xl sm:text-7xl lg:text-8xl text-white uppercase leading-[1.1] md:leading-none tracking-tight m-0 select-none"
+              dangerouslySetInnerHTML={{ __html: t.soluciones_detalle.title_1 + `<span class="text-black bg-white px-3 md:px-4 pt-1 md:pt-2 pb-0 md:pb-1 inline-block mt-2 md:mt-0 md:ml-2 border-4 border-black shadow-[4px_4px_0px_#000] transform -rotate-2">${t.soluciones_detalle.title_2}</span>` }}
+            />
           </div>
           
           <div className="border-l-8 border-black pl-5 py-2 max-w-sm mx-auto md:mx-0">
             <p className="font-space text-black text-lg md:text-xl leading-snug m-0 text-center md:text-left">
-              Herramientas específicas para <span className="font-bold text-white font-mono uppercase tracking-widest text-sm px-1 bg-black">potenciar</span> tu marca.
+              {t.soluciones_detalle.desc_1}<span className="font-bold text-white font-mono uppercase tracking-widest text-sm px-1 bg-black">{t.soluciones_detalle.desc_2}</span>{t.soluciones_detalle.desc_3}
             </p>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function SolucionesDetalle() {
         {/* Indicador de Swipe para Mobile */}
         <div className="flex lg:hidden items-center justify-center gap-3 w-full mb-8 text-black animate-pulse">
           <span className="font-mono text-lg sm:text-xl font-black uppercase tracking-widest underline decoration-white decoration-2 sm:decoration-4 underline-offset-[6px]">
-            Desliza para ver más
+            {t.soluciones_detalle.swipe}
           </span>
           <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </div>
@@ -96,12 +96,12 @@ export default function SolucionesDetalle() {
               <div className="relative bg-white border-4 border-black p-4 md:p-6 h-full flex flex-col z-10 text-center md:text-left items-center md:items-start">
                 
                 {/* Header de la Card */}
-                <div className="mb-4 border-b-4 border-black pb-3 flex flex-col md:flex-row md:items-baseline gap-x-3 w-full">
-                  <h3 className="font-anton text-5xl sm:text-6xl lg:text-7xl uppercase leading-none m-0 tracking-tighter text-brand-orange">
+                <div className="mb-4 border-b-4 border-black pb-3 flex flex-col gap-y-1 w-full">
+                  <h3 className="font-anton text-4xl sm:text-5xl lg:text-5xl uppercase leading-none m-0 tracking-tighter text-brand-orange">
                     {solucion.nombre}
                   </h3>
                   <span className="font-anton text-sm md:text-base text-black uppercase tracking-tight opacity-90">
-                    {solucion.significado}
+                    — {solucion.significado}
                   </span>
                 </div>
 
@@ -126,14 +126,14 @@ export default function SolucionesDetalle() {
                   </div>
                 )}
 
-                {/* Imagen en formato vertical */}
-                <div className="aspect-[3/4] relative border-4 border-black bg-gray-100 overflow-hidden shadow-[3px_3px_0px_#000] md:shadow-[4px_4px_0px_#000] w-full mt-auto group-hover:border-brand-orange transition-colors">
+                {/* Imagen en formato horizontal/cuadrado */}
+                <div className="aspect-[4/3] relative border-4 border-black bg-gray-100 overflow-hidden shadow-[3px_3px_0px_#000] md:shadow-[4px_4px_0px_#000] w-full mt-auto group-hover:border-brand-orange transition-colors">
                   <Image 
                     src={solucion.image} 
                     alt={`${solucion.nombre} preview`}
                     fill
                     unoptimized
-                    className="object-contain" 
+                    className="object-contain p-2" 
                   />
                 </div>
 

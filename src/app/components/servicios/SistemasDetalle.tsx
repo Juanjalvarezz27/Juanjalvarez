@@ -2,59 +2,41 @@
 
 import { Database, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "../../../i18n/LanguageContext";
 
 export default function SistemasDetalle() {
+  const { t } = useLanguage();
   const proyectosSistemas = [
     {
-      nombre: "RUBEN'S",
-      significado: "SISTEMA POS PARA PIZZERÍA",
-      descripcion: "Gestión ágil enfocada en gastronomía. Sincronización en tiempo real con cocina (KDS), configuración manual de tasa BCV y cierres de caja diarios.",
-      beneficios: [
-        "Vista de ordenes para la cocina", 
-        "Gestión de caja y cierres", 
-        "Tasa BCV configurable",
-        "Estadísticas de ventas diarias"
-      ],
+      nombre: t.sistemas_detalle.items[0].nombre,
+      significado: t.sistemas_detalle.items[0].significado,
+      descripcion: t.sistemas_detalle.items[0].descripcion,
+      beneficios: t.sistemas_detalle.items[0].beneficios,
       color: "bg-brand-orange",
       images: ["/IMG_7394.jpeg", "/IMG_7395.jpeg"]
     },
     {
-      nombre: "LEYMA",
-      significado: "SISTEMA DE GESTIÓN DE LABORATORIO",
-      descripcion: "Sistema de gestión integral y seguro para el control de pacientes, exámenes y resultados clínicos bacteriológicos.",
-      beneficios: [
-        "Control de pacientes", 
-        "Resultados clínicos", 
-        "Gestión de exámenes",
-        "Acceso seguro"
-      ],
+      nombre: t.sistemas_detalle.items[1].nombre,
+      significado: t.sistemas_detalle.items[1].significado,
+      descripcion: t.sistemas_detalle.items[1].descripcion,
+      beneficios: t.sistemas_detalle.items[1].beneficios,
       color: "bg-brand-blue",
       images: ["/Leyma1.png", "/Leyma2.png"],
       isDesktopFormat: true
     },
     {
-      nombre: "SIGEVE",
-      significado: "SISTEMA DE GESTIÓN DE VENTAS",
-      descripcion: "El fin del desorden operativo. Control absoluto de stock y ventas con conversión automática de tasas BCV en tiempo real.",
-      beneficios: [
-        "Control de stock físico", 
-        "Ventas y estadísticas",
-        "Tasas BCV automáticas", 
-        "Reportes de flujo de caja"
-      ],
+      nombre: t.sistemas_detalle.items[2].nombre,
+      significado: t.sistemas_detalle.items[2].significado,
+      descripcion: t.sistemas_detalle.items[2].descripcion,
+      beneficios: t.sistemas_detalle.items[2].beneficios,
       color: "bg-brand-orange",
       images: ["/Sigeve 1.png", "/Sigeve 2.png"]
     },
     {
-      nombre: "SILAV",
-      significado: "SISTEMA DE AUTOLAVADO",
-      descripcion: "Digitalización total del sector automotriz. Unifica la gestión de servicios, clientes recurrentes y monedero virtual.",
-      beneficios: [
-        "Monedero digital", 
-        "Gestión de servicios y precios", 
-        "Registro de clientes y vehículos",
-        "Control de pagos diarios"
-      ],
+      nombre: t.sistemas_detalle.items[3].nombre,
+      significado: t.sistemas_detalle.items[3].significado,
+      descripcion: t.sistemas_detalle.items[3].descripcion,
+      beneficios: t.sistemas_detalle.items[3].beneficios,
       color: "bg-brand-blue",
       images: ["/Silav 1.png", "/Silav 2.png"]
     }
@@ -90,17 +72,17 @@ export default function SistemasDetalle() {
               <div className="w-12 h-12 bg-white flex items-center justify-center border-2 border-white">
                 <Database size={24} className="text-black" />
               </div>
-              <span className="font-mono text-brand-orange font-black text-xl uppercase tracking-widest">PROYECTOS_01</span>
+              <span className="font-mono text-brand-orange font-black text-xl uppercase tracking-widest">{t.sistemas_detalle.badge}</span>
             </div>
             
             <h2 className="font-anton text-6xl sm:text-7xl lg:text-8xl text-white uppercase leading-none tracking-tight m-0 select-none">
-            SISTEMAS <span className="text-white drop-shadow-[4px_4px_0px_#3b82f6]">A MEDIDA.</span>
+              {t.sistemas_detalle.title_1} <span className="text-white drop-shadow-[4px_4px_0px_#3b82f6]">{t.sistemas_detalle.title_2}</span>
             </h2>
           </div>
           
           <div className="border-l-8 border-brand-orange pl-5 py-2 max-w-sm mx-auto md:mx-0">
             <p className="font-space text-white text-lg md:text-xl leading-snug m-0 text-center md:text-left">
-              Automatización diseñada para el <span className="font-bold text-brand-orange font-mono uppercase tracking-widest text-sm px-1 bg-white/10">control total</span> de tu negocio.
+              {t.sistemas_detalle.desc_1}<span className="font-bold text-brand-orange font-mono uppercase tracking-widest text-sm px-1 bg-white/10">{t.sistemas_detalle.desc_2}</span>{t.sistemas_detalle.desc_3}
             </p>
           </div>
         </div>
@@ -108,31 +90,30 @@ export default function SistemasDetalle() {
         {/* Indicador de Swipe para Mobile */}
         <div className="flex lg:hidden items-center justify-center gap-3 w-full mb-8 text-brand-orange animate-pulse">
           <span className="font-mono text-lg sm:text-xl font-black uppercase tracking-widest underline decoration-white decoration-2 sm:decoration-4 underline-offset-[6px]">
-            Desliza para ver más
+            {t.sistemas_detalle.swipe}
           </span>
           <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </div>
 
         {/* Grid de Sistemas (Swipe en Mobile, Grid en PC) */}
         {/* Se añadió -mx-4 px-4 para que el scroll horizontal llegue hasta el borde de la pantalla en móviles sin cortarse feo */}
-        <div className="-mx-4 px-4 lg:mx-0 lg:px-0 flex overflow-x-auto lg:grid lg:grid-cols-2 gap-4 md:gap-8 pb-8 lg:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+        <div className="-mx-4 px-4 lg:mx-0 lg:px-0 flex overflow-x-auto lg:grid lg:grid-cols-2 gap-4 md:gap-6 pb-8 lg:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
           {proyectosSistemas.map((proyecto, index) => (
             <div 
               key={index} 
-              // Mantiene el scroll en mobile y centra el 3er elemento en Desktop
-              className={`group relative min-w-[85vw] sm:min-w-[60vw] lg:min-w-0 w-full flex flex-col snap-start h-full ${index === 2 ? 'lg:col-span-2 lg:max-w-4xl lg:mx-auto' : ''}`}
+              className="group relative min-w-[85vw] sm:min-w-[60vw] lg:min-w-0 w-full flex flex-col snap-start h-full"
             >
               
               <div className={`absolute inset-0 ${proyecto.color} translate-x-2 translate-y-2 md:translate-x-3 md:translate-y-3 transition-transform group-hover:translate-x-3 group-hover:translate-y-3 md:group-hover:translate-x-5 md:group-hover:translate-y-5`}></div>
               
-              <div className="relative bg-white border-4 border-black p-4 md:p-8 h-full flex flex-col z-10 text-center md:text-left">
+              <div className="relative bg-white border-4 border-black p-4 md:p-6 h-full flex flex-col z-10 text-center md:text-left">
                 
                 {/* Header de la Card */}
-                <div className="mb-4 md:mb-6 border-b-4 border-black pb-3 md:pb-4 flex flex-col xl:flex-row xl:items-baseline xl:justify-start gap-x-4">
-                  <h3 className="font-anton text-5xl sm:text-6xl lg:text-7xl uppercase leading-none m-0 tracking-tighter text-brand-blue">
+                <div className="mb-4 border-b-4 border-black pb-3 flex flex-col xl:flex-row xl:items-baseline xl:justify-start gap-x-3">
+                  <h3 className="font-anton text-4xl sm:text-5xl lg:text-5xl xl:text-6xl uppercase leading-none m-0 tracking-tighter text-brand-blue">
                     {proyecto.nombre}
                   </h3>
-                  <span className="font-anton text-base md:text-xl lg:text-2xl text-black uppercase tracking-tight mt-1 xl:mt-0 opacity-90">
+                  <span className="font-anton text-sm md:text-base lg:text-lg text-black uppercase tracking-tight mt-1 xl:mt-0 opacity-90">
                     — {proyecto.significado}
                   </span>
                 </div>
@@ -156,19 +137,44 @@ export default function SistemasDetalle() {
                 </div>
 
                 {/* Área de Imágenes Reales - Condicional */}
-                <div className={`mt-auto gap-4 md:gap-5 ${proyecto.isDesktopFormat ? 'flex flex-col' : 'grid grid-cols-2'}`}>
-                  {proyecto.images.map((src, i) => (
-                    <div key={i} className={`${proyecto.isDesktopFormat ? 'aspect-video' : 'aspect-[9/16]'} relative border-4 border-black bg-white overflow-hidden shadow-[3px_3px_0px_#000] md:shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors`}>
+                {proyecto.isDesktopFormat ? (
+                  <div className="mt-auto relative w-full aspect-[16/11] md:aspect-[16/10] z-10 mt-4">
+                    {/* Imagen 1 - Atrás/Izquierda */}
+                    <div className="absolute top-0 left-0 w-[75%] h-[85%] border-4 border-black bg-gray-50 shadow-[4px_4px_0px_rgba(0,0,0,1)] z-10 transform -rotate-2 group-hover:rotate-0 hover:!z-30 hover:scale-105 transition-all duration-300">
                       <Image 
-                        src={src} 
-                        alt={`${proyecto.nombre} vista ${i + 1}`}
+                        src={proyecto.images[0]} 
+                        alt={`${proyecto.nombre} vista 1`}
                         fill
                         unoptimized 
-                        className="object-contain" 
+                        className="object-contain p-2" 
                       />
                     </div>
-                  ))}
-                </div>
+                    {/* Imagen 2 - Adelante/Derecha */}
+                    <div className="absolute bottom-0 right-0 w-[75%] h-[85%] border-4 border-black bg-gray-50 shadow-[4px_4px_0px_rgba(0,0,0,1)] z-20 transform rotate-2 group-hover:rotate-0 hover:scale-105 transition-all duration-300">
+                      <Image 
+                        src={proyecto.images[1] || proyecto.images[0]} 
+                        alt={`${proyecto.nombre} vista 2`}
+                        fill
+                        unoptimized 
+                        className="object-contain p-2" 
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-auto gap-3 md:gap-4 grid grid-cols-2">
+                    {proyecto.images.map((src, i) => (
+                      <div key={i} className="relative border-4 border-black bg-gray-100 overflow-hidden shadow-[3px_3px_0px_#000] md:shadow-[4px_4px_0px_#000] group-hover:border-brand-blue transition-colors aspect-[4/5]">
+                        <Image 
+                          src={src} 
+                          alt={`${proyecto.nombre} vista ${i + 1}`}
+                          fill
+                          unoptimized 
+                          className="object-contain p-2" 
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
 
               </div>
             </div>

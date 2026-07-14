@@ -1,6 +1,9 @@
 'use client';
 
+import { useLanguage } from "../../../i18n/LanguageContext";
+
 export default function ServiciosHero() {
+  const { t } = useLanguage();
   return (
     <section className="relative min-h-[75vh] flex flex-col items-center justify-center pt-32 pb-20 bg-white font-space overflow-hidden">
       
@@ -31,9 +34,9 @@ export default function ServiciosHero() {
           {/* Se eliminó whitespace-nowrap para que no se salga de la pantalla en teléfonos pequeños y se ajustó el tamaño de fuente inicial */}
           <h1 className="w-full text-center font-anton text-[18vw] sm:text-[20vw] md:text-[14rem] lg:text-[16rem] uppercase leading-[0.85] md:leading-[0.9] tracking-normal md:tracking-tighter select-none m-0 flex flex-col items-center relative z-10 [-webkit-text-stroke:2px_white] md:[-webkit-text-stroke:4px_white] drop-shadow-[4px_4px_0px_rgba(0,0,0,1)] md:drop-shadow-[8px_8px_0px_rgba(0,0,0,1)]">
             
-            <span className="text-black block">MI ARSENAL</span>
+            <span className="text-black block">{t.servicios_hero.title_1}</span>
             
-            <span className="text-brand-blue block mt-2 md:mt-4">TÉCNICO.</span>
+            <span className="text-brand-blue block mt-2 md:mt-4">{t.servicios_hero.title_2}</span>
             
           </h1>
         </div>
@@ -41,9 +44,8 @@ export default function ServiciosHero() {
         {/* ESLOGAN */}
         <div className="text-center relative">
           <p className="font-anton text-3xl md:text-5xl lg:text-6xl text-black uppercase leading-[1.1] tracking-tight m-0 border-t-8 border-brand-orange pt-8 inline-block px-4 md:px-12">
-            Sistemas reales para <br />
-            ahorrarte tiempo y <br />
-            <span className="text-brand-orange">potenciar tu negocio.</span>
+            <span dangerouslySetInnerHTML={{ __html: t.servicios_hero.desc_1 }} />
+            <span className="text-brand-orange">{t.servicios_hero.desc_2}</span>
           </p>
         </div>
 
