@@ -20,17 +20,18 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // tanto en servidor como en el primer render del cliente para evitar Hydration Mismatch
   const [lang, setLang] = useState<Language>('es');
 
-  // SOLO después de que React haya hidratado el DOM, leemos localStorage de forma segura
+  // Solo después de que React haya hidratado el DOM, leemos localStorage de forma segura
   useEffect(() => {
     try {
       const saved = localStorage.getItem('app_lang');
       if (saved === 'en') {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setLang('en');
       }
     } catch {
-      // Silenciar errores de localStorage (ej. modo privado estricto)
+      // Silenciar errores de localStorage
     }
-  }, []); // Sin dependencias: se ejecuta UNA sola vez tras el montaje
+  }, []);
 
   const toggleLanguage = () => {
     setLang(prev => {
