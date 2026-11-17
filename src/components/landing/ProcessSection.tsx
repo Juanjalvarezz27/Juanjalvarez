@@ -368,6 +368,21 @@ export default function ProcessSection() {
       ref={containerRef}
       className="relative w-full bg-bg text-ink pt-[clamp(64px,9vw,120px)] pb-[clamp(36px,4.5vw,56px)] overflow-hidden"
     >
+      {/* Trama sutil de puntos de retícula editorial */}
+      <div 
+        className="absolute inset-0 bg-[radial-gradient(rgba(11,11,12,0.045)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-80"
+        aria-hidden="true"
+      />
+      {/* Auras lumínicas sutiles de transición de marca */}
+      <div 
+        className="absolute -top-24 left-1/2 -translate-x-1/2 w-[750px] h-[340px] bg-gradient-to-b from-[#BFE0FF]/35 to-transparent blur-[120px] pointer-events-none -z-0" 
+        aria-hidden="true" 
+      />
+      <div 
+        className="absolute bottom-10 right-10 w-[500px] h-[300px] bg-gradient-to-tl from-[#FF3D14]/[0.06] to-transparent blur-[110px] pointer-events-none -z-0" 
+        aria-hidden="true" 
+      />
+
       <Container>
         {/* Encabezado editorial centrado */}
         <SectionHeading

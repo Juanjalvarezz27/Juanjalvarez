@@ -103,6 +103,16 @@ export default function ServicesSection() {
       id="servicios" 
       className="relative w-full bg-bg text-ink pt-[clamp(32px,4vw,48px)] pb-[clamp(64px,8vw,112px)] overflow-hidden"
     >
+      {/* Auras lumínicas ambientales sutiles de marca (Azul hielo y Naranja poppy) */}
+      <div 
+        className="absolute top-0 left-1/4 -translate-x-1/2 w-[600px] sm:w-[800px] h-[360px] bg-gradient-to-br from-[#BFE0FF]/35 via-[#BFE0FF]/10 to-transparent blur-[120px] pointer-events-none -z-0" 
+        aria-hidden="true" 
+      />
+      <div 
+        className="absolute bottom-12 right-0 translate-x-1/4 w-[500px] h-[340px] bg-gradient-to-bl from-[#FF3D14]/[0.06] via-[#FF3D14]/[0.02] to-transparent blur-[110px] pointer-events-none -z-0" 
+        aria-hidden="true" 
+      />
+
       <Container>
         {/* Encabezado editorial centrado en dos tonos */}
         <SectionHeading

@@ -370,6 +370,12 @@ export default function FAQSection() {
       id="faq" 
       className="relative w-full bg-bg text-ink pt-[clamp(40px,5vw,64px)] pb-[clamp(64px,9vw,120px)]"
     >
+      {/* Contenedor de auras ambientales con overflow-hidden para proteger la posición sticky */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-0" aria-hidden="true">
+        <div className="absolute top-1/4 left-0 -translate-x-1/4 w-[500px] h-[360px] bg-gradient-to-r from-[#BFE0FF]/30 via-[#BFE0FF]/05 to-transparent blur-[120px]" />
+        <div className="absolute bottom-1/4 right-0 translate-x-1/4 w-[450px] h-[300px] bg-gradient-to-l from-[#FF3D14]/[0.05] to-transparent blur-[110px]" />
+      </div>
+
       {/* Inyección semántica de JSON-LD para Google Search Console */}
       <script
         type="application/ld+json"

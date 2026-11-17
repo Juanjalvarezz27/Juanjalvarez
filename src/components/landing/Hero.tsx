@@ -35,6 +35,12 @@ export default function Hero() {
       {/* 1. Fondo de estela lumínica en la mitad derecha a la altura de la base 3D */}
       <HeroVisual />
 
+      {/* Resplandor sutil azul hielo en la esquina superior izquierda para equilibrar temperatura */}
+      <div 
+        className="absolute top-10 left-0 -translate-x-1/3 w-[500px] h-[360px] bg-gradient-to-br from-[#BFE0FF]/30 to-transparent blur-[120px] pointer-events-none -z-0" 
+        aria-hidden="true" 
+      />
+
       {/* 2. Contenido principal estructurado con retícula de 12 columnas en desktop */}
       <Container className="relative z-20 flex-grow flex flex-col justify-center my-auto w-full">
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-center w-full">
