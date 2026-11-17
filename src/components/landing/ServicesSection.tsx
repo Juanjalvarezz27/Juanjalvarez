@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Container, SectionHeading, StarBullet, Grain } from '../ui';
+import { Container, SectionHeading, StarBullet, Grain, ParticleAtmosphere } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { getWhatsAppUrl } from '../../config/site';
 
@@ -103,11 +103,8 @@ export default function ServicesSection() {
       id="servicios" 
       className="relative w-full bg-bg text-ink pt-[clamp(32px,4vw,48px)] pb-[clamp(64px,8vw,112px)] overflow-hidden"
     >
-      {/* Retícula arquitectónica de mesa de dibujo técnico */}
-      <div 
-        className="absolute inset-0 bg-drafting-grid pointer-events-none [mask-image:radial-gradient(ellipse_95%_90%_at_50%_50%,#000_65%,transparent_100%)] -z-0"
-        aria-hidden="true"
-      />
+      {/* Atmósfera de partículas flotantes en azul y rojo */}
+      <ParticleAtmosphere variant="services" />
 
       {/* Auras lumínicas perceptibles con temperatura cromática calibrada */}
       <div 

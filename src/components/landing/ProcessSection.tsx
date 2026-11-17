@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useReducedMotion, type MotionValue } from 'motion/react';
-import { Container, SectionHeading, StarBullet, Reveal } from '../ui';
+import { Container, SectionHeading, StarBullet, Reveal, ParticleAtmosphere } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 // Ilustración 01: Descubrimiento (Burbujas de conversación con indicador de escritura)
@@ -368,11 +368,8 @@ export default function ProcessSection() {
       ref={containerRef}
       className="relative w-full bg-bg text-ink pt-[clamp(64px,9vw,112px)] pb-12 lg:pb-16 overflow-hidden"
     >
-      {/* Retícula arquitectónica de mesa de dibujo técnico */}
-      <div 
-        className="absolute inset-0 bg-drafting-grid pointer-events-none [mask-image:radial-gradient(ellipse_95%_90%_at_50%_50%,#000_65%,transparent_100%)] -z-0"
-        aria-hidden="true"
-      />
+      {/* Atmósfera de partículas flotantes en azul y rojo */}
+      <ParticleAtmosphere variant="process" />
 
       {/* Auras lumínicas perceptibles con temperatura cromática calibrada */}
       <div 

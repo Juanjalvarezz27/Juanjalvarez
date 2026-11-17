@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Plus } from 'lucide-react';
-import { Container, Eyebrow, MotionPill, Button, Grain, Reveal } from '../ui';
+import { Container, Eyebrow, MotionPill, Button, Grain, Reveal, ParticleAtmosphere } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { getWhatsAppUrl } from '../../config/site';
 
@@ -372,8 +372,8 @@ export default function FAQSection() {
     >
       {/* Contenedor de retícula y auras ambientales con overflow-hidden para proteger la posición sticky */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-0" aria-hidden="true">
-        {/* Retícula arquitectónica coordinada */}
-        <div className="absolute inset-0 bg-drafting-grid [mask-image:radial-gradient(ellipse_95%_90%_at_50%_50%,#000_65%,transparent_100%)] opacity-90" />
+        {/* Atmósfera de partículas flotantes en azul y rojo */}
+        <ParticleAtmosphere variant="faq" />
 
         {/* Aura cálida poppy detrás de la tarjeta de contacto interactiva */}
         <div className="absolute top-1/4 left-0 -translate-x-1/4 w-[560px] h-[400px] rounded-full bg-gradient-to-br from-[#FF3D14]/18 via-[#FF3D14]/06 to-transparent blur-[85px] mix-blend-multiply" />

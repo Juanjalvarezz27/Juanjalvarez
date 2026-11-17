@@ -3,7 +3,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { motion, useReducedMotion } from 'motion/react';
-import { Container, Button, MotionPill } from '../ui';
+import { Container, Button, MotionPill, ParticleAtmosphere } from '../ui';
 import HeroVisual from './HeroVisual';
 
 // Carga diferida en cliente del elemento 3D isométrico sin SSR
@@ -35,11 +35,8 @@ export default function Hero() {
       {/* 1. Fondo de estela lumínica en la mitad derecha a la altura de la base 3D */}
       <HeroVisual />
 
-      {/* Retícula arquitectónica coordinada con fade inferior */}
-      <div 
-        className="absolute inset-0 bg-drafting-grid pointer-events-none [mask-image:radial-gradient(ellipse_95%_80%_at_50%_40%,#000_50%,transparent_100%)] opacity-80 -z-0"
-        aria-hidden="true"
-      />
+      {/* Atmósfera de partículas flotantes en azul y rojo */}
+      <ParticleAtmosphere variant="hero" />
 
       {/* Resplandor sutil azul hielo en la esquina superior izquierda para equilibrar temperatura */}
       <div 

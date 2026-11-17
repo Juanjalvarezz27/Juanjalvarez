@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView, useReducedMotion, type MotionValue } from 'motion/react';
-import { Container, Eyebrow, MotionPill, StarBullet } from '../ui';
+import { Container, Eyebrow, MotionPill, StarBullet, ParticleAtmosphere } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 // Palabra individual con transición de color reactiva al scroll con contraste legible en reposo
@@ -147,11 +147,8 @@ export default function StatementSection() {
       ref={containerRef}
       className="relative w-full bg-bg text-ink pt-[clamp(64px,8vw,112px)] pb-[clamp(32px,4vw,48px)] overflow-hidden"
     >
-      {/* Retícula arquitectónica de mesa de dibujo técnico */}
-      <div 
-        className="absolute inset-0 bg-drafting-grid pointer-events-none [mask-image:radial-gradient(ellipse_95%_90%_at_50%_50%,#000_65%,transparent_100%)] -z-0"
-        aria-hidden="true"
-      />
+      {/* Atmósfera de partículas flotantes en azul y rojo */}
+      <ParticleAtmosphere variant="statement" />
 
       {/* Auras lumínicas perceptibles con temperatura cromática calibrada */}
       <div 
