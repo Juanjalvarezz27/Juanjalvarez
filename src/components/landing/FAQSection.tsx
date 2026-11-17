@@ -368,12 +368,18 @@ export default function FAQSection() {
   return (
     <section 
       id="faq" 
-      className="relative w-full bg-bg text-ink pt-[clamp(40px,5vw,64px)] pb-[clamp(64px,9vw,120px)]"
+      className="relative w-full bg-bg text-ink pt-[clamp(24px,3.5vw,48px)] pb-[clamp(64px,9vw,120px)]"
     >
-      {/* Contenedor de auras ambientales con overflow-hidden para proteger la posición sticky */}
+      {/* Contenedor de retícula y auras ambientales con overflow-hidden para proteger la posición sticky */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-0" aria-hidden="true">
-        <div className="absolute top-1/4 left-0 -translate-x-1/4 w-[500px] h-[360px] bg-gradient-to-r from-[#BFE0FF]/30 via-[#BFE0FF]/05 to-transparent blur-[120px]" />
-        <div className="absolute bottom-1/4 right-0 translate-x-1/4 w-[450px] h-[300px] bg-gradient-to-l from-[#FF3D14]/[0.05] to-transparent blur-[110px]" />
+        {/* Retícula arquitectónica coordinada */}
+        <div className="absolute inset-0 bg-drafting-grid [mask-image:radial-gradient(ellipse_95%_90%_at_50%_50%,#000_65%,transparent_100%)] opacity-90" />
+
+        {/* Aura cálida poppy detrás de la tarjeta de contacto interactiva */}
+        <div className="absolute top-1/4 left-0 -translate-x-1/4 w-[560px] h-[400px] rounded-full bg-gradient-to-br from-[#FF3D14]/18 via-[#FF3D14]/06 to-transparent blur-[85px] mix-blend-multiply" />
+
+        {/* Aura fría azul hielo equilibrando el cuadrante derecho del acordeón */}
+        <div className="absolute bottom-1/4 right-0 translate-x-1/4 w-[560px] h-[380px] rounded-full bg-gradient-to-bl from-[#38BDF8]/20 via-[#BFE0FF]/14 to-transparent blur-[85px] mix-blend-multiply" />
       </div>
 
       {/* Inyección semántica de JSON-LD para Google Search Console */}
@@ -383,6 +389,12 @@ export default function FAQSection() {
       />
 
       <Container>
+        {/* Marcadores técnicos editoriales en cabecera */}
+        <div className="hidden lg:flex items-center justify-between text-ink/30 font-mono text-[10px] tracking-widest uppercase mb-6 pointer-events-none select-none">
+          <span>+ SEC_05 // FAQ_SYSTEM</span>
+          <span>CRITERIOS · INVERSIÓN · ALCANCES +</span>
+        </div>
+
         {/* RETÍCULA DE 12 COLUMNAS (DESKTOP) Y FLUJO CONTINUO (TABLET/MÓVIL) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
