@@ -10,12 +10,59 @@ import { useLanguage } from '../../i18n/LanguageContext';
 import { getProjects, type Project } from '../../data/projects';
 import { getWhatsAppUrl } from '../../config/site';
 
-// Mockup visual con aspect ratio 16/10 para pantallas de escritorio y vista centrada para móviles
-function ProjectMockup({ project }: { project: Project }) {
+// Mockup visual con aspect ratio 16/10 uniforme para escritorio, móviles en marco y proyectos en desarrollo
+function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' }) {
   const isMobile = Boolean(project.isMobileFormat);
+  const isUpcoming = Boolean(project.isUpcoming);
+
+  // Presentación arquitectónica para proyectos en desarrollo
+  if (isUpcoming) {
+    return (
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#0A0A0F] border-b border-white/10 flex items-center justify-center select-none group/mockup">
+        {/* Cuadrícula técnica de ingeniería */}
+        <div 
+          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:20px_20px]" 
+          aria-hidden="true" 
+        />
+        {/* Resplandor radial ámbar en el centro */}
+        <div 
+          className="absolute inset-0 bg-radial from-amber-500/20 via-amber-500/5 to-transparent pointer-events-none" 
+          aria-hidden="true" 
+        />
+        
+        {/* Render 3D de hardware flotante */}
+        <div className="relative w-full h-full flex items-center justify-center p-6 sm:p-7">
+          <div className="relative w-[76%] h-[76%] transition-transform duration-500 group-hover:scale-105">
+            <Image
+              src={project.image}
+              alt={project.name}
+              fill
+              sizes="(max-width: 768px) 70vw, 30vw"
+              className="object-contain drop-shadow-[0_16px_30px_rgba(0,0,0,0.85)] filter brightness-95"
+            />
+          </div>
+        </div>
+
+        {/* Chip en vivo superior izquierdo: Estado activo de ingeniería */}
+        <div className="absolute top-3 left-3 z-10">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/35 backdrop-blur-md shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-amber-300">
+              {lang === 'es' ? 'En desarrollo' : 'In development'}
+            </span>
+          </div>
+        </div>
+
+        {/* Indicador mono de arquitectura inferior derecho */}
+        <div className="absolute bottom-2.5 right-3 font-mono text-[9px] uppercase tracking-widest text-amber-300/60 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full backdrop-blur-xs">
+          RELEASE // 2026
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#0A0A0C] border-b border-white/10 flex items-center justify-center">
+    <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#0A0A0E] border-b border-white/10 flex items-center justify-center select-none">
       {/* Sutil resplandor radial de fondo */}
       <div 
         className="absolute inset-0 bg-radial from-white/[0.04] to-transparent pointer-events-none" 
@@ -23,23 +70,39 @@ function ProjectMockup({ project }: { project: Project }) {
       />
 
       {isMobile ? (
-        // Mockup de pantalla móvil centrada con object-contain sobre fondo oscuro
+        // Mockup de pantalla móvil centrada con dynamic island y reflejo realista
         <div className="relative w-full h-full flex items-center justify-center p-3 sm:p-4">
-          <div className="relative h-[90%] aspect-[9/18.5] rounded-[18px] overflow-hidden border-[2.5px] border-[#2A2A30] shadow-2xl transition-transform duration-500 group-hover:scale-105 bg-black">
-            <div className="absolute top-1 left-1/2 -translate-x-1/2 w-8 h-1.5 bg-[#1C1C20] rounded-full z-10" />
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              sizes="(max-width: 768px) 70vw, 30vw"
-              className="object-contain"
+          <div className="relative h-[94%] aspect-[9/17.5] rounded-[20px] overflow-hidden border-[2.5px] border-[#2A2A34] shadow-[0_18px_40px_rgba(0,0,0,0.9)] ring-1 ring-white/10 transition-transform duration-500 group-hover:scale-105 bg-black">
+            {/* Dynamic island superior */}
+            <div className="absolute top-1 left-1/2 -translate-x-1/2 w-7 h-1.5 bg-[#141418] rounded-full z-20 ring-1 ring-white/10" />
+            
+            {/* Pantalla con captura completa en object-cover */}
+            <div className="relative w-full h-full overflow-hidden bg-black">
+              <Image
+                src={project.image}
+                alt={project.name}
+                fill
+                sizes="(max-width: 768px) 70vw, 30vw"
+                className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+
+            {/* Reflejo angular sutil de cristal */}
+            <div 
+              className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.05] to-transparent pointer-events-none z-10" 
+              aria-hidden="true" 
             />
+          </div>
+
+          {/* Pill de dominio en esquina superior derecha */}
+          <div className="absolute top-2.5 right-3 bg-black/60 backdrop-blur-md rounded-full px-2.5 py-0.5 border border-white/10 font-mono text-[9px] text-white/40 max-w-[150px] truncate">
+            {project.slug}.dev
           </div>
         </div>
       ) : (
-        // Mockup de navegador de escritorio con barra de control y aspect 16/10 con object-cover
+        // Mockup de navegador de escritorio con barra de control y aspect 16/10
         <div className="relative w-full h-full flex flex-col">
-          <div className="h-7 bg-black/60 backdrop-blur-sm border-b border-white/10 px-3.5 flex items-center justify-between shrink-0 select-none">
+          <div className="h-7 bg-black/70 backdrop-blur-sm border-b border-white/10 px-3.5 flex items-center justify-between shrink-0 select-none">
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#FF5F56] opacity-75 inline-block" />
               <span className="w-2 h-2 rounded-full bg-[#FFBD2E] opacity-75 inline-block" />
@@ -51,12 +114,12 @@ function ProjectMockup({ project }: { project: Project }) {
             <div className="w-8" />
           </div>
 
-          <div className="relative flex-1 w-full overflow-hidden">
+          <div className="relative flex-1 w-full overflow-hidden bg-black">
             <Image
               src={project.image}
               alt={project.name}
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 33vw"
               className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
             />
           </div>
@@ -66,24 +129,30 @@ function ProjectMockup({ project }: { project: Project }) {
   );
 }
 
-// Tarjeta individual de proyecto con soporte para formato destacado horizontal en LEYMA
+// Tarjeta individual de proyecto con dimensiones uniformes en grid de 3 columnas
 function ProjectCard({
   project,
   lang,
   viewCaseLabel,
-  isFeatured = false,
 }: {
   project: Project;
   lang: 'es' | 'en';
   viewCaseLabel: string;
-  isFeatured?: boolean;
 }) {
   const getCategoryStyles = () => {
+    if (project.isUpcoming) {
+      return {
+        label: lang === 'es' ? 'Sistema a medida' : 'Custom System',
+        badgeColor: 'text-amber-400',
+        cardHover: 'hover:border-amber-400/40 hover:shadow-[0_16px_40px_-12px_rgba(251,191,36,0.2)]',
+        actionBtn: 'border-amber-500/25 bg-amber-500/10 group-hover:border-amber-400 group-hover:bg-amber-500/20 text-amber-300 group-hover:text-amber-200',
+      };
+    }
     if (project.category === 'sistemas') {
       return {
         label: lang === 'es' ? 'Sistema a medida' : 'Custom System',
         badgeColor: 'text-cyan-400',
-        cardHover: 'hover:border-cyan-500/40 hover:shadow-[0_12px_40px_-10px_rgba(56,189,248,0.2)]',
+        cardHover: 'hover:border-cyan-500/40 hover:shadow-[0_16px_40px_-12px_rgba(56,189,248,0.2)]',
         actionBtn: 'border-cyan-500/20 bg-cyan-500/5 group-hover:border-cyan-400 group-hover:bg-cyan-500/15 text-cyan-300 group-hover:text-cyan-200',
       };
     }
@@ -91,14 +160,14 @@ function ProjectCard({
       return {
         label: lang === 'es' ? 'Página web' : 'Website',
         badgeColor: 'text-accent',
-        cardHover: 'hover:border-accent/40 hover:shadow-[0_12px_40px_-10px_rgba(255,61,20,0.2)]',
+        cardHover: 'hover:border-accent/40 hover:shadow-[0_16px_40px_-12px_rgba(255,61,20,0.2)]',
         actionBtn: 'border-accent/20 bg-accent/5 group-hover:border-accent group-hover:bg-accent/15 text-orange-300 group-hover:text-accent',
       };
     }
     return {
       label: lang === 'es' ? 'Solución digital' : 'Digital Solution',
       badgeColor: 'text-emerald-400',
-      cardHover: 'hover:border-emerald-500/40 hover:shadow-[0_12px_40px_-10px_rgba(52,211,153,0.2)]',
+      cardHover: 'hover:border-emerald-500/40 hover:shadow-[0_16px_40px_-12px_rgba(52,211,153,0.2)]',
       actionBtn: 'border-emerald-500/20 bg-emerald-500/5 group-hover:border-emerald-400 group-hover:bg-emerald-500/15 text-emerald-300 group-hover:text-emerald-200',
     };
   };
@@ -112,45 +181,50 @@ function ProjectCard({
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
-      className={`h-full ${isFeatured ? 'xl:col-span-2' : ''}`}
+      className="h-full col-span-1"
     >
       <Link
         href={`/projects/${project.slug}`}
-        className={`group relative rounded-[28px] sm:rounded-[32px] bg-[#121215] border border-white/10 transition-all duration-300 overflow-hidden flex ${
-          isFeatured ? 'flex-col xl:flex-row' : 'flex-col'
-        } justify-between shadow-xl hover:shadow-2xl hover:-translate-y-1 cursor-pointer h-full ${catStyle.cardHover}`}
+        className={`group relative rounded-[28px] sm:rounded-[32px] bg-[#101014] border border-white/10 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-xl hover:shadow-2xl hover:-translate-y-1.5 cursor-pointer h-full ${catStyle.cardHover}`}
       >
         {/* Mockup de la interfaz del proyecto */}
-        <div className={isFeatured ? 'w-full xl:w-1/2 shrink-0 h-full flex flex-col justify-center' : 'w-full'}>
-          <ProjectMockup project={project} />
+        <div className="w-full">
+          <ProjectMockup project={project} lang={lang} />
         </div>
 
-        {/* Ficha descriptiva limpia */}
-        <div className={`p-6 sm:p-7 flex-1 flex flex-col justify-between ${isFeatured ? 'xl:p-8 xl:border-l xl:border-white/10' : ''}`}>
+        {/* Ficha descriptiva con dimensiones uniformes */}
+        <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
           <div>
-            {/* Categoría y año */}
-            <div className="flex items-center justify-between gap-4 mb-2.5">
+            {/* Categoría y año / estado */}
+            <div className="flex items-center justify-between gap-3 mb-3">
               <span className={`font-mono text-xs uppercase tracking-wider font-semibold ${catStyle.badgeColor}`}>
                 {catStyle.label}
               </span>
-              <span className="font-mono text-xs text-white/50 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">
-                {project.year}
-              </span>
+              {project.isUpcoming ? (
+                <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                  {lang === 'es' ? 'En desarrollo' : 'In development'}
+                </span>
+              ) : (
+                <span className="font-mono text-xs text-white/50 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">
+                  {project.year}
+                </span>
+              )}
             </div>
 
             {/* Nombre del proyecto */}
-            <h4 className="font-display font-semibold text-xl sm:text-[23px] text-white tracking-[-0.03em] leading-tight mb-2.5 group-hover:text-white transition-colors">
+            <h4 className="font-display font-semibold text-xl sm:text-[22px] text-white tracking-[-0.03em] leading-tight mb-2.5 group-hover:text-white transition-colors">
               {project.name}
             </h4>
 
-            {/* Resumen conciso */}
-            <p className="text-sm leading-relaxed text-white/70 font-normal mb-5 line-clamp-3">
+            {/* Resumen conciso con altura mínima consistente para alinear tarjetas */}
+            <p className="text-sm leading-relaxed text-white/70 font-normal mb-5 line-clamp-3 min-h-[60px]">
               {project.oneLiner}
             </p>
           </div>
 
           {/* Fila inferior: Stack tecnológico y enlace interactivo de 44px */}
-          <div className="flex items-center justify-between gap-4 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-between gap-3 pt-4 border-t border-white/10 mt-auto">
             <div className="flex flex-wrap gap-1.5">
               {project.stack.slice(0, 3).map((tech, tIdx) => (
                 <span
@@ -163,7 +237,9 @@ function ProjectCard({
             </div>
 
             <div className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold px-3 py-1.5 rounded-full border transition-all shrink-0 min-h-[44px] ${catStyle.actionBtn}`}>
-              <span className="hidden xs:inline">{viewCaseLabel}</span>
+              <span className="hidden xs:inline">
+                {project.isUpcoming ? (lang === 'es' ? 'Ver ficha' : 'View specs') : viewCaseLabel}
+              </span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
           </div>
@@ -231,52 +307,6 @@ function CategoryHeader({
   );
 }
 
-// Fila compacta para proyectos en desarrollo
-function UpcomingCard({
-  project,
-  lang,
-  uIdx,
-  viewCaseLabel,
-}: {
-  project: Project;
-  lang: 'es' | 'en';
-  uIdx: number;
-  viewCaseLabel: string;
-}) {
-  return (
-    <Link
-      href={`/projects/${project.slug}`}
-      className="group rounded-2xl bg-white/[0.03] border border-white/10 hover:border-amber-400/40 p-4 sm:p-5 flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3 sm:gap-4 transition-all hover:bg-white/[0.06] min-h-[88px]"
-    >
-      <div className="flex items-center gap-3.5 min-w-0">
-        <div className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-300 font-mono text-xs shrink-0 font-bold">
-          0{uIdx + 1}
-        </div>
-        <div className="min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="font-mono text-[10px] uppercase font-semibold text-cyan-400">
-              {lang === 'es' ? 'Sistema a medida' : 'Custom system'}
-            </span>
-            <span className="font-mono text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 font-semibold">
-              {lang === 'es' ? 'En desarrollo' : 'In progress'}
-            </span>
-          </div>
-          <h5 className="font-display font-semibold text-base sm:text-lg text-white truncate group-hover:text-amber-300 transition-colors">
-            {project.name}
-          </h5>
-        </div>
-      </div>
-
-      <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-white/70 group-hover:text-amber-300 shrink-0 transition-colors">
-        <span className="hidden sm:inline">{viewCaseLabel}</span>
-        <div className="w-8 h-8 rounded-full border border-white/15 bg-white/5 group-hover:border-amber-400 group-hover:bg-amber-400/20 flex items-center justify-center transition-all">
-          <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </div>
-      </div>
-    </Link>
-  );
-}
-
 // Sección principal de proyectos segmentada editorialmente en las 3 verticales
 export default function ProjectsSection() {
   const { t, lang } = useLanguage();
@@ -294,9 +324,8 @@ export default function ProjectsSection() {
     { id: 'soluciones', label: ps.filters.soluciones },
   ];
 
-  // Separación por verticales
-  const sistemasProjects = allProjects.filter((p) => p.category === 'sistemas' && !p.isUpcoming);
-  const sistemasUpcoming = allProjects.filter((p) => p.category === 'sistemas' && p.isUpcoming);
+  // Separación por verticales con proyectos integrados
+  const sistemasProjects = allProjects.filter((p) => p.category === 'sistemas');
   const websProjects = allProjects.filter((p) => p.category === 'webs');
   const solucionesProjects = allProjects.filter((p) => p.category === 'soluciones');
 
@@ -386,47 +415,22 @@ export default function ProjectsSection() {
                   part1={cm.sistemas.part1}
                   part2={cm.sistemas.part2}
                   desc={cm.sistemas.desc}
-                  count={sistemasProjects.length + sistemasUpcoming.length}
+                  count={sistemasProjects.length}
                   lang={lang}
                   colorScheme={colorSchemes.sistemas}
                 />
 
-                {/* Grid de proyectos de sistemas: LEYMA como tarjeta destacada 2-col */}
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch mb-8">
+                {/* Grid uniforme de 3 columnas para sistemas (activos y en desarrollo) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch">
                   {sistemasProjects.map((project) => (
                     <ProjectCard
                       key={project.slug}
                       project={project}
                       lang={lang}
                       viewCaseLabel={ps.card_view_case}
-                      isFeatured={project.slug === 'leyma'}
                     />
                   ))}
                 </div>
-
-                {/* Spots de proyectos en desarrollo dentro de Sistemas */}
-                {sistemasUpcoming.length > 0 && (
-                  <div className="mt-8 pt-6 border-t border-white/10">
-                    <div className="flex items-center gap-2 mb-4">
-                      <StarBullet size={12} className="text-amber-400" />
-                      <h5 className="font-mono text-xs uppercase tracking-widest text-white/60 font-semibold">
-                        {ps.upcoming_title || (lang === 'es' ? 'Próximamente en sistemas' : 'Upcoming in systems')}
-                      </h5>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {sistemasUpcoming.map((project, uIdx) => (
-                        <UpcomingCard
-                          key={project.slug}
-                          project={project}
-                          lang={lang}
-                          uIdx={uIdx}
-                          viewCaseLabel={ps.upcoming_view_case || (lang === 'es' ? 'Ver ficha' : 'View preview')}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
               </motion.div>
             )}
 
