@@ -11,9 +11,18 @@ import { getProjects, type Project } from '../../data/projects';
 import { getWhatsAppUrl } from '../../config/site';
 
 // Mockup visual con aspect ratio 16/10 uniforme para escritorio, móviles en marco y proyectos en desarrollo
-function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' }) {
+function ProjectMockup({ 
+  project, 
+  lang,
+  theme = 'ice',
+}: { 
+  project: Project; 
+  lang: 'es' | 'en';
+  theme?: 'ice' | 'accent';
+}) {
   const isMobile = Boolean(project.isMobileFormat);
   const isUpcoming = Boolean(project.isUpcoming);
+  const isAccent = theme === 'accent';
 
   // Presentación arquitectónica para proyectos en desarrollo
   if (isUpcoming) {
@@ -24,9 +33,9 @@ function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' 
           className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:20px_20px]" 
           aria-hidden="true" 
         />
-        {/* Resplandor radial de atmósfera neutra */}
+        {/* Resplandor radial de azul hielo de ingeniería */}
         <div 
-          className="absolute inset-0 bg-radial from-white/[0.04] to-transparent pointer-events-none" 
+          className="absolute inset-0 bg-radial from-ice/20 via-ice/5 to-transparent pointer-events-none" 
           aria-hidden="true" 
         />
         
@@ -43,18 +52,18 @@ function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' 
           </div>
         </div>
 
-        {/* Chip en vivo superior izquierdo: Estado activo de ingeniería */}
+        {/* Chip en vivo superior izquierdo: Estado activo con naranja/rojo poppy */}
         <div className="absolute top-3 left-3 z-10">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 backdrop-blur-md shadow-xs">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent/15 border border-accent/35 backdrop-blur-md shadow-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-white/90">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-accent">
               {lang === 'es' ? 'En desarrollo' : 'In development'}
             </span>
           </div>
         </div>
 
-        {/* Indicador mono de arquitectura inferior derecho */}
-        <div className="absolute bottom-2.5 right-3 font-mono text-[9px] uppercase tracking-widest text-white/40 bg-white/[0.04] border border-white/10 px-2 py-0.5 rounded-full backdrop-blur-xs">
+        {/* Indicador mono de arquitectura inferior derecho con azul hielo */}
+        <div className="absolute bottom-2.5 right-3 font-mono text-[9px] uppercase tracking-widest text-ice/70 bg-ice/10 border border-ice/20 px-2 py-0.5 rounded-full backdrop-blur-xs">
           RELEASE // 2026
         </div>
       </div>
@@ -63,9 +72,9 @@ function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' 
 
   return (
     <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#09090D] border-b border-white/10 flex items-center justify-center select-none">
-      {/* Sutil resplandor radial de fondo */}
+      {/* Sutil resplandor radial temático (Azul hielo o Naranja/Rojo Poppy) */}
       <div 
-        className="absolute inset-0 bg-radial from-white/[0.03] to-transparent pointer-events-none" 
+        className={`absolute inset-0 bg-radial ${isAccent ? 'from-accent/15 via-accent/5' : 'from-ice/15 via-ice/5'} to-transparent pointer-events-none`} 
         aria-hidden="true" 
       />
 
@@ -94,8 +103,10 @@ function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' 
             />
           </div>
 
-          {/* Pill de dominio en esquina superior derecha */}
-          <div className="absolute top-2.5 right-3 bg-black/60 backdrop-blur-md rounded-full px-2.5 py-0.5 border border-white/10 font-mono text-[9px] text-white/40 max-w-[150px] truncate">
+          {/* Pill de dominio temático en esquina superior derecha */}
+          <div className={`absolute top-2.5 right-3 bg-black/60 backdrop-blur-md rounded-full px-2.5 py-0.5 border font-mono text-[9px] max-w-[150px] truncate ${
+            isAccent ? 'border-accent/20 text-accent/80' : 'border-ice/20 text-ice/80'
+          }`}>
             {project.slug}.dev
           </div>
         </div>
@@ -108,7 +119,9 @@ function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' 
               <span className="w-2 h-2 rounded-full bg-[#FFBD2E] opacity-75 inline-block" />
               <span className="w-2 h-2 rounded-full bg-[#27C93F] opacity-75 inline-block" />
             </div>
-            <div className="bg-white/5 rounded-full px-3 py-0.5 font-mono text-[9.5px] text-white/40 truncate max-w-[200px]">
+            <div className={`rounded-full px-3 py-0.5 font-mono text-[9.5px] truncate max-w-[200px] border ${
+              isAccent ? 'bg-accent/10 border-accent/20 text-accent/80' : 'bg-ice/10 border-ice/20 text-ice/80'
+            }`}>
               {project.slug}.juanalvarez.dev
             </div>
             <div className="w-8" />
@@ -134,11 +147,15 @@ function ProjectCard({
   project,
   lang,
   viewCaseLabel,
+  theme = 'ice',
 }: {
   project: Project;
   lang: 'es' | 'en';
   viewCaseLabel: string;
+  theme?: 'ice' | 'accent';
 }) {
+  const isAccent = theme === 'accent';
+
   const getCategoryLabel = () => {
     if (project.category === 'sistemas') {
       return lang === 'es' ? 'Sistema a medida' : 'Custom System';
@@ -162,23 +179,29 @@ function ProjectCard({
     >
       <Link
         href={`/projects/${project.slug}`}
-        className="group relative rounded-[28px] sm:rounded-[32px] bg-[#111115] border border-white/10 hover:border-white/25 hover:bg-[#15151B] transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-xl hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.85)] hover:-translate-y-1.5 cursor-pointer h-full"
+        className={`group relative rounded-[28px] sm:rounded-[32px] bg-[#111115] border border-white/10 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-xl hover:-translate-y-1.5 cursor-pointer h-full ${
+          isAccent
+            ? 'hover:border-accent/40 hover:shadow-[0_20px_50px_-15px_rgba(255,61,20,0.22)]'
+            : 'hover:border-ice/40 hover:shadow-[0_20px_50px_-15px_rgba(191,224,255,0.18)]'
+        }`}
       >
         {/* Mockup de la interfaz del proyecto */}
         <div className="w-full">
-          <ProjectMockup project={project} lang={lang} />
+          <ProjectMockup project={project} lang={lang} theme={theme} />
         </div>
 
         {/* Ficha descriptiva con dimensiones uniformes */}
         <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
           <div>
-            {/* Categoría y año / estado */}
+            {/* Categoría y año / estado con color temático de marca */}
             <div className="flex items-center justify-between gap-3 mb-3">
-              <span className="font-mono text-xs uppercase tracking-wider font-semibold text-white/50 group-hover:text-white/80 transition-colors">
+              <span className={`font-mono text-xs uppercase tracking-wider font-semibold transition-colors ${
+                isAccent ? 'text-accent' : 'text-ice'
+              }`}>
                 {categoryLabel}
               </span>
               {project.isUpcoming ? (
-                <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-semibold text-white/80 bg-white/[0.06] border border-white/15 px-2.5 py-0.5 rounded-full">
+                <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-semibold text-accent bg-accent/10 border border-accent/30 px-2.5 py-0.5 rounded-full">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                   {lang === 'es' ? 'En desarrollo' : 'In development'}
                 </span>
@@ -200,7 +223,7 @@ function ProjectCard({
             </p>
           </div>
 
-          {/* Fila inferior: Stack tecnológico y enlace interactivo con inversión de color en hover */}
+          {/* Fila inferior: Stack tecnológico y enlace interactivo temático */}
           <div className="flex items-center justify-between gap-3 pt-4 border-t border-white/10 mt-auto">
             <div className="flex flex-wrap gap-1.5">
               {project.stack.slice(0, 3).map((tech, tIdx) => (
@@ -213,7 +236,11 @@ function ProjectCard({
               ))}
             </div>
 
-            <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 text-white/80 group-hover:bg-white group-hover:text-ink group-hover:border-white transition-all shrink-0 min-h-[44px]">
+            <div className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold px-3.5 py-1.5 rounded-full border transition-all shrink-0 min-h-[44px] ${
+              isAccent
+                ? 'border-accent/25 bg-accent/5 text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent'
+                : 'border-ice/25 bg-ice/5 text-ice group-hover:bg-ice group-hover:text-ink group-hover:border-ice'
+            }`}>
               <span className="hidden xs:inline">
                 {project.isUpcoming ? (lang === 'es' ? 'Ver ficha' : 'View specs') : viewCaseLabel}
               </span>
@@ -226,7 +253,7 @@ function ProjectCard({
   );
 }
 
-// Encabezado editorial premium con jerarquía en dos tonos
+// Encabezado editorial premium con jerarquía temática en azul hielo y naranja/rojo poppy
 function CategoryHeader({
   tag,
   part1,
@@ -234,6 +261,7 @@ function CategoryHeader({
   desc,
   count,
   lang,
+  theme = 'ice',
 }: {
   tag: string;
   part1: string;
@@ -241,21 +269,28 @@ function CategoryHeader({
   desc: string;
   count: number;
   lang: 'es' | 'en';
+  theme?: 'ice' | 'accent';
 }) {
+  const isAccent = theme === 'accent';
+
   return (
     <div className="mb-8 sm:mb-10 pb-5 border-b border-white/10 relative">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-5">
         <div>
-          {/* Tag mono con StarBullet de acento editorial */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/10 bg-white/[0.04] font-mono text-[11px] uppercase tracking-widest text-white/80 font-semibold mb-3">
-            <StarBullet size={10} rotate={true} className="text-accent" />
+          {/* Tag mono con color temático de la marca */}
+          <div className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full border font-mono text-[11px] uppercase tracking-widest font-semibold mb-3 ${
+            isAccent 
+              ? 'border-accent/30 bg-accent/10 text-accent' 
+              : 'border-ice/30 bg-ice/10 text-ice'
+          }`}>
+            <StarBullet size={10} rotate={true} className={isAccent ? 'text-accent' : 'text-ice'} />
             <span>{tag}</span>
           </div>
 
-          {/* Título en dos tonos editorial blanco y blanco/45 */}
+          {/* Título en dos tonos con color temático de marca */}
           <h3 className="font-display font-bold text-[clamp(1.85rem,3.4vw,2.75rem)] text-white tracking-[-0.035em] leading-[1.05] mb-2.5">
             <span>{part1}</span>{' '}
-            <span className="text-white/45">{part2}</span>
+            <span className={isAccent ? 'text-accent' : 'text-ice'}>{part2}</span>
           </h3>
 
           {/* Descripción orientada a valor comercial */}
@@ -264,10 +299,14 @@ function CategoryHeader({
           </p>
         </div>
 
-        {/* Píldora de proyectos activos en la vertical */}
+        {/* Píldora de proyectos activos en la vertical con pulso temático */}
         <div className="self-start md:self-auto shrink-0">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 font-mono text-xs text-white/70 shadow-2xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border font-mono text-xs shadow-2xs ${
+            isAccent
+              ? 'bg-accent/5 border-accent/20 text-accent/90'
+              : 'bg-ice/5 border-ice/20 text-ice/90'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${isAccent ? 'bg-accent' : 'bg-ice'}`} />
             <span>
               {count} {lang === 'es' ? 'proyectos' : 'projects'}
             </span>
@@ -369,9 +408,10 @@ export default function ProjectsSection() {
                   desc={cm.sistemas.desc}
                   count={sistemasProjects.length}
                   lang={lang}
+                  theme="ice"
                 />
 
-                {/* Grid uniforme de 3 columnas para sistemas (activos y en desarrollo) */}
+                {/* Grid uniforme de 3 columnas para sistemas en azul hielo */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch">
                   {sistemasProjects.map((project) => (
                     <ProjectCard
@@ -379,6 +419,7 @@ export default function ProjectsSection() {
                       project={project}
                       lang={lang}
                       viewCaseLabel={ps.card_view_case}
+                      theme="ice"
                     />
                   ))}
                 </div>
@@ -402,9 +443,10 @@ export default function ProjectsSection() {
                   desc={cm.webs.desc}
                   count={websProjects.length}
                   lang={lang}
+                  theme="accent"
                 />
 
-                {/* Grid de proyectos web */}
+                {/* Grid de proyectos web en naranja/rojo poppy */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch">
                   {websProjects.map((project) => (
                     <ProjectCard
@@ -412,6 +454,7 @@ export default function ProjectsSection() {
                       project={project}
                       lang={lang}
                       viewCaseLabel={ps.card_view_case}
+                      theme="accent"
                     />
                   ))}
                 </div>
@@ -435,9 +478,10 @@ export default function ProjectsSection() {
                   desc={cm.soluciones.desc}
                   count={solucionesProjects.length}
                   lang={lang}
+                  theme="ice"
                 />
 
-                {/* Grid de proyectos de soluciones digitales */}
+                {/* Grid de proyectos de soluciones digitales en azul hielo */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch">
                   {solucionesProjects.map((project) => (
                     <ProjectCard
@@ -445,6 +489,7 @@ export default function ProjectsSection() {
                       project={project}
                       lang={lang}
                       viewCaseLabel={ps.card_view_case}
+                      theme="ice"
                     />
                   ))}
                 </div>
