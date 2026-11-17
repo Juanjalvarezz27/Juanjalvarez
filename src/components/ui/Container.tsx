@@ -6,7 +6,7 @@ interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   as?: React.ElementType;
 }
 
-// Contenedor de ancho máximo de 1320px con relleno horizontal fluido
+// Contenedor responsivo: máx 1320px (<1920px), 1440px (≥1920px), 1600px (≥2560px)
 export default function Container({
   children,
   className = '',
@@ -15,7 +15,7 @@ export default function Container({
 }: ContainerProps) {
   return (
     <Component 
-      className={`w-full max-w-[1320px] mx-auto px-5 sm:px-8 md:px-10 ${className}`}
+      className={`w-full max-w-[1320px] 3xl:max-w-[1440px] [@media(min-width:2560px)]:max-w-[1600px] mx-auto px-5 md:px-10 ${className}`}
       {...props}
     >
       {children}

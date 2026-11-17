@@ -27,7 +27,7 @@ export default function Hero() {
   return (
     <section 
       id="inicio"
-      className="relative w-full max-w-full min-h-[100svh] min-h-[720px] rounded-b-[48px] overflow-hidden pt-24 sm:pt-28 pb-20 lg:pb-28 flex flex-col justify-between"
+      className="relative w-full max-w-full min-h-[100svh] min-h-[640px] max-h-[1100px] [@media(max-height:760px)]:min-h-0 [@media(max-height:500px)]:min-h-0 rounded-b-[48px] overflow-hidden pt-24 sm:pt-28 pb-[clamp(120px,calc(15vw+32px),240px)] flex flex-col justify-between"
       style={{
         background: 'linear-gradient(180deg, #ECECEA 0%, #ECECEA 70%, #D2D2CF 100%)'
       }}
@@ -62,7 +62,7 @@ export default function Hero() {
             </motion.div>
 
             {/* Titular H1 editorial en 3 líneas: ink, muted-strong con MotionPill, y autónomos en degradado */}
-            <h1 className="font-display font-bold text-[clamp(2.75rem,6.6vw,7.5rem)] tracking-[-0.045em] leading-[0.92] select-none text-left w-full xl:w-max">
+            <h1 className="font-display font-bold text-[clamp(2.4rem,6.6vw,7.5rem)] tracking-[-0.045em] leading-[0.92] select-none text-left w-full xl:w-max [text-wrap:balance]">
               
               {/* Línea 1: ink */}
               <motion.span 
@@ -90,10 +90,10 @@ export default function Hero() {
                 </span>
               </motion.span>
 
-              {/* Línea 3: autónomos. con sangría en desktop y degradado cromático con deriva */}
+              {/* Línea 3: autónomos. con sangría reducida en tablet y completa en desktop */}
               <motion.span 
                 {...lineTransition(0.2)}
-                className="block text-left pl-0 sm:pl-[clamp(40px,7vw,120px)] whitespace-nowrap mt-[0.05em]"
+                className="block text-left pl-0 sm:pl-[clamp(24px,4vw,60px)] xl:pl-[clamp(40px,7vw,120px)] whitespace-nowrap mt-[0.05em]"
               >
                 <span className="hero-gradient-text">
                   autónomos.
@@ -112,26 +112,26 @@ export default function Hero() {
               Desarrollo software de gestión a medida, plataformas web de alta conversión y automatizaciones que te devuelven el control operativo de tu negocio.
             </motion.p>
 
-            {/* Fila de llamadas a la acción (CTAs) */}
+            {/* Fila de llamadas a la acción (CTAs): apiladas en <480px, horizontales desde 480px */}
             <motion.div 
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto"
+              className="flex flex-col xs:flex-row items-stretch xs:items-center gap-3 w-full xs:w-auto"
             >
               <a 
                 href="https://wa.me/584129164371?text=Hola%20Juan,%20vi%20tu%20portafolio%20y%20quiero%20cotizar%20un%20proyecto."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto"
+                className="w-full xs:w-auto"
               >
-                <Button variant="primary" className="w-full sm:w-auto justify-center">
+                <Button variant="primary" className="w-full xs:w-auto justify-center">
                   Iniciar proyecto
                 </Button>
               </a>
 
-              <a href="#proyectos" className="w-full sm:w-auto">
-                <Button variant="outline" className="w-full sm:w-auto justify-center">
+              <a href="#proyectos" className="w-full xs:w-auto">
+                <Button variant="outline" className="w-full xs:w-auto justify-center">
                   Ver proyectos
                 </Button>
               </a>
@@ -152,23 +152,20 @@ export default function Hero() {
         </div>
       </Container>
 
-      {/* 3. Wordmark gigante "álvarez" desplazado hacia el fondo por debajo de los CTAs */}
-      <motion.div 
-        initial={{ y: "65%" }}
-        animate={{ y: "45%" }}
-        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute bottom-0 inset-x-0 w-full max-w-full text-center pointer-events-none select-none z-0 overflow-hidden"
+      {/* 3. Wordmark gigante "álvarez" posicionado en el borde inferior por detrás de los CTAs */}
+      <div 
+        className="absolute bottom-0 inset-x-0 w-full max-w-full text-center pointer-events-none select-none z-0 translate-y-[42%] overflow-hidden"
         aria-hidden="true"
       >
         <span 
-          className="font-display font-bold text-[21vw] tracking-[-0.06em] leading-none block whitespace-nowrap bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent"
+          className="font-display font-bold text-[clamp(4.5rem,28vw,22vw)] xl:text-[21vw] tracking-[-0.06em] leading-none block whitespace-nowrap bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent"
           style={{
             filter: 'drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08)) drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.04))'
           }}
         >
           álvarez
         </span>
-      </motion.div>
+      </div>
 
     </section>
   );

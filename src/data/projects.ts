@@ -3,7 +3,7 @@ export interface Project {
   id: string;
   slug: string;
   name: string;
-  category: 'sistemas' | 'webs';
+  category: 'sistemas' | 'webs' | 'soluciones';
   oneLiner: string;
   problem: string;
   solution: string;
@@ -16,12 +16,13 @@ export interface Project {
   featured: boolean;
   benefits?: string[];
   isMobileFormat?: boolean;
+  isUpcoming?: boolean;
 }
 
 // Datos base y traducciones completas en español e inglés
 export const PROJECTS_DATA: Record<string, {
   slug: string;
-  category: 'sistemas' | 'webs';
+  category: 'sistemas' | 'webs' | 'soluciones';
   year: string;
   featured: boolean;
   stack: string[];
@@ -29,6 +30,7 @@ export const PROJECTS_DATA: Record<string, {
   images: string[];
   url?: string;
   isMobileFormat?: boolean;
+  isUpcoming?: boolean;
   es: {
     name: string;
     oneLiner: string;
@@ -46,6 +48,7 @@ export const PROJECTS_DATA: Record<string, {
     benefits?: string[];
   };
 }> = {
+  // GRUPO 1: SISTEMAS
   leyma: {
     slug: 'leyma',
     category: 'sistemas',
@@ -70,58 +73,6 @@ export const PROJECTS_DATA: Record<string, {
       solution: 'Built a secure web platform featuring role-based access control, full sample traceability, and automated lab report generation.',
       result: '',
       benefits: ['Patient records', 'Clinical results', 'Test management', 'Secure access']
-    }
-  },
-  sigeve: {
-    slug: 'sigeve',
-    category: 'sistemas',
-    year: '2024',
-    featured: false,
-    stack: ['Next.js', 'Node.js', 'PostgreSQL', 'BCV API', 'Tailwind'],
-    image: '/Sigeve 1.png',
-    images: ['/Sigeve 1.png', '/Sigeve 2.png'],
-    url: '',
-    es: {
-      name: 'SIGEVE',
-      oneLiner: 'Control absoluto de stock físico y ventas comerciales con conversión automática de tasas oficiales en tiempo real.',
-      problem: 'Descuadres sistemáticos en inventario físico y pérdidas de margen operativo por actualizar tasas cambiarias de forma manual y tardía.',
-      solution: 'Sistema de punto de venta y stock multialmacén integrado a la API oficial del BCV con actualización automática y auditoría de caja diaria.',
-      result: '',
-      benefits: ['Control de stock físico', 'Ventas y estadísticas', 'Tasas BCV automáticas', 'Reportes de flujo de caja']
-    },
-    en: {
-      name: 'SIGEVE',
-      oneLiner: 'Full physical stock and commercial sales control with real-time official currency conversion.',
-      problem: 'Recurring physical inventory discrepancies and profit margin loss caused by delayed manual currency rate updates.',
-      solution: 'POS and multi-warehouse inventory system synced with official currency APIs, automated rate adjustments, and daily cash audits.',
-      result: '',
-      benefits: ['Physical stock control', 'Sales and metrics', 'Automated currency rates', 'Cash flow reports']
-    }
-  },
-  silav: {
-    slug: 'silav',
-    category: 'sistemas',
-    year: '2024',
-    featured: false,
-    stack: ['React', 'TypeScript', 'PostgreSQL', 'Tailwind'],
-    image: '/Silav 1.png',
-    images: ['/Silav 1.png', '/Silav 2.png'],
-    url: '',
-    es: {
-      name: 'SILAV',
-      oneLiner: 'Digitalización operativa automotriz con fidelización de clientes recurrentes y billetera virtual prepagada.',
-      problem: 'Falta de registro sobre el flujo real de vehículos atendidos al día y ausencia de mecanismos para retener a clientes habituales.',
-      solution: 'Plataforma administrativa de pista con monedero digital recargable, asignación dinámica de servicios y monitoreo de cobros en tiempo real.',
-      result: '',
-      benefits: ['Monedero digital', 'Gestión de servicios y precios', 'Registro de clientes y vehículos', 'Control de pagos diarios']
-    },
-    en: {
-      name: 'SILAV',
-      oneLiner: 'Automotive operational hub featuring customer loyalty workflows and digital prepaid wallet.',
-      problem: 'No visibility over actual daily vehicle service volume and total lack of customer retention systems.',
-      solution: 'Service lane management platform with customer digital wallet, dynamic service queues, and real-time payment reconciliation.',
-      result: '',
-      benefits: ['Digital wallet', 'Service & pricing catalog', 'Customer & vehicle log', 'Daily payment tracking']
     }
   },
   rubens: {
@@ -150,6 +101,88 @@ export const PROJECTS_DATA: Record<string, {
       benefits: ['Kitchen order display', 'Register & closeouts', 'Flexible exchange rates', 'Daily sales statistics']
     }
   },
+  sigeve: {
+    slug: 'sigeve',
+    category: 'sistemas',
+    year: '2024',
+    featured: false,
+    stack: ['Next.js', 'Node.js', 'PostgreSQL', 'BCV API', 'Tailwind'],
+    image: '/Sigeve 1.png',
+    images: ['/Sigeve 1.png', '/Sigeve 2.png'],
+    url: '',
+    es: {
+      name: 'SIGEVE',
+      oneLiner: 'Control absoluto de stock físico y ventas comerciales con conversión automática de tasas oficiales en tiempo real.',
+      problem: 'Descuadres sistemáticos en inventario físico y pérdidas de margen operativo por actualizar tasas cambiarias de forma manual y tardía.',
+      solution: 'Sistema de punto de venta y stock multialmacén integrado a la API oficial del BCV con actualización automática y auditoría de caja diaria.',
+      result: '',
+      benefits: ['Control de stock físico', 'Ventas y estadísticas', 'Tasas BCV automáticas', 'Reportes de flujo de caja']
+    },
+    en: {
+      name: 'SIGEVE',
+      oneLiner: 'Full physical stock and commercial sales control with real-time official currency conversion.',
+      problem: 'Recurring physical inventory discrepancies and profit margin loss caused by delayed manual currency rate updates.',
+      solution: 'POS and multi-warehouse inventory system synced with official currency APIs, automated rate adjustments, and daily cash audits.',
+      result: '',
+      benefits: ['Physical stock control', 'Sales and metrics', 'Automated currency rates', 'Cash flow reports']
+    }
+  },
+  conte: {
+    slug: 'inmobiliaria-conte',
+    category: 'sistemas',
+    year: '2026',
+    featured: false,
+    isUpcoming: true,
+    stack: ['Next.js 16', 'PostgreSQL', 'Tailwind CSS', 'Cloud Storage'],
+    image: '/Laptop.png',
+    images: ['/Laptop.png'],
+    url: '',
+    es: {
+      name: 'INMOBILIARIA CONTE',
+      oneLiner: 'Plataforma integral de gestión inmobiliaria para control de captaciones, cartera de inmuebles y seguimiento de clientes.',
+      problem: 'Dispersión del inventario de propiedades y falta de control centralizado sobre el seguimiento de prospectos y comisiones de asesores.',
+      solution: 'Sistema centralizado multi-agente con ficha técnica interactiva de propiedades, portal de captaciones y CRM inmobiliario en tiempo real.',
+      result: 'En desarrollo activo · Lanzamiento programado 2026',
+      benefits: ['Control de propiedades', 'Gestión de captaciones', 'CRM de clientes', 'Reportes de comisiones']
+    },
+    en: {
+      name: 'INMOBILIARIA CONTE',
+      oneLiner: 'Comprehensive real estate management hub for property portfolio tracking, lead CRM, and agent workflows.',
+      problem: 'Scattered property listings and zero centralized control over buyer inquiries and broker commissions.',
+      solution: 'Multi-agent centralized portal with interactive property specs, acquisition workflows, and real-time client pipeline tracking.',
+      result: 'In active development · Scheduled 2026 release',
+      benefits: ['Property portfolio', 'Acquisition portal', 'Lead CRM', 'Commission tracking']
+    }
+  },
+  'los-andes': {
+    slug: 'inmobiliaria-los-andes',
+    category: 'sistemas',
+    year: '2026',
+    featured: false,
+    isUpcoming: true,
+    stack: ['React', 'Node.js', 'PostgreSQL', 'CRM Engine'],
+    image: '/Laptop.png',
+    images: ['/Laptop.png'],
+    url: '',
+    es: {
+      name: 'INMOBILIARIA LOS ANDES',
+      oneLiner: 'Catálogo inmobiliario inteligente y cotizador dinámico para comercialización de terrenos y viviendas regionales.',
+      problem: 'Proceso manual y demorado para cotizar planes de financiamiento y entregar información actualizada de parcelas disponibles.',
+      solution: 'Plataforma administrativa con mapa interactivo de lotes, generador automático de cotizaciones y administración de asesores.',
+      result: 'En desarrollo activo · Lanzamiento programado 2026',
+      benefits: ['Catálogo interactivo', 'Cotizaciones automáticas', 'Mapa de disponibilidad', 'Métricas de venta']
+    },
+    en: {
+      name: 'INMOBILIARIA LOS ANDES',
+      oneLiner: 'Smart real estate catalog and dynamic financing quote generator for regional properties and land developments.',
+      problem: 'Slow manual workflows for calculating financing plans and sharing up-to-date availability for plots and homes.',
+      solution: 'Administrative platform featuring interactive lot maps, instant automated quote generation, and broker management.',
+      result: 'In active development · Scheduled 2026 release',
+      benefits: ['Interactive catalog', 'Instant quotes', 'Availability mapping', 'Sales analytics']
+    }
+  },
+
+  // GRUPO 2: PÁGINAS WEB
   domenico: {
     slug: 'domenico',
     category: 'webs',
@@ -231,9 +264,37 @@ export const PROJECTS_DATA: Record<string, {
       benefits: ['Interactive media kit', 'Immersive UI', 'Direct brand sponsor booking']
     }
   },
+
+  // GRUPO 3: SOLUCIONES DIGITALES
+  silav: {
+    slug: 'silav',
+    category: 'soluciones',
+    year: '2024',
+    featured: false,
+    stack: ['React', 'TypeScript', 'PostgreSQL', 'Tailwind'],
+    image: '/Silav 1.png',
+    images: ['/Silav 1.png', '/Silav 2.png'],
+    url: '',
+    es: {
+      name: 'SILAV',
+      oneLiner: 'Digitalización operativa automotriz con fidelización de clientes recurrentes y billetera virtual prepagada.',
+      problem: 'Falta de registro sobre el flujo real de vehículos atendidos al día y ausencia de mecanismos para retener a clientes habituales.',
+      solution: 'Plataforma administrativa de pista con monedero digital recargable, asignación dinámica de servicios y monitoreo de cobros en tiempo real.',
+      result: '',
+      benefits: ['Monedero digital', 'Gestión de servicios y precios', 'Registro de clientes y vehículos', 'Control de pagos diarios']
+    },
+    en: {
+      name: 'SILAV',
+      oneLiner: 'Automotive operational hub featuring customer loyalty workflows and digital prepaid wallet.',
+      problem: 'No visibility over actual daily vehicle service volume and total lack of customer retention systems.',
+      solution: 'Service lane management platform with customer digital wallet, dynamic service queues, and real-time payment reconciliation.',
+      result: '',
+      benefits: ['Digital wallet', 'Service & pricing catalog', 'Customer & vehicle log', 'Daily payment tracking']
+    }
+  },
   metarun: {
     slug: 'metarun',
-    category: 'sistemas',
+    category: 'soluciones',
     year: '2023',
     featured: false,
     stack: ['Next.js', 'PostgreSQL', 'Payment Verification'],
@@ -259,7 +320,7 @@ export const PROJECTS_DATA: Record<string, {
   },
   dorsales: {
     slug: 'dorsales',
-    category: 'sistemas',
+    category: 'soluciones',
     year: '2023',
     featured: false,
     stack: ['QR Scanner', 'Real-time Sync', 'Logistics Engine'],
@@ -305,7 +366,8 @@ export function getProjects(lang: 'es' | 'en' = 'es'): Project[] {
       year: item.year,
       featured: item.featured,
       benefits: loc.benefits,
-      isMobileFormat: item.isMobileFormat
+      isMobileFormat: item.isMobileFormat,
+      isUpcoming: item.isUpcoming
     };
   });
 }

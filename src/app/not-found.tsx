@@ -8,7 +8,7 @@ import { Container, Button, Eyebrow } from '@/src/components/ui';
 // Página 404 personalizada con el sistema de diseño Kinetic Editorial
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-bg text-ink selection:bg-accent selection:text-white font-sans relative w-full overflow-x-hidden antialiased flex flex-col justify-between">
+    <div className="min-h-screen bg-bg text-ink selection:bg-accent selection:text-white font-sans relative w-full overflow-x-clip antialiased flex flex-col justify-between">
       <Header />
 
       <main className="pt-32 sm:pt-44 pb-20 sm:pb-32 my-auto">

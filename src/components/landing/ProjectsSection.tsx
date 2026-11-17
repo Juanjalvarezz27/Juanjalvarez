@@ -1,194 +1,225 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useSyncExternalStore } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useReducedMotion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
-import { Container, SectionHeading, Button } from '../ui';
+import { Container, SectionHeading, Button, StarBullet } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { getProjects, type Project } from '../../data/projects';
 import { getWhatsAppUrl } from '../../config/site';
 
-// Componente interactivo para inclinación 3D en la tarjeta destacada
-function TiltBrowserMockup({
+// Mockup visual unificado con aspect ratio 16/10 para escritorio y móvil contenido
+function ProjectMockup({ project }: { project: Project }) {
+  const isMobile = Boolean(project.isMobileFormat);
+
+  return (
+    <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#0A0A0C] border-b border-white/10 flex items-center justify-center">
+      {/* Sutil resplandor radial de fondo */}
+      <div 
+        className="absolute inset-0 bg-radial from-white/[0.04] to-transparent pointer-events-none" 
+        aria-hidden="true" 
+      />
+
+      {isMobile ? (
+        // Mockup de pantalla móvil centrada con object-contain sobre fondo oscuro
+        <div className="relative w-full h-full flex items-center justify-center p-3 sm:p-4">
+          <div className="relative h-[90%] aspect-[9/18.5] rounded-[18px] overflow-hidden border-[2.5px] border-[#2A2A30] shadow-2xl transition-transform duration-500 group-hover:scale-105 bg-black">
+            {/* Isla dinámica simulada */}
+            <div className="absolute top-1 left-1/2 -translate-x-1/2 w-8 h-1.5 bg-[#1C1C20] rounded-full z-10" />
+            <Image
+              src={project.image}
+              alt={project.name}
+              fill
+              sizes="(max-width: 768px) 70vw, 30vw"
+              className="object-contain"
+            />
+          </div>
+        </div>
+      ) : (
+        // Mockup de navegador de escritorio con barra de control y aspect 16/10 con object-cover
+        <div className="relative w-full h-full flex flex-col">
+          <div className="h-7 bg-black/60 backdrop-blur-sm border-b border-white/10 px-3.5 flex items-center justify-between shrink-0 select-none">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#FF5F56] opacity-75 inline-block" />
+              <span className="w-2 h-2 rounded-full bg-[#FFBD2E] opacity-75 inline-block" />
+              <span className="w-2 h-2 rounded-full bg-[#27C93F] opacity-75 inline-block" />
+            </div>
+            <div className="bg-white/5 rounded-full px-3 py-0.5 font-mono text-[9.5px] text-white/40 truncate max-w-[200px]">
+              {project.slug}.juanalvarez.dev
+            </div>
+            <div className="w-8" />
+          </div>
+
+          <div className="relative flex-1 w-full overflow-hidden">
+            <Image
+              src={project.image}
+              alt={project.name}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Tarjeta individual de proyecto (estándar o destacada para LEYMA)
+function ProjectCard({
   project,
-  shouldReduceMotion,
+  lang,
+  viewCaseLabel,
+  isFeatured = false,
 }: {
   project: Project;
-  shouldReduceMotion: boolean | null;
+  lang: 'es' | 'en';
+  viewCaseLabel: string;
+  isFeatured?: boolean;
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  // Físicas suaves para la respuesta de inclinación
-  const mouseX = useSpring(x, { stiffness: 120, damping: 15 });
-  const mouseY = useSpring(y, { stiffness: 120, damping: 15 });
-
-  const rotateX = useTransform(mouseY, [-0.5, 0.5], ['4deg', '-4deg']);
-  const rotateY = useTransform(mouseX, [-0.5, 0.5], ['-4deg', '4deg']);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (shouldReduceMotion || !cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mousePosX = (e.clientX - rect.left) / width - 0.5;
-    const mousePosY = (e.clientY - rect.top) / height - 0.5;
-    x.set(mousePosX);
-    y.set(mousePosY);
+  const getCategoryStyles = () => {
+    if (project.category === 'sistemas') {
+      return {
+        label: lang === 'es' ? 'Sistema a medida' : 'Custom System',
+        badgeColor: 'text-cyan-400',
+        cardHover: 'hover:border-cyan-500/40 hover:shadow-[0_12px_40px_-10px_rgba(56,189,248,0.2)]',
+        actionBtn: 'border-cyan-500/20 bg-cyan-500/5 group-hover:border-cyan-400 group-hover:bg-cyan-500/15 text-cyan-300 group-hover:text-cyan-200',
+      };
+    }
+    if (project.category === 'webs') {
+      return {
+        label: lang === 'es' ? 'Página web' : 'Website',
+        badgeColor: 'text-accent',
+        cardHover: 'hover:border-accent/40 hover:shadow-[0_12px_40px_-10px_rgba(255,61,20,0.2)]',
+        actionBtn: 'border-accent/20 bg-accent/5 group-hover:border-accent group-hover:bg-accent/15 text-orange-300 group-hover:text-accent',
+      };
+    }
+    return {
+      label: lang === 'es' ? 'Solución digital' : 'Digital Solution',
+      badgeColor: 'text-emerald-400',
+      cardHover: 'hover:border-emerald-500/40 hover:shadow-[0_12px_40px_-10px_rgba(52,211,153,0.2)]',
+      actionBtn: 'border-emerald-500/20 bg-emerald-500/5 group-hover:border-emerald-400 group-hover:bg-emerald-500/15 text-emerald-300 group-hover:text-emerald-200',
+    };
   };
 
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+  const catStyle = getCategoryStyles();
 
   return (
     <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={
-        shouldReduceMotion
-          ? {}
-          : {
-              perspective: 1200,
-              rotateX,
-              rotateY,
-              transformStyle: 'preserve-3d',
-            }
-      }
-      className="relative w-full transition-transform duration-200 will-change-transform"
+      layout
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ duration: 0.3 }}
+      className={`h-full ${isFeatured ? 'xl:col-span-2' : ''}`}
     >
-      {/* Estela naranja desenfocada detrás de la ventana simulada */}
-      <div 
-        className="absolute -inset-4 sm:-inset-8 bg-gradient-to-r from-accent via-accent-deep to-transparent opacity-40 blur-3xl rounded-full -z-10 pointer-events-none" 
-        aria-hidden="true"
-      />
-
-      {/* Marco de navegador minimalista */}
-      <div className="bg-[#0A0A0C] border border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
-        {/* Barra superior de control de ventana */}
-        <div className="bg-black/60 px-4 sm:px-6 py-3 border-b border-white/10 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] inline-block" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] inline-block" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F] inline-block" />
-          </div>
-          <div className="bg-white/5 border border-white/10 rounded-full px-3.5 py-1 text-[11px] font-mono text-white/50 truncate max-w-[280px]">
-            https://juanalvarez.dev/projects/{project.slug}
-          </div>
-          <div className="font-mono text-[10px] text-accent uppercase font-bold tracking-widest hidden sm:block">
-            {project.category}
-          </div>
+      <Link
+        href={`/projects/${project.slug}`}
+        className={`group relative rounded-[28px] sm:rounded-[32px] bg-[#121215] border border-white/10 transition-all duration-300 overflow-hidden flex ${
+          isFeatured ? 'flex-col xl:flex-row' : 'flex-col'
+        } justify-between shadow-xl hover:shadow-2xl hover:-translate-y-1 cursor-pointer h-full ${catStyle.cardHover}`}
+      >
+        {/* Mockup de la interfaz del proyecto */}
+        <div className={isFeatured ? 'w-full xl:w-1/2 shrink-0 h-full flex flex-col justify-center' : 'w-full'}>
+          <ProjectMockup project={project} />
         </div>
 
-        {/* Captura de alta resolución */}
-        <div className="relative w-full aspect-[16/10] bg-[#0A0A0C] overflow-hidden">
-          <Image
-            src={project.image}
-            alt={project.name}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 55vw"
-            className="object-cover"
-          />
+        {/* Ficha descriptiva limpia */}
+        <div className={`p-6 sm:p-7 flex-1 flex flex-col justify-between ${isFeatured ? 'xl:p-8 xl:border-l xl:border-white/10' : ''}`}>
+          <div>
+            {/* Categoría y año */}
+            <div className="flex items-center justify-between gap-4 mb-2.5">
+              <span className={`font-mono text-xs uppercase tracking-wider font-semibold ${catStyle.badgeColor}`}>
+                {catStyle.label}
+              </span>
+              <span className="font-mono text-xs text-white/50 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">
+                {project.year}
+              </span>
+            </div>
+
+            {/* Nombre del proyecto */}
+            <h3 className="font-display font-semibold text-[24px] sm:text-[26px] tracking-[-0.03em] text-white leading-tight mb-2.5 group-hover:text-white transition-colors">
+              {project.name}
+            </h3>
+
+            {/* Propuesta de valor en una línea */}
+            <p className="text-sm sm:text-[14.5px] text-white/70 leading-relaxed font-normal mb-6">
+              {project.oneLiner}
+            </p>
+          </div>
+
+          {/* Stack tecnológico y botón de acceso */}
+          <div className="flex items-center justify-between gap-4 pt-4 border-t border-white/10 mt-auto">
+            <div className="flex flex-wrap gap-1.5">
+              {project.stack.slice(0, 3).map((tech, tIdx) => (
+                <span
+                  key={tIdx}
+                  className="font-mono text-[11px] text-white/70 bg-white/[0.04] border border-white/10 px-2.5 py-1 rounded-full group-hover:border-white/20 transition-colors"
+                >
+                  {tech}
+                </span>
+              ))}
+              {project.stack.length > 3 && (
+                <span className="font-mono text-[11px] text-white/50 px-1 py-1 self-center">
+                  +{project.stack.length - 3}
+                </span>
+              )}
+            </div>
+
+            {/* Botón interactivo con flecha */}
+            <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold transition-colors shrink-0 text-white/80 group-hover:text-white">
+              <span className="hidden sm:inline">
+                {viewCaseLabel}
+              </span>
+              <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all ${catStyle.actionBtn}`}>
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </Link>
     </motion.div>
   );
 }
 
-// Hook para suscripción reactiva a puntero fino (desktop mouse) sin cascading renders
-function useFinePointer() {
-  return useSyncExternalStore(
-    (callback) => {
-      const media = window.matchMedia('(pointer: fine)');
-      media.addEventListener('change', callback);
-      return () => media.removeEventListener('change', callback);
-    },
-    () => window.matchMedia('(pointer: fine)').matches,
-    () => false
-  );
-}
-
-// Sección principal de proyectos con caso destacado, filtros fluidos y cursor magnético
 export default function ProjectsSection() {
   const { t, lang } = useLanguage();
   const ps = t.single_page.projects_section;
-  const shouldReduceMotion = useReducedMotion();
 
-  const [activeFilter, setActiveFilter] = useState<'all' | 'sistemas' | 'webs'>('all');
-  const [cursorActive, setCursorActive] = useState(false);
-  const isFinePointer = useFinePointer();
+  const [activeFilter, setActiveFilter] = useState<'all' | 'sistemas' | 'webs' | 'soluciones'>('all');
 
-  // Cursor personalizado que sigue al ratón
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const springX = useSpring(cursorX, { stiffness: 350, damping: 28 });
-  const springY = useSpring(cursorY, { stiffness: 350, damping: 28 });
-
-  useEffect(() => {
-    const handleWindowMouseMove = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-    };
-
-    if (isFinePointer && !shouldReduceMotion) {
-      window.addEventListener('mousemove', handleWindowMouseMove);
-      return () => window.removeEventListener('mousemove', handleWindowMouseMove);
-    }
-  }, [isFinePointer, shouldReduceMotion, cursorX, cursorY]);
-
-  // Lista de proyectos traducida dinámicamente según idioma
+  // Lista completa de proyectos traducida
   const allProjects = getProjects(lang);
-  const featuredProject = allProjects.find((p) => p.featured) || allProjects[0];
 
-  // Filtro de proyectos
-  const filteredList = allProjects.filter((p) => {
-    if (activeFilter === 'all') return true;
-    return p.category === activeFilter;
-  });
-
-  // Proyecto destacado visible según filtro
-  const showFeatured = activeFilter === 'all' || featuredProject.category === activeFilter;
-
-  // Lista restante para la cuadrícula
-  const restProjects = filteredList.filter((p) => (showFeatured ? p.slug !== featuredProject.slug : true));
-
-  const filterOptions: Array<{ id: 'all' | 'sistemas' | 'webs'; label: string }> = [
+  const filterOptions: Array<{ id: 'all' | 'sistemas' | 'webs' | 'soluciones'; label: string }> = [
     { id: 'all', label: ps.filters.all },
     { id: 'sistemas', label: ps.filters.sistemas },
     { id: 'webs', label: ps.filters.webs },
+    { id: 'soluciones', label: ps.filters.soluciones },
   ];
+
+  // Proyectos principales (excluye próximos proyectos en desarrollo del grid principal)
+  const mainProjects = allProjects.filter(
+    (p) => !p.isUpcoming && (activeFilter === 'all' || p.category === activeFilter)
+  );
+
+  // Proyectos en desarrollo para el bloque compacto inferior
+  const upcomingProjects = allProjects.filter(
+    (p) => p.isUpcoming && (activeFilter === 'all' || p.category === activeFilter)
+  );
 
   const whatsappUrl = getWhatsAppUrl(ps.cta_whatsapp);
 
   return (
     <section
       id="proyectos"
-      className="relative w-full bg-ink text-white rounded-t-[40px] py-[clamp(96px,12vw,180px)] overflow-hidden"
+      className="relative w-full bg-ink text-white rounded-t-[40px] pt-[clamp(64px,8vw,112px)] pb-[clamp(56px,7vw,80px)] overflow-hidden"
     >
-      {/* Cursor circular flotante para desktop */}
-      {isFinePointer && !shouldReduceMotion && (
-        <motion.div
-          style={{
-            x: springX,
-            y: springY,
-          }}
-          className={`fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[88px] h-[88px] rounded-full bg-accent text-white font-mono text-[11px] uppercase font-bold tracking-wider flex items-center justify-center pointer-events-none z-50 shadow-xl shadow-accent/40 text-center leading-tight transition-opacity duration-200 ${
-            cursorActive ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-          }`}
-        >
-          <span>{ps.card_view_case}</span>
-        </motion.div>
-      )}
-
       <Container>
-        {/* CABECERA EDITORIAL Y FILTRO DE PÍLDORAS */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 lg:mb-20">
+        {/* Cabecera editorial y barra de filtros unificada */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12 lg:mb-14">
           <SectionHeading
             variant="dark"
             eyebrow={ps.eyebrow}
@@ -197,214 +228,105 @@ export default function ProjectsSection() {
             subtitle={ps.subtitle}
           />
 
-          {/* Barra de píldoras animada con layoutId */}
-          <div className="inline-flex items-center p-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md self-start lg:self-auto shrink-0">
-            {filterOptions.map((opt) => {
-              const isActive = activeFilter === opt.id;
-              return (
-                <button
-                  key={opt.id}
-                  onClick={() => setActiveFilter(opt.id)}
-                  className={`relative px-4 py-2 rounded-full font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer select-none ${
-                    isActive ? 'text-ink font-semibold' : 'text-white/60 hover:text-white'
-                  }`}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeFilterIndicator"
-                      className="absolute inset-0 bg-white rounded-full shadow-sm"
-                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10">{opt.label}</span>
-                </button>
-              );
-            })}
+          {/* Barra de píldoras responsiva con scroll horizontal y táctil de 44px */}
+          <div className="w-full lg:w-auto overflow-x-auto no-scrollbar py-1">
+            <div className="inline-flex items-center p-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shrink-0 min-w-max">
+              {filterOptions.map((opt) => {
+                const isActive = activeFilter === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    onClick={() => setActiveFilter(opt.id)}
+                    className={`relative px-4 py-2.5 min-h-[44px] rounded-full font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer select-none flex items-center justify-center ${
+                      isActive ? 'text-ink font-semibold' : 'text-white/60 hover:text-white'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeFilterIndicator"
+                        className="absolute inset-0 bg-white rounded-full shadow-sm"
+                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative z-10">{opt.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* CASO DESTACADO (LEYMA) */}
-        {showFeatured && (
-          <div
-            onMouseEnter={() => setCursorActive(true)}
-            onMouseLeave={() => setCursorActive(false)}
-            className="w-full rounded-[40px] bg-[#131315] border border-line-dark p-7 sm:p-10 lg:p-14 mb-16 sm:mb-24 shadow-2xl relative overflow-hidden"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-              
-              {/* Columna izquierda (5/12): Ficha técnica y solución */}
-              <div className="lg:col-span-5 flex flex-col items-start">
-                <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold mb-3">
-                  {ps.featured_tag}
-                </span>
+        {/* UN SOLO GRID: 3 columnas en ≥1280px, 2 en 768–1279px, 1 en móvil; sin desfases */}
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch"
+        >
+          <AnimatePresence mode="popLayout">
+            {mainProjects.map((project) => (
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                lang={lang}
+                viewCaseLabel={ps.card_view_case}
+                isFeatured={project.slug === 'leyma'}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
 
-                <h3 className="font-display font-semibold text-display-md text-white tracking-[-0.04em] leading-[1.05] mb-4">
-                  {featuredProject.name}
-                </h3>
+        {/* BLOQUE COMPACTO: Proyectos en desarrollo ("Próximamente") */}
+        {upcomingProjects.length > 0 && (
+          <div className="mt-14 pt-10 border-t border-white/10">
+            <div className="flex items-center gap-2 mb-6">
+              <StarBullet size={12} className="text-amber-400" />
+              <h4 className="font-mono text-xs uppercase tracking-widest text-white/60 font-semibold">
+                {ps.upcoming_title || (lang === 'es' ? 'Próximamente' : 'Upcoming')}
+              </h4>
+            </div>
 
-                <p className="text-body-lg text-white/80 font-normal leading-relaxed mb-8">
-                  {featuredProject.oneLiner}
-                </p>
-
-                {/* Bloque El Problema */}
-                <div className="mb-5">
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-white/50 block mb-1">
-                    {ps.problem_label}
-                  </span>
-                  <p className="text-sm text-white/80 leading-relaxed font-normal">
-                    {featuredProject.problem}
-                  </p>
-                </div>
-
-                {/* Bloque La Solución */}
-                <div className="mb-6">
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-white/50 block mb-1">
-                    {ps.solution_label}
-                  </span>
-                  <p className="text-sm text-white/80 leading-relaxed font-normal">
-                    {featuredProject.solution}
-                  </p>
-                </div>
-
-                {/* Bloque El Resultado (solo si existe y no está vacío) */}
-                {featuredProject.result && featuredProject.result.trim() !== '' && (
-                  <div className="border-l-2 border-accent pl-3.5 my-5">
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-accent font-semibold block mb-1">
-                      {ps.result_label}
-                    </span>
-                    <p className="text-sm text-white leading-relaxed font-medium">
-                      {featuredProject.result}
-                    </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {upcomingProjects.map((project, uIdx) => (
+                <Link
+                  key={project.slug}
+                  href={`/projects/${project.slug}`}
+                  className="group rounded-2xl bg-white/[0.03] border border-white/10 hover:border-amber-400/40 p-4 sm:p-5 flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3 sm:gap-4 transition-all hover:bg-white/[0.06] min-h-[88px]"
+                >
+                  <div className="flex items-center gap-3.5 min-w-0">
+                    <div className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-300 font-mono text-xs shrink-0 font-bold">
+                      0{uIdx + 1}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-mono text-[10px] uppercase font-semibold text-cyan-400">
+                          {lang === 'es' ? 'Sistema a medida' : 'Custom system'}
+                        </span>
+                        <span className="font-mono text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 font-semibold">
+                          {lang === 'es' ? 'En desarrollo' : 'In progress'}
+                        </span>
+                      </div>
+                      <h5 className="font-display font-semibold text-base sm:text-lg text-white truncate group-hover:text-amber-300 transition-colors">
+                        {project.name}
+                      </h5>
+                    </div>
                   </div>
-                )}
 
-                {/* Chips de stack tecnológico */}
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {featuredProject.stack.map((item, idx) => (
-                    <span
-                      key={idx}
-                      className="font-mono text-xs text-white/70 px-3 py-1 rounded-full border border-white/15 bg-white/5"
-                    >
-                      {item}
+                  <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-white/70 group-hover:text-amber-300 shrink-0 transition-colors">
+                    <span className="hidden sm:inline">
+                      {ps.upcoming_view_case || (lang === 'es' ? 'Ver ficha' : 'View preview')}
                     </span>
-                  ))}
-                </div>
-
-                {/* Botón hacia el caso de estudio */}
-                <Link href={`/projects/${featuredProject.slug}`}>
-                  <Button
-                    variant="white"
-                    showMotionPill={true}
-                    icon={<ArrowUpRight className="w-4 h-4 text-ink" />}
-                  >
-                    {ps.view_case_btn}
-                  </Button>
+                    <div className="w-8 h-8 rounded-full border border-white/15 bg-white/5 group-hover:border-amber-400 group-hover:bg-amber-400/20 flex items-center justify-center transition-all">
+                      <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </div>
+                  </div>
                 </Link>
-              </div>
-
-              {/* Columna derecha (7/12): Mockup interactivo 3D con tilt */}
-              <div className="lg:col-span-7">
-                <TiltBrowserMockup
-                  project={featuredProject}
-                  shouldReduceMotion={shouldReduceMotion}
-                />
-              </div>
-
+              ))}
             </div>
           </div>
         )}
 
-        {/* CUADRÍCULA DEL RESTO DE PROYECTOS (2 columnas con desfase vertical) */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start"
-        >
-          <AnimatePresence mode="popLayout">
-            {restProjects.map((project, idx) => {
-              const isSecondColumn = idx % 2 === 1;
-
-              return (
-                <motion.div
-                  key={project.slug}
-                  layout
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.35 }}
-                  className={`w-full ${isSecondColumn ? 'md:translate-y-20' : ''}`}
-                >
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    onMouseEnter={() => setCursorActive(true)}
-                    onMouseLeave={() => setCursorActive(false)}
-                    className="group relative rounded-[28px] bg-[#131315] border border-line-dark hover:border-white/25 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-lg cursor-pointer h-full"
-                  >
-                    {/* Imagen superior con ratio 16/10 y zoom suave */}
-                    <div className="relative w-full aspect-[16/10] overflow-hidden bg-black/40">
-                      <Image
-                        src={project.image}
-                        alt={project.name}
-                        fill
-                        loading="lazy"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className={
-                          project.isMobileFormat
-                            ? 'object-contain p-4 sm:p-6 transition-transform duration-500 group-hover:scale-105'
-                            : 'object-cover transition-transform duration-500 group-hover:scale-105'
-                        }
-                      />
-                    </div>
-
-                    {/* Contenido descriptivo del proyecto */}
-                    <div className="p-7 sm:p-8 flex-1 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-center justify-between gap-4 mb-2">
-                          <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
-                            {project.category === 'sistemas' ? 'Sistemas' : 'Webs & Tiendas'}
-                          </span>
-                          <span className="font-mono text-xs text-white/40">
-                            {project.year}
-                          </span>
-                        </div>
-
-                        <h4 className="font-display font-semibold text-[26px] sm:text-[28px] tracking-[-0.03em] text-white leading-tight mb-2.5">
-                          {project.name}
-                        </h4>
-
-                        <p className="text-[15px] text-white/70 leading-relaxed font-normal mb-6 line-clamp-2">
-                          {project.oneLiner}
-                        </p>
-                      </div>
-
-                      {/* Fila inferior: Chips y flecha interactiva */}
-                      <div className="flex items-center justify-between gap-4 pt-4 border-t border-white/10">
-                        <div className="flex flex-wrap gap-1.5">
-                          {project.stack.slice(0, 3).map((tech, tIdx) => (
-                            <span
-                              key={tIdx}
-                              className="font-mono text-[11px] text-white/60 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full"
-                            >
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Flecha circular con rotación de 45° en hover */}
-                        <div className="w-10 h-10 rounded-full border border-white/20 group-hover:border-accent group-hover:bg-accent/10 flex items-center justify-center text-white group-hover:text-accent transition-all shrink-0">
-                          <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-45" />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* CIERRE DE SECCIÓN: TEXTO CENTRADO Y BOTÓN DE COTIZACIÓN */}
-        <div className="mt-28 sm:mt-36 pt-16 border-t border-white/10 text-center max-w-2xl mx-auto flex flex-col items-center">
-          <h3 className="font-display font-semibold text-display-sm sm:text-display-md text-white tracking-[-0.03em] mb-6">
+        {/* Cierre de sección con llamada a la acción limpia sin línea suelta ni franja negra sobrante */}
+        <div className="mt-14 sm:mt-16 text-center max-w-2xl mx-auto flex flex-col items-center">
+          <h3 className="font-display font-semibold text-display-sm sm:text-display-md text-white tracking-[-0.03em] mb-6 [text-wrap:balance]">
             {ps.cta_title}
           </h3>
 

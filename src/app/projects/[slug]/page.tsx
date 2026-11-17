@@ -33,16 +33,16 @@ export default async function ProjectPage({
   const whatsappUrl = getWhatsAppUrl(whatsappMsg);
 
   return (
-    <div className="min-h-screen bg-bg text-ink selection:bg-accent selection:text-white font-sans relative w-full overflow-x-hidden antialiased">
+    <div className="min-h-screen bg-bg text-ink selection:bg-accent selection:text-white font-sans relative w-full overflow-x-clip antialiased">
       {/* Header global sticky */}
       <Header />
 
       <main className="pt-28 sm:pt-36 pb-24 sm:pb-32">
         <Container>
-          {/* Enlace de regreso al índice de proyectos */}
+          {/* Enlace de regreso al índice de proyectos con área táctil accesible */}
           <Link
             href="/#proyectos"
-            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-ink-soft hover:text-ink transition-colors mb-10 group"
+            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-ink-soft hover:text-ink transition-colors mb-10 min-h-[44px] py-2 group"
           >
             <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
             <span>Volver a proyectos</span>
@@ -53,7 +53,11 @@ export default async function ProjectPage({
             <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-accent mb-4">
               <StarBullet size={12} />
               <span>
-                {project.category === 'sistemas' ? 'Sistema a Medida' : 'Sitio Web & Conversión'} · {project.year}
+                {project.category === 'sistemas'
+                  ? 'Sistema a Medida'
+                  : project.category === 'webs'
+                    ? 'Página Web'
+                    : 'Solución Digital'} · {project.year}
               </span>
             </div>
 

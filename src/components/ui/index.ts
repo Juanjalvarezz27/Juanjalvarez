@@ -7,3 +7,4 @@ export { default as SectionHeading } from './SectionHeading';
 export { default as Card } from './Card';
 export { default as Reveal } from './Reveal';
 export { default as Grain } from './Grain';
+export { default as BreakpointBadge } from './BreakpointBadge';

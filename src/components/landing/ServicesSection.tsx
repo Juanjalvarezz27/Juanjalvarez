@@ -61,7 +61,7 @@ export default function ServicesSection() {
   return (
     <section 
       id="servicios" 
-      className="relative w-full bg-bg text-ink py-[clamp(80px,12vw,160px)] overflow-hidden"
+      className="relative w-full bg-bg text-ink pt-[clamp(32px,4vw,48px)] pb-[clamp(64px,8vw,112px)] overflow-hidden"
     >
       <Container>
         {/* Encabezado editorial centrado en dos tonos */}
@@ -71,11 +71,11 @@ export default function ServicesSection() {
           part2={serv.title_muted}
           subtitle={serv.subtitle}
           align="center"
-          className="mb-16 lg:mb-24"
+          className="mb-12 lg:mb-16"
         />
 
-        {/* Contenedor responsivo: 4 cols en desktop (con desfase), 2x2 en tablet (sin desfase) y snap carousel en móvil */}
-        <div className="flex overflow-x-auto pb-8 pt-2 px-4 -mx-4 md:mx-0 md:px-0 md:pb-0 md:overflow-visible snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-start no-scrollbar">
+        {/* Contenedor responsivo: 4 cols en desktop (≥1280px con desfase), 2x2 en tablet (768-1279px) y snap carousel en móvil */}
+        <div className="flex overflow-x-auto pb-8 pt-2 px-4 -mx-4 md:mx-0 md:px-0 md:pb-0 md:overflow-visible snap-x snap-mandatory md:grid md:grid-cols-2 xl:grid-cols-4 gap-6 items-start no-scrollbar">
           {serv.cards.map((card, idx) => {
             const variantKey = (card.id === 'sistemas'
               ? 'dark'
@@ -93,17 +93,17 @@ export default function ServicesSection() {
               <div
                 key={card.id}
                 className={`w-[84vw] max-w-[340px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink ${
-                  isStaggered ? 'lg:translate-y-16' : ''
+                  isStaggered ? 'xl:translate-y-6' : ''
                 }`}
               >
                 <Reveal delay={idx * 0.08}>
                   <div
-                    className={`relative rounded-[28px] p-7 sm:p-8 min-h-[520px] flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 group cursor-default select-none ${styles.card}`}
+                    className={`relative rounded-[28px] p-6 sm:p-7 min-h-[440px] overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 group cursor-default select-none ${styles.card}`}
                   >
-                    {/* Fondo decorativo con MotionPill desenfocada para variante dark */}
+                    {/* Fondo decorativo con MotionPill desenfocada confinada dentro de la tarjeta */}
                     {variantKey === 'dark' && (
                       <div 
-                        className="absolute -top-12 -right-12 w-48 h-24 rounded-full bg-gradient-to-r from-accent to-accent-deep blur-2xl opacity-40 pointer-events-none"
+                        className="absolute top-0 right-0 w-44 h-24 rounded-full bg-gradient-to-r from-accent to-accent-deep blur-2xl opacity-40 pointer-events-none"
                         aria-hidden="true"
                       />
                     )}
@@ -123,43 +123,47 @@ export default function ServicesSection() {
                       </span>
                     </div>
 
-                    {/* CUERPO: Título, descripción e ítems con estrella de 8 puntas */}
-                    <div className="relative z-10 mt-auto pt-10">
-                      <h3 className={`font-display font-semibold text-[26px] sm:text-[28px] tracking-[-0.03em] leading-[1.1] mb-3.5 ${styles.title}`}>
-                        {card.title}
-                      </h3>
+                    {/* CUERPO: Título, descripción completa e ítems con estrella de 8 puntas */}
+                    <div className="relative z-10 flex-1 flex flex-col justify-between mt-6">
+                      <div>
+                        <h3 className={`font-display font-semibold text-[24px] sm:text-[26px] tracking-[-0.03em] leading-[1.1] mb-3 ${styles.title}`}>
+                          {card.title}
+                        </h3>
 
-                      <p className={`text-sm leading-relaxed mb-6 line-clamp-2 ${styles.desc}`}>
-                        {card.desc}
-                      </p>
+                        <p className={`text-sm leading-relaxed mb-6 ${styles.desc}`}>
+                          {card.desc}
+                        </p>
 
-                      {/* Lista de características técnicas garantizadas */}
-                      <ul className="space-y-2.5 mb-8">
-                        {card.items.map((item, itemIdx) => (
-                          <li key={itemIdx} className="flex items-start gap-2.5">
-                            <StarBullet 
-                              size={13} 
-                              className={`mt-1 shrink-0 ${styles.starColor}`} 
-                            />
-                            <span className={`text-xs font-sans font-medium leading-snug ${styles.itemText}`}>
-                              {item}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
+                        {/* Lista de características técnicas garantizadas */}
+                        <ul className="space-y-2.5 mb-6">
+                          {card.items.map((item, itemIdx) => (
+                            <li key={itemIdx} className="flex items-start gap-2.5">
+                              <StarBullet 
+                                size={13} 
+                                className={`mt-1 shrink-0 ${styles.starColor}`} 
+                              />
+                              <span className={`text-xs font-sans font-medium leading-snug ${styles.itemText}`}>
+                                {item}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
 
-                      {/* PIE DE TARJETA: Enlace interactivo con desplazamiento a WhatsApp */}
-                      <a
-                        href={whatsappUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider transition-colors group/btn ${styles.cta}`}
-                      >
-                        <span>{serv.quote_cta}</span>
-                        <span className={`transition-transform duration-200 group-hover/btn:translate-x-1 ${styles.ctaArrow}`}>
-                          →
-                        </span>
-                      </a>
+                      {/* PIE DE TARJETA: Enlace interactivo con área táctil accesible de 44px */}
+                      <div className="pt-2">
+                        <a
+                          href={whatsappUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider transition-colors min-h-[44px] py-2.5 group/btn ${styles.cta}`}
+                        >
+                          <span>{serv.quote_cta}</span>
+                          <span className={`transition-transform duration-200 group-hover/btn:translate-x-1 ${styles.ctaArrow}`}>
+                            →
+                          </span>
+                        </a>
+                      </div>
                     </div>
 
                   </div>

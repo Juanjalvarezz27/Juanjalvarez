@@ -27,21 +27,21 @@ export default function ContactSection() {
   return (
     <section 
       id="contacto" 
-      className="relative w-full bg-bg pt-[clamp(64px,8vw,120px)] pb-[clamp(32px,4vw,56px)] overflow-hidden"
+      className="relative w-full bg-bg pt-[clamp(64px,8vw,120px)] pb-[clamp(16px,2vw,32px)] overflow-hidden"
     >
       <Container>
         {/* Contenedor principal con fondo --ink y esquinas redondeadas de 40px */}
-        <div className="relative rounded-[40px] bg-ink text-white p-[clamp(36px,7vw,96px)] border border-line-dark overflow-hidden shadow-2xl">
+        <div className="relative rounded-[40px] bg-ink text-white p-[clamp(28px,6vw,96px)] border border-line-dark overflow-hidden shadow-2xl">
           
           {/* Grano táctil sutil */}
           <Grain opacity={0.07} className="rounded-[40px]" />
 
-          {/* Estela cinética en la esquina inferior derecha (opacidad 70% con deriva lenta) */}
+          {/* Estela cinética en la esquina inferior derecha: blur y opacidad optimizados para móvil */}
           <div 
-            className="absolute -bottom-20 -right-20 w-[480px] h-[280px] pointer-events-none opacity-70 animate-drift-estela -z-0"
+            className="absolute -bottom-20 -right-20 w-[300px] sm:w-[480px] h-[180px] sm:h-[280px] pointer-events-none opacity-40 sm:opacity-70 animate-drift-estela -z-0"
             aria-hidden="true"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-[#E11D12] via-[#FF3D14] to-[#FFB36B] blur-[50px] -rotate-6 rounded-full mix-blend-screen" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#E11D12] via-[#FF3D14] to-[#FFB36B] blur-[24px] sm:blur-[50px] -rotate-6 rounded-full mix-blend-screen" />
           </div>
 
           <div className="relative z-10">
@@ -53,8 +53,8 @@ export default function ContactSection() {
               className="mb-6 sm:mb-8"
             />
 
-            {/* Titular monumental en dos tonos con MotionPill incrustada */}
-            <h2 className="font-display font-semibold text-display-md sm:text-display-lg tracking-[-0.04em] leading-[0.95] mb-6 select-none">
+            {/* Titular monumental en dos tonos con MotionPill incrustada (oculta en <640px) */}
+            <h2 className="font-display font-semibold text-[clamp(2.2rem,5.5vw,4.5rem)] tracking-[-0.04em] leading-[0.95] mb-6 select-none [text-wrap:balance]">
               <span className="text-white">{cs.title_part1}</span>{' '}
               <span className="text-muted">{cs.title_part2}</span>
               <span className="hidden sm:inline-flex align-middle ml-4 w-[120px] sm:w-[140px] h-[40px] sm:h-[48px] rounded-full overflow-hidden shrink-0 shadow-sm">
@@ -67,15 +67,15 @@ export default function ContactSection() {
               {cs.subtitle}
             </p>
 
-            {/* Atajos de consulta inmediata con WhatsApp prellenado */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 mb-12 sm:mb-16">
+            {/* Atajos de consulta inmediata: 1 por fila a 48px en <640px, 2 en tablet, 3 en desktop */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 mb-12 sm:mb-16">
               {cs.chips.map((chip, idx) => (
                 <a
                   key={idx}
                   href={getWhatsAppUrl(chip.msg)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border border-line-dark bg-white/5 hover:bg-accent hover:border-accent p-4 px-6 transition-all duration-250 flex items-center justify-between text-white font-mono text-xs uppercase tracking-wider group select-none min-h-[48px] shadow-xs"
+                  className="rounded-full border border-line-dark bg-white/5 hover:bg-accent hover:border-accent p-3.5 px-6 transition-all duration-250 flex items-center justify-between text-white font-mono text-xs uppercase tracking-wider group select-none min-h-[48px] h-[48px] shadow-xs"
                 >
                   <span className="truncate mr-2 font-medium">{chip.label}</span>
                   <ArrowUpRight className="w-4 h-4 text-white/50 group-hover:text-white transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" />

@@ -17,7 +17,7 @@ const Footer = dynamic(() => import('@/src/components/landing/Footer'), { ssr: t
 // Portafolio Single-Page de Juan Álvarez con arquitectura editorial cinética
 export default function PortfolioPage() {
   return (
-    <div className="min-h-screen bg-bg text-ink selection:bg-accent selection:text-white font-sans relative w-full max-w-full overflow-x-hidden antialiased">
+    <div className="min-h-screen bg-bg text-ink selection:bg-accent selection:text-white font-sans relative w-full max-w-full overflow-x-clip antialiased">
       
       {/* Enlace accesible para saltar directo al contenido principal */}
       <a

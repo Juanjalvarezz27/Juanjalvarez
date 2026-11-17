@@ -435,13 +435,43 @@ export const en = {
     projects_section: {
       eyebrow: "Projects",
       title_part1: "Real work,",
-      title_part2: "real results.",
+      title_part2: "on display.",
       subtitle: "Systems and websites powering real business operations today.",
+      upcoming_title: "Upcoming",
+      upcoming_view_case: "View preview →",
       filters: {
         all: "All",
         sistemas: "Systems",
-        webs: "Websites & Stores"
+        webs: "Websites",
+        soluciones: "Digital solutions"
       },
+      categories: {
+        sistemas: "Custom systems",
+        webs: "Websites",
+        soluciones: "Digital solutions"
+      },
+      category_meta: {
+        sistemas: {
+          tag: "VERTICAL 01",
+          part1: "Custom",
+          part2: "systems",
+          desc: "Centralized software engineered for inventory control, critical workflows, and multi-currency billing without templates."
+        },
+        webs: {
+          tag: "VERTICAL 02",
+          part1: "Websites",
+          part2: "& conversion",
+          desc: "Cinematic, sub-second websites designed to build authority and convert high-ticket clients."
+        },
+        soluciones: {
+          tag: "VERTICAL 03",
+          part1: "Digital",
+          part2: "solutions",
+          desc: "Specialized dynamic tools featuring real-time data sync, QR access validation, and automated payment pipelines."
+        }
+      },
+      upcoming_badge: "In development",
+      upcoming_status: "2026 launch",
       featured_tag: "CASE 01 · Systems",
       problem_label: "THE PROBLEM",
       solution_label: "THE SOLUTION",

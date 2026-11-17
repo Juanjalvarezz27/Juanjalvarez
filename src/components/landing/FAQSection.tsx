@@ -171,7 +171,7 @@ function FAQAccordionCard({
           className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${
             isOpen
               ? 'bg-white/12 text-white'
-              : 'bg-bg text-ink group-hover:bg-accent group-hover:text-white'
+              : 'bg-bg text-ink border border-line/60 group-hover:border-ink/20 group-hover:bg-white'
           }`}
         >
           <QuestionIcon type={item.icon} />
@@ -186,9 +186,9 @@ function FAQAccordionCard({
           {item.q}
         </span>
 
-        {/* Botón circular con signo "+" rotatorio */}
+        {/* Botón circular accesible de 44x44px con signo "+" rotatorio */}
         <div
-          className={`w-9 h-9 rounded-full border flex items-center justify-center shrink-0 transition-transform duration-300 ${
+          className={`w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border flex items-center justify-center shrink-0 transition-transform duration-300 ${
             isOpen
               ? 'rotate-45 border-accent text-accent bg-accent/10'
               : 'rotate-0 border-line text-ink group-hover:border-ink'
@@ -215,7 +215,7 @@ function FAQAccordionCard({
             <div className="pt-5 mt-4 border-t border-white/10 relative z-10">
               {/* Burbuja del usuario con pregunta corta */}
               <div className="flex justify-end mb-3.5">
-                <div className="bg-accent text-white px-4 py-2.5 rounded-2xl rounded-tr-xs text-[15px] font-medium leading-relaxed max-w-[85%] shadow-xs">
+                <div className="bg-accent text-white px-4 py-2.5 rounded-2xl rounded-tr-xs text-[15px] font-medium leading-relaxed max-w-full sm:max-w-[85%] shadow-xs break-words">
                   {item.shortQ}
                 </div>
               </div>
@@ -368,7 +368,7 @@ export default function FAQSection() {
   return (
     <section 
       id="faq" 
-      className="relative w-full bg-bg text-ink pt-[clamp(40px,5vw,64px)] pb-[clamp(64px,9vw,120px)] overflow-hidden"
+      className="relative w-full bg-bg text-ink pt-[clamp(40px,5vw,64px)] pb-[clamp(64px,9vw,120px)]"
     >
       {/* Inyección semántica de JSON-LD para Google Search Console */}
       <script
@@ -380,21 +380,23 @@ export default function FAQSection() {
         {/* RETÍCULA DE 12 COLUMNAS (DESKTOP) Y FLUJO CONTINUO (TABLET/MÓVIL) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* COLUMNA IZQUIERDA (cols 1–5): Sticky en desktop, cabecera y tarjeta de contacto */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
-            <div>
-              <Eyebrow text={faq.eyebrow} className="mb-4" />
-              <h2 className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] tracking-[-0.04em] leading-[1.05] text-ink mb-3 select-none">
-                <span>{faq.title_part1} </span>
-                <span className="text-muted">{faq.title_part2}</span>
-              </h2>
-              <p className="text-body-lg text-ink-soft max-w-[380px] font-normal leading-relaxed">
-                {faq.subtitle}
-              </p>
-            </div>
+          {/* COLUMNA IZQUIERDA (cols 1–5): cabecera y tarjeta de contacto sticky en desktop sin overflow que lo bloquee */}
+          <div className="lg:col-span-5 h-full">
+            <div className="lg:sticky lg:top-28 space-y-6">
+              <div>
+                <Eyebrow text={faq.eyebrow} className="mb-4" />
+                <h2 className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] tracking-[-0.04em] leading-[1.05] text-ink mb-3 select-none [text-wrap:balance]">
+                  <span>{faq.title_part1} </span>
+                  <span className="text-muted">{faq.title_part2}</span>
+                </h2>
+                <p className="text-body-lg text-ink-soft max-w-[380px] font-normal leading-relaxed">
+                  {faq.subtitle}
+                </p>
+              </div>
 
-            {/* Tarjeta de contacto con "?" monumental */}
-            <ContactCard faq={faq} />
+              {/* Tarjeta de contacto con "?" monumental */}
+              <ContactCard faq={faq} />
+            </div>
           </div>
 
           {/* COLUMNA DERECHA (cols 6–12): Acordeón conversacional en tarjetas */}

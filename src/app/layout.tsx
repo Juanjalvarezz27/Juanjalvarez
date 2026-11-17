@@ -1,9 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter_Tight, Inter, JetBrains_Mono, Anton, Space_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "../i18n/LanguageContext";
 import { SITE_CONFIG } from "../config/site";
 import Grain from "../components/ui/Grain";
+import BreakpointBadge from "../components/ui/BreakpointBadge";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 const interTight = Inter_Tight({
   variable: "--font-inter-tight",
@@ -124,8 +131,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdService) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-bg text-ink overflow-x-hidden font-sans antialiased selection:bg-accent selection:text-white relative" suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col bg-bg text-ink overflow-x-clip font-sans antialiased selection:bg-accent selection:text-white relative" suppressHydrationWarning>
         <Grain />
+        <BreakpointBadge />
         <LanguageProvider>
           {children}
         </LanguageProvider>

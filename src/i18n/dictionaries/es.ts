@@ -435,13 +435,43 @@ export const es = {
     projects_section: {
       eyebrow: "Proyectos",
       title_part1: "Trabajo real,",
-      title_part2: "resultados reales.",
+      title_part2: "a la vista.",
       subtitle: "Sistemas y webs que hoy están funcionando en negocios reales.",
+      upcoming_title: "Próximamente",
+      upcoming_view_case: "Ver ficha →",
       filters: {
         all: "Todos",
         sistemas: "Sistemas",
-        webs: "Webs y tiendas"
+        webs: "Páginas web",
+        soluciones: "Soluciones digitales"
       },
+      categories: {
+        sistemas: "Sistemas a medida",
+        webs: "Páginas web",
+        soluciones: "Soluciones digitales"
+      },
+      category_meta: {
+        sistemas: {
+          tag: "VERTICAL 01",
+          part1: "Sistemas",
+          part2: "a medida",
+          desc: "Software centralizado para control de inventarios, operaciones críticas y finanzas sin plantillas genéricas."
+        },
+        webs: {
+          tag: "VERTICAL 02",
+          part1: "Páginas web",
+          part2: "& conversión",
+          desc: "Sitios cinematográficos de carga ultrarrápida diseñados para posicionar marcas y captar clientes de alto perfil."
+        },
+        soluciones: {
+          tag: "VERTICAL 03",
+          part1: "Soluciones digitales",
+          part2: "especializadas",
+          desc: "Herramientas dinámicas con sincronización en tiempo real, validación de accesos QR y pagos automatizados."
+        }
+      },
+      upcoming_badge: "En desarrollo",
+      upcoming_status: "Lanzamiento 2026",
       featured_tag: "CASO 01 · Sistemas",
       problem_label: "EL PROBLEMA",
       solution_label: "LA SOLUCIÓN",

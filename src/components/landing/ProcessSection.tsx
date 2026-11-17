@@ -137,7 +137,7 @@ function IllustrationDevelopment({ shouldReduceMotion }: { shouldReduceMotion: b
   );
 }
 
-// Ilustración 04: Lanzamiento y soporte (Modo oscuro con chip En línea, switch y telemetría de pulso)
+// Ilustración 04: Lanzamiento y soporte (Modo oscuro con chip En línea, switch y telemetría de pulso tipo latido)
 function IllustrationLaunch({ 
   statusText, 
   shouldReduceMotion 
@@ -162,22 +162,24 @@ function IllustrationLaunch({
         </div>
       </div>
 
-      {/* Latido de pulso ECG con strokeDashoffset animado */}
-      <div className="w-full py-1">
-        <svg className="w-full h-8 overflow-visible" viewBox="0 0 160 36">
+      {/* Latido de pulso ECG de ancho completo centrado verticalmente con strokeDashoffset animado */}
+      <div className="w-full flex-1 flex items-center justify-center py-2">
+        <svg className="w-full h-10 overflow-visible" viewBox="0 0 280 40" preserveAspectRatio="none">
           <motion.path
-            d="M 0 18 L 40 18 L 50 4 L 60 32 L 70 8 L 80 24 L 90 18 L 160 18"
+            d="M 0 20 L 105 20 L 115 6 L 125 34 L 135 12 L 145 26 L 155 20 L 280 20"
             fill="none"
-            stroke="rgba(255, 255, 255, 0.65)"
-            strokeWidth="2"
-            strokeDasharray="40 120"
+            stroke="rgba(255, 255, 255, 0.6)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeDasharray="60 140"
             animate={
               shouldReduceMotion
                 ? { strokeDashoffset: 0 }
-                : { strokeDashoffset: [160, 0] }
+                : { strokeDashoffset: [200, 0] }
             }
             transition={{
-              duration: 2.4,
+              duration: 2.2,
               repeat: Infinity,
               ease: 'linear',
             }}
@@ -302,9 +304,9 @@ function StepCard({
           </div>
         </div>
 
-        {/* Título de la etapa */}
+        {/* Título de la etapa con altura mínima de 2 líneas para alinear descripciones */}
         <h3
-          className={`font-display font-semibold text-[21px] xl:text-[23px] tracking-[-0.03em] leading-tight mb-2.5 ${
+          className={`font-display font-semibold text-[21px] xl:text-[23px] tracking-[-0.03em] leading-tight mb-2.5 min-h-[3.25rem] sm:min-h-[3.5rem] flex items-start ${
             isDark ? 'text-white' : 'text-ink'
           }`}
         >
@@ -460,8 +462,8 @@ export default function ProcessSection() {
             ))}
           </div>
 
-          {/* Indicadores de 4 puntos accesibles para navegar las tarjetas */}
-          <div className="flex items-center justify-center gap-2 mt-4" role="tablist">
+          {/* Indicadores de 4 puntos accesibles para navegar las tarjetas con hit-box de 44px */}
+          <div className="flex items-center justify-center gap-1 mt-4" role="tablist">
             {ps.steps.map((step, idx) => (
               <button
                 key={idx}
@@ -470,12 +472,16 @@ export default function ProcessSection() {
                 aria-selected={activeStep === idx}
                 aria-label={`${ps.step_aria} ${idx + 1}`}
                 onClick={() => scrollToStep(idx)}
-                className={`transition-all duration-300 rounded-full cursor-pointer ${
-                  activeStep === idx
-                    ? 'w-7 h-2 bg-accent'
-                    : 'w-2 h-2 bg-line hover:bg-muted'
-                }`}
-              />
+                className="p-3 flex items-center justify-center cursor-pointer"
+              >
+                <span
+                  className={`transition-all duration-300 rounded-full block ${
+                    activeStep === idx
+                      ? 'w-7 h-2 bg-accent'
+                      : 'w-2 h-2 bg-line hover:bg-muted'
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

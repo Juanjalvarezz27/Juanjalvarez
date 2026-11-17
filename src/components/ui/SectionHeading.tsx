@@ -31,7 +31,7 @@ export default function SectionHeading({
       {eyebrow && (
         <Eyebrow text={eyebrow} rotateStar={rotateStar} variant={variant} />
       )}
-      <h2 className="font-display font-semibold text-display-md sm:text-display-lg tracking-[-0.045em] leading-[0.92]">
+      <h2 className="font-display font-semibold text-display-md sm:text-display-lg tracking-[-0.045em] leading-[0.92] [text-wrap:balance]">
         <span className={isDark ? 'text-white' : 'text-ink'}>{part1}</span>{' '}
         <span className={isDark ? 'text-white/60' : 'text-muted'}>{part2}</span>
       </h2>
