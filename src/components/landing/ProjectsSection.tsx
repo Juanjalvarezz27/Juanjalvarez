@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { Container, SectionHeading, Button, StarBullet } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -327,27 +327,29 @@ export default function ProjectsSection() {
       className="relative w-full bg-ink text-white rounded-t-[40px] pt-[clamp(64px,8vw,112px)] pb-[clamp(56px,7vw,80px)] overflow-hidden"
     >
       <Container>
-        {/* Cabecera editorial y barra de filtros */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12 lg:mb-16">
+        {/* Cabecera editorial y barra de filtros: apilada en <1280px para evitar compresión y en fila en ≥1280px */}
+        <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 sm:gap-8 mb-12 lg:mb-16">
           <SectionHeading
             variant="dark"
             eyebrow={ps.eyebrow}
             part1={ps.title_part1}
             part2={ps.title_part2}
             subtitle={ps.subtitle}
+            className="flex-1 max-w-2xl"
           />
 
-          {/* Barra de píldoras responsiva con scroll horizontal y táctil de 44px */}
-          <div className="w-full lg:w-auto overflow-x-auto no-scrollbar py-1">
-            <div className="inline-flex items-center p-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shrink-0 min-w-max">
+          {/* Barra de píldoras responsiva con shrink-0 estricto para evitar truncado o corte de texto */}
+          <div className="w-full xl:w-auto shrink-0 overflow-x-auto no-scrollbar py-1">
+            <div className="inline-flex items-center p-1.5 pr-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shrink-0 whitespace-nowrap shadow-xs">
               {filterOptions.map((opt) => {
                 const isActive = activeFilter === opt.id;
                 return (
                   <button
                     key={opt.id}
+                    type="button"
                     onClick={() => setActiveFilter(opt.id)}
-                    className={`relative px-4 py-2.5 min-h-[44px] rounded-full font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer select-none flex items-center justify-center ${
-                      isActive ? 'text-ink font-semibold' : 'text-white/60 hover:text-white'
+                    className={`relative px-4 py-2 min-h-[44px] rounded-full font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer select-none flex items-center justify-center whitespace-nowrap shrink-0 ${
+                      isActive ? 'text-ink font-semibold' : 'text-white/70 hover:text-white'
                     }`}
                   >
                     {isActive && (
@@ -357,7 +359,7 @@ export default function ProjectsSection() {
                         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                       />
                     )}
-                    <span className="relative z-10">{opt.label}</span>
+                    <span className="relative z-10 whitespace-nowrap">{opt.label}</span>
                   </button>
                 );
               })}
@@ -365,133 +367,138 @@ export default function ProjectsSection() {
           </div>
         </div>
 
-        {/* CONTENEDOR SEGMENTADO POR VERTICALES EDITORIALES */}
+        {/* CONTENEDOR SEGMENTADO POR VERTICALES EDITORIALES CON ANIMATE PRESENCE */}
         <div className="space-y-16 sm:space-y-24">
+          <AnimatePresence mode="popLayout">
 
-          {/* VERTICAL 1: SISTEMAS A MEDIDA */}
-          {(activeFilter === 'all' || activeFilter === 'sistemas') && (
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.35 }}
-            >
-              <CategoryHeader
-                tag={cm.sistemas.tag}
-                part1={cm.sistemas.part1}
-                part2={cm.sistemas.part2}
-                desc={cm.sistemas.desc}
-                count={sistemasProjects.length + sistemasUpcoming.length}
-                lang={lang}
-                colorScheme={colorSchemes.sistemas}
-              />
+            {/* VERTICAL 1: SISTEMAS A MEDIDA */}
+            {(activeFilter === 'all' || activeFilter === 'sistemas') && (
+              <motion.div
+                key="sistemas-vertical"
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CategoryHeader
+                  tag={cm.sistemas.tag}
+                  part1={cm.sistemas.part1}
+                  part2={cm.sistemas.part2}
+                  desc={cm.sistemas.desc}
+                  count={sistemasProjects.length + sistemasUpcoming.length}
+                  lang={lang}
+                  colorScheme={colorSchemes.sistemas}
+                />
 
-              {/* Grid de proyectos de sistemas: LEYMA como tarjeta destacada 2-col */}
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch mb-8">
-                {sistemasProjects.map((project) => (
-                  <ProjectCard
-                    key={project.slug}
-                    project={project}
-                    lang={lang}
-                    viewCaseLabel={ps.card_view_case}
-                    isFeatured={project.slug === 'leyma'}
-                  />
-                ))}
-              </div>
-
-              {/* Spots de proyectos en desarrollo dentro de Sistemas */}
-              {sistemasUpcoming.length > 0 && (
-                <div className="mt-8 pt-6 border-t border-white/10">
-                  <div className="flex items-center gap-2 mb-4">
-                    <StarBullet size={12} className="text-amber-400" />
-                    <h5 className="font-mono text-xs uppercase tracking-widest text-white/60 font-semibold">
-                      {ps.upcoming_title || (lang === 'es' ? 'Próximamente en sistemas' : 'Upcoming in systems')}
-                    </h5>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {sistemasUpcoming.map((project, uIdx) => (
-                      <UpcomingCard
-                        key={project.slug}
-                        project={project}
-                        lang={lang}
-                        uIdx={uIdx}
-                        viewCaseLabel={ps.upcoming_view_case || (lang === 'es' ? 'Ver ficha' : 'View preview')}
-                      />
-                    ))}
-                  </div>
+                {/* Grid de proyectos de sistemas: LEYMA como tarjeta destacada 2-col */}
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch mb-8">
+                  {sistemasProjects.map((project) => (
+                    <ProjectCard
+                      key={project.slug}
+                      project={project}
+                      lang={lang}
+                      viewCaseLabel={ps.card_view_case}
+                      isFeatured={project.slug === 'leyma'}
+                    />
+                  ))}
                 </div>
-              )}
-            </motion.div>
-          )}
 
-          {/* VERTICAL 2: PÁGINAS WEB Y CONVERSIÓN */}
-          {(activeFilter === 'all' || activeFilter === 'webs') && (
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.35 }}
-            >
-              <CategoryHeader
-                tag={cm.webs.tag}
-                part1={cm.webs.part1}
-                part2={cm.webs.part2}
-                desc={cm.webs.desc}
-                count={websProjects.length}
-                lang={lang}
-                colorScheme={colorSchemes.webs}
-              />
+                {/* Spots de proyectos en desarrollo dentro de Sistemas */}
+                {sistemasUpcoming.length > 0 && (
+                  <div className="mt-8 pt-6 border-t border-white/10">
+                    <div className="flex items-center gap-2 mb-4">
+                      <StarBullet size={12} className="text-amber-400" />
+                      <h5 className="font-mono text-xs uppercase tracking-widest text-white/60 font-semibold">
+                        {ps.upcoming_title || (lang === 'es' ? 'Próximamente en sistemas' : 'Upcoming in systems')}
+                      </h5>
+                    </div>
 
-              {/* Grid de proyectos web */}
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-                {websProjects.map((project) => (
-                  <ProjectCard
-                    key={project.slug}
-                    project={project}
-                    lang={lang}
-                    viewCaseLabel={ps.card_view_case}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {sistemasUpcoming.map((project, uIdx) => (
+                        <UpcomingCard
+                          key={project.slug}
+                          project={project}
+                          lang={lang}
+                          uIdx={uIdx}
+                          viewCaseLabel={ps.upcoming_view_case || (lang === 'es' ? 'Ver ficha' : 'View preview')}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
 
-          {/* VERTICAL 3: SOLUCIONES DIGITALES ESPECIALIZADAS */}
-          {(activeFilter === 'all' || activeFilter === 'soluciones') && (
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.35 }}
-            >
-              <CategoryHeader
-                tag={cm.soluciones.tag}
-                part1={cm.soluciones.part1}
-                part2={cm.soluciones.part2}
-                desc={cm.soluciones.desc}
-                count={solucionesProjects.length}
-                lang={lang}
-                colorScheme={colorSchemes.soluciones}
-              />
+            {/* VERTICAL 2: PÁGINAS WEB Y CONVERSIÓN */}
+            {(activeFilter === 'all' || activeFilter === 'webs') && (
+              <motion.div
+                key="webs-vertical"
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CategoryHeader
+                  tag={cm.webs.tag}
+                  part1={cm.webs.part1}
+                  part2={cm.webs.part2}
+                  desc={cm.webs.desc}
+                  count={websProjects.length}
+                  lang={lang}
+                  colorScheme={colorSchemes.webs}
+                />
 
-              {/* Grid de proyectos de soluciones digitales */}
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-                {solucionesProjects.map((project) => (
-                  <ProjectCard
-                    key={project.slug}
-                    project={project}
-                    lang={lang}
-                    viewCaseLabel={ps.card_view_case}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          )}
+                {/* Grid de proyectos web */}
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+                  {websProjects.map((project) => (
+                    <ProjectCard
+                      key={project.slug}
+                      project={project}
+                      lang={lang}
+                      viewCaseLabel={ps.card_view_case}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
+            {/* VERTICAL 3: SOLUCIONES DIGITALES ESPECIALIZADAS */}
+            {(activeFilter === 'all' || activeFilter === 'soluciones') && (
+              <motion.div
+                key="soluciones-vertical"
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CategoryHeader
+                  tag={cm.soluciones.tag}
+                  part1={cm.soluciones.part1}
+                  part2={cm.soluciones.part2}
+                  desc={cm.soluciones.desc}
+                  count={solucionesProjects.length}
+                  lang={lang}
+                  colorScheme={colorSchemes.soluciones}
+                />
+
+                {/* Grid de proyectos de soluciones digitales */}
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+                  {solucionesProjects.map((project) => (
+                    <ProjectCard
+                      key={project.slug}
+                      project={project}
+                      lang={lang}
+                      viewCaseLabel={ps.card_view_case}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+          </AnimatePresence>
         </div>
 
         {/* CIERRE DE SECCIÓN CON LLAMADA A LA ACCIÓN LIMPIA */}
