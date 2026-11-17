@@ -18,15 +18,15 @@ function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' 
   // Presentación arquitectónica para proyectos en desarrollo
   if (isUpcoming) {
     return (
-      <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#0A0A0F] border-b border-white/10 flex items-center justify-center select-none group/mockup">
-        {/* Cuadrícula técnica de ingeniería */}
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#09090D] border-b border-white/10 flex items-center justify-center select-none group/mockup">
+        {/* Cuadrícula técnica sutil */}
         <div 
-          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:20px_20px]" 
+          className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:20px_20px]" 
           aria-hidden="true" 
         />
-        {/* Resplandor radial ámbar en el centro */}
+        {/* Resplandor radial de atmósfera neutra */}
         <div 
-          className="absolute inset-0 bg-radial from-amber-500/20 via-amber-500/5 to-transparent pointer-events-none" 
+          className="absolute inset-0 bg-radial from-white/[0.04] to-transparent pointer-events-none" 
           aria-hidden="true" 
         />
         
@@ -45,16 +45,16 @@ function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' 
 
         {/* Chip en vivo superior izquierdo: Estado activo de ingeniería */}
         <div className="absolute top-3 left-3 z-10">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/35 backdrop-blur-md shadow-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-amber-300">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 backdrop-blur-md shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-white/90">
               {lang === 'es' ? 'En desarrollo' : 'In development'}
             </span>
           </div>
         </div>
 
         {/* Indicador mono de arquitectura inferior derecho */}
-        <div className="absolute bottom-2.5 right-3 font-mono text-[9px] uppercase tracking-widest text-amber-300/60 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full backdrop-blur-xs">
+        <div className="absolute bottom-2.5 right-3 font-mono text-[9px] uppercase tracking-widest text-white/40 bg-white/[0.04] border border-white/10 px-2 py-0.5 rounded-full backdrop-blur-xs">
           RELEASE // 2026
         </div>
       </div>
@@ -62,17 +62,17 @@ function ProjectMockup({ project, lang }: { project: Project; lang: 'es' | 'en' 
   }
 
   return (
-    <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#0A0A0E] border-b border-white/10 flex items-center justify-center select-none">
+    <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#09090D] border-b border-white/10 flex items-center justify-center select-none">
       {/* Sutil resplandor radial de fondo */}
       <div 
-        className="absolute inset-0 bg-radial from-white/[0.04] to-transparent pointer-events-none" 
+        className="absolute inset-0 bg-radial from-white/[0.03] to-transparent pointer-events-none" 
         aria-hidden="true" 
       />
 
       {isMobile ? (
         // Mockup de pantalla móvil centrada con dynamic island y reflejo realista
         <div className="relative w-full h-full flex items-center justify-center p-3 sm:p-4">
-          <div className="relative h-[94%] aspect-[9/17.5] rounded-[20px] overflow-hidden border-[2.5px] border-[#2A2A34] shadow-[0_18px_40px_rgba(0,0,0,0.9)] ring-1 ring-white/10 transition-transform duration-500 group-hover:scale-105 bg-black">
+          <div className="relative h-[94%] aspect-[9/17.5] rounded-[20px] overflow-hidden border-[2.5px] border-[#26262E] shadow-[0_18px_40px_rgba(0,0,0,0.9)] ring-1 ring-white/10 transition-transform duration-500 group-hover:scale-105 bg-black">
             {/* Dynamic island superior */}
             <div className="absolute top-1 left-1/2 -translate-x-1/2 w-7 h-1.5 bg-[#141418] rounded-full z-20 ring-1 ring-white/10" />
             
@@ -139,40 +139,17 @@ function ProjectCard({
   lang: 'es' | 'en';
   viewCaseLabel: string;
 }) {
-  const getCategoryStyles = () => {
-    if (project.isUpcoming) {
-      return {
-        label: lang === 'es' ? 'Sistema a medida' : 'Custom System',
-        badgeColor: 'text-amber-400',
-        cardHover: 'hover:border-amber-400/40 hover:shadow-[0_16px_40px_-12px_rgba(251,191,36,0.2)]',
-        actionBtn: 'border-amber-500/25 bg-amber-500/10 group-hover:border-amber-400 group-hover:bg-amber-500/20 text-amber-300 group-hover:text-amber-200',
-      };
-    }
+  const getCategoryLabel = () => {
     if (project.category === 'sistemas') {
-      return {
-        label: lang === 'es' ? 'Sistema a medida' : 'Custom System',
-        badgeColor: 'text-cyan-400',
-        cardHover: 'hover:border-cyan-500/40 hover:shadow-[0_16px_40px_-12px_rgba(56,189,248,0.2)]',
-        actionBtn: 'border-cyan-500/20 bg-cyan-500/5 group-hover:border-cyan-400 group-hover:bg-cyan-500/15 text-cyan-300 group-hover:text-cyan-200',
-      };
+      return lang === 'es' ? 'Sistema a medida' : 'Custom System';
     }
     if (project.category === 'webs') {
-      return {
-        label: lang === 'es' ? 'Página web' : 'Website',
-        badgeColor: 'text-accent',
-        cardHover: 'hover:border-accent/40 hover:shadow-[0_16px_40px_-12px_rgba(255,61,20,0.2)]',
-        actionBtn: 'border-accent/20 bg-accent/5 group-hover:border-accent group-hover:bg-accent/15 text-orange-300 group-hover:text-accent',
-      };
+      return lang === 'es' ? 'Página web' : 'Website';
     }
-    return {
-      label: lang === 'es' ? 'Solución digital' : 'Digital Solution',
-      badgeColor: 'text-emerald-400',
-      cardHover: 'hover:border-emerald-500/40 hover:shadow-[0_16px_40px_-12px_rgba(52,211,153,0.2)]',
-      actionBtn: 'border-emerald-500/20 bg-emerald-500/5 group-hover:border-emerald-400 group-hover:bg-emerald-500/15 text-emerald-300 group-hover:text-emerald-200',
-    };
+    return lang === 'es' ? 'Solución digital' : 'Digital Solution';
   };
 
-  const catStyle = getCategoryStyles();
+  const categoryLabel = getCategoryLabel();
 
   return (
     <motion.div
@@ -185,7 +162,7 @@ function ProjectCard({
     >
       <Link
         href={`/projects/${project.slug}`}
-        className={`group relative rounded-[28px] sm:rounded-[32px] bg-[#101014] border border-white/10 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-xl hover:shadow-2xl hover:-translate-y-1.5 cursor-pointer h-full ${catStyle.cardHover}`}
+        className="group relative rounded-[28px] sm:rounded-[32px] bg-[#111115] border border-white/10 hover:border-white/25 hover:bg-[#15151B] transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-xl hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.85)] hover:-translate-y-1.5 cursor-pointer h-full"
       >
         {/* Mockup de la interfaz del proyecto */}
         <div className="w-full">
@@ -197,16 +174,16 @@ function ProjectCard({
           <div>
             {/* Categoría y año / estado */}
             <div className="flex items-center justify-between gap-3 mb-3">
-              <span className={`font-mono text-xs uppercase tracking-wider font-semibold ${catStyle.badgeColor}`}>
-                {catStyle.label}
+              <span className="font-mono text-xs uppercase tracking-wider font-semibold text-white/50 group-hover:text-white/80 transition-colors">
+                {categoryLabel}
               </span>
               {project.isUpcoming ? (
-                <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-semibold text-white/80 bg-white/[0.06] border border-white/15 px-2.5 py-0.5 rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                   {lang === 'es' ? 'En desarrollo' : 'In development'}
                 </span>
               ) : (
-                <span className="font-mono text-xs text-white/50 bg-white/5 border border-white/10 px-2 py-0.5 rounded-full">
+                <span className="font-mono text-xs text-white/50 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full">
                   {project.year}
                 </span>
               )}
@@ -223,7 +200,7 @@ function ProjectCard({
             </p>
           </div>
 
-          {/* Fila inferior: Stack tecnológico y enlace interactivo de 44px */}
+          {/* Fila inferior: Stack tecnológico y enlace interactivo con inversión de color en hover */}
           <div className="flex items-center justify-between gap-3 pt-4 border-t border-white/10 mt-auto">
             <div className="flex flex-wrap gap-1.5">
               {project.stack.slice(0, 3).map((tech, tIdx) => (
@@ -236,7 +213,7 @@ function ProjectCard({
               ))}
             </div>
 
-            <div className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold px-3 py-1.5 rounded-full border transition-all shrink-0 min-h-[44px] ${catStyle.actionBtn}`}>
+            <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 text-white/80 group-hover:bg-white group-hover:text-ink group-hover:border-white transition-all shrink-0 min-h-[44px]">
               <span className="hidden xs:inline">
                 {project.isUpcoming ? (lang === 'es' ? 'Ver ficha' : 'View specs') : viewCaseLabel}
               </span>
@@ -249,7 +226,7 @@ function ProjectCard({
   );
 }
 
-// Encabezado editorial premium con color y jerarquía distintiva por vertical
+// Encabezado editorial premium con jerarquía en dos tonos
 function CategoryHeader({
   tag,
   part1,
@@ -257,7 +234,6 @@ function CategoryHeader({
   desc,
   count,
   lang,
-  colorScheme,
 }: {
   tag: string;
   part1: string;
@@ -265,26 +241,21 @@ function CategoryHeader({
   desc: string;
   count: number;
   lang: 'es' | 'en';
-  colorScheme: {
-    badge: string;
-    part2Color: string;
-    pulseDot: string;
-  };
 }) {
   return (
     <div className="mb-8 sm:mb-10 pb-5 border-b border-white/10 relative">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-5">
         <div>
-          {/* Tag mono con StarBullet estilizado de la vertical */}
-          <div className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full border font-mono text-[11px] uppercase tracking-widest font-semibold mb-3 ${colorScheme.badge}`}>
-            <StarBullet size={10} rotate={true} />
+          {/* Tag mono con StarBullet de acento editorial */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/10 bg-white/[0.04] font-mono text-[11px] uppercase tracking-widest text-white/80 font-semibold mb-3">
+            <StarBullet size={10} rotate={true} className="text-accent" />
             <span>{tag}</span>
           </div>
 
-          {/* Título en dos tonos con color distintivo de vertical */}
+          {/* Título en dos tonos editorial blanco y blanco/45 */}
           <h3 className="font-display font-bold text-[clamp(1.85rem,3.4vw,2.75rem)] text-white tracking-[-0.035em] leading-[1.05] mb-2.5">
             <span>{part1}</span>{' '}
-            <span className={colorScheme.part2Color}>{part2}</span>
+            <span className="text-white/45">{part2}</span>
           </h3>
 
           {/* Descripción orientada a valor comercial */}
@@ -295,8 +266,8 @@ function CategoryHeader({
 
         {/* Píldora de proyectos activos en la vertical */}
         <div className="self-start md:self-auto shrink-0">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 font-mono text-xs text-white/80 shadow-2xs">
-            <span className={`w-2 h-2 rounded-full animate-pulse ${colorScheme.pulseDot}`} />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 font-mono text-xs text-white/70 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
             <span>
               {count} {lang === 'es' ? 'proyectos' : 'projects'}
             </span>
@@ -330,25 +301,6 @@ export default function ProjectsSection() {
   const solucionesProjects = allProjects.filter((p) => p.category === 'soluciones');
 
   const whatsappUrl = getWhatsAppUrl(ps.cta_whatsapp);
-
-  // Esquemas de color para cada vertical
-  const colorSchemes = {
-    sistemas: {
-      badge: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400',
-      part2Color: 'text-cyan-400/80',
-      pulseDot: 'bg-cyan-400',
-    },
-    webs: {
-      badge: 'bg-accent/10 border-accent/30 text-accent',
-      part2Color: 'text-accent',
-      pulseDot: 'bg-accent',
-    },
-    soluciones: {
-      badge: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400',
-      part2Color: 'text-emerald-400/80',
-      pulseDot: 'bg-emerald-400',
-    },
-  };
 
   return (
     <section
@@ -417,7 +369,6 @@ export default function ProjectsSection() {
                   desc={cm.sistemas.desc}
                   count={sistemasProjects.length}
                   lang={lang}
-                  colorScheme={colorSchemes.sistemas}
                 />
 
                 {/* Grid uniforme de 3 columnas para sistemas (activos y en desarrollo) */}
@@ -451,7 +402,6 @@ export default function ProjectsSection() {
                   desc={cm.webs.desc}
                   count={websProjects.length}
                   lang={lang}
-                  colorScheme={colorSchemes.webs}
                 />
 
                 {/* Grid de proyectos web */}
@@ -485,7 +435,6 @@ export default function ProjectsSection() {
                   desc={cm.soluciones.desc}
                   count={solucionesProjects.length}
                   lang={lang}
-                  colorScheme={colorSchemes.soluciones}
                 />
 
                 {/* Grid de proyectos de soluciones digitales */}
