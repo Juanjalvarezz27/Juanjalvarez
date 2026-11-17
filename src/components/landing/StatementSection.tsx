@@ -253,71 +253,37 @@ export default function StatementSection() {
           ))}
         </div>
 
-        {/* 3. FILA INFERIOR: TEXTO DE APOYO + PRINCIPIOS (cols 1–4) Y MÉTRICAS --ice (cols 5–12) */}
-        <div className="w-full mt-[clamp(32px,4vw,56px)] grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          
-          {/* Izquierda (cols 1–4): texto de apoyo, 3 principios con StarBullet y enlace */}
-          <div className="lg:col-span-4 flex flex-col justify-between py-1">
-            <p className="text-sm sm:text-base text-ink-soft leading-relaxed font-normal mb-5">
-              {st.subtext}
-            </p>
+        {/* 3. BLOQUE DE MÉTRICAS PREMIUM A ANCHO COMPLETO */}
+        <div className="w-full mt-[clamp(36px,5vw,64px)] flex justify-center">
+          <div 
+            ref={metricsBoxRef}
+            className="w-full relative rounded-[32px] sm:rounded-[40px] p-[clamp(28px,4.5vw,48px)] overflow-hidden border border-white/70 bg-gradient-to-b from-[#CFE8FF] via-ice to-[#AFD6FF] shadow-[0_24px_50px_-16px_rgba(15,35,65,0.12),inset_0_1px_1px_rgba(255,255,255,0.9)] flex items-center"
+          >
+            {/* Reflejo de luz superior tipo cristal líquido */}
+            <div 
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_0%,rgba(255,255,255,0.65),transparent)]" 
+              aria-hidden="true" 
+            />
 
-            {/* Lista de 3 principios con StarBullet y separador --line */}
-            <div className="divide-y divide-line border-y border-line mb-5">
-              {st.principles.map((principle, pIdx) => (
-                <div key={pIdx} className="py-2.5 flex items-start gap-3">
-                  <StarBullet size={12} className="text-accent mt-1 shrink-0" />
-                  <span className="text-xs sm:text-sm font-medium text-ink leading-snug">
-                    {principle}
-                  </span>
-                </div>
+            {/* Estrella de 8 puntas rotatoria en la esquina superior derecha */}
+            <StarBullet 
+              size={22} 
+              rotate={true} 
+              className="text-ink/45 absolute top-5 right-5 sm:top-7 sm:right-7 transition-opacity hover:opacity-100" 
+            />
+
+            {/* Grid de 4 métricas con separadores verticales en tablet y desktop */}
+            <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0 md:divide-x md:divide-ink/10 w-full items-center">
+              {st.metrics.map((m, idx) => (
+                <MetricItem 
+                  key={idx} 
+                  metric={m} 
+                  isInView={isMetricsInView} 
+                  shouldReduceMotion={shouldReduceMotion}
+                />
               ))}
             </div>
-
-            {/* Enlace "Ver proyectos →" */}
-            <div>
-              <a
-                href="#proyectos"
-                className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-ink hover:text-accent transition-colors group"
-              >
-                <span>{st.view_projects}</span>
-              </a>
-            </div>
           </div>
-
-          {/* Derecha (cols 5–12): contenedor de métricas --ice */}
-          <div className="lg:col-span-8 flex items-center">
-            <div 
-              ref={metricsBoxRef}
-              className="w-full h-full relative rounded-[28px] sm:rounded-[36px] p-[clamp(24px,3.5vw,40px)] overflow-hidden border border-white/70 bg-gradient-to-b from-[#CFE8FF] via-ice to-[#AFD6FF] shadow-[0_24px_50px_-16px_rgba(15,35,65,0.12),inset_0_1px_1px_rgba(255,255,255,0.9)] flex items-center"
-            >
-              {/* Reflejo de luz superior tipo cristal líquido */}
-              <div 
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_0%,rgba(255,255,255,0.65),transparent)]" 
-                aria-hidden="true" 
-              />
-
-              {/* Estrella de 8 puntas rotatoria en la esquina superior derecha */}
-              <StarBullet 
-                size={20} 
-                rotate={true} 
-                className="text-ink/45 absolute top-4 right-4 sm:top-6 sm:right-6 transition-opacity hover:opacity-100" 
-              />
-
-              {/* Grid de 4 métricas con separadores verticales refinados */}
-              <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-y-6 sm:gap-y-0 sm:divide-x sm:divide-ink/10 w-full items-center">
-                {st.metrics.map((m, idx) => (
-                  <MetricItem 
-                    key={idx} 
-                    metric={m} 
-                    isInView={isMetricsInView} 
-                    shouldReduceMotion={shouldReduceMotion}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
         </div>
 
       </Container>
