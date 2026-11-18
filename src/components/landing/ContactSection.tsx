@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { MessageCircle, ArrowUpRight, Copy, Check } from 'lucide-react';
-import { Container, Eyebrow, MotionPill, Grain } from '../ui';
+import { Container, Eyebrow, Grain } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { SITE_CONFIG, getWhatsAppUrl } from '../../config/site';
 
@@ -53,12 +54,21 @@ export default function ContactSection() {
               className="mb-6 sm:mb-8"
             />
 
-            {/* Titular monumental en dos tonos con MotionPill incrustada (oculta en <640px) */}
+            {/* Titular monumental en dos tonos con cápsula de marca oficial */}
             <h2 className="font-display font-semibold text-[clamp(2.2rem,5.5vw,4.5rem)] tracking-[-0.04em] leading-[0.95] mb-6 select-none [text-wrap:balance]">
               <span className="text-white">{cs.title_part1}</span>{' '}
               <span className="text-muted">{cs.title_part2}</span>
-              <span className="hidden sm:inline-flex align-middle ml-4 w-[120px] sm:w-[140px] h-[40px] sm:h-[48px] rounded-full overflow-hidden shrink-0 shadow-sm">
-                <MotionPill width={140} height={48} className="w-full h-full" />
+              <span className="inline-flex align-middle ml-3 sm:ml-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.1] border border-white/15 hover:border-white/25 backdrop-blur-md shadow-[0_4px_24px_-4px_rgba(255,61,20,0.22)] shrink-0 transition-all duration-300 group">
+                <span className="relative w-[104px] sm:w-[136px] h-[28px] sm:h-[36px] block">
+                  <Image
+                    src="/logo-horizontal-white.png"
+                    alt="Juan Álvarez"
+                    fill
+                    sizes="(max-width: 640px) 104px, 136px"
+                    className="object-contain group-hover:scale-105 transition-transform duration-300"
+                    priority
+                  />
+                </span>
               </span>
             </h2>
 
