@@ -73,6 +73,17 @@ export const metadata: Metadata = {
   verification: {
     google: "-FI9xlSjbVOiRsTGy43fNK7Snw9I0d3oZgBmggCnzhw",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+      { url: "/logo-round.png", type: "image/png", sizes: "192x192" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: ["/favicon.ico"],
+  },
 };
 
 // Datos estructurados Schema.org para indexación semántica en Google

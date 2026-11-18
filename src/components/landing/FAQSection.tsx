@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Plus } from 'lucide-react';
-import { Container, Eyebrow, MotionPill, Button, Grain, Reveal, ParticleAtmosphere } from '../ui';
+import { Container, Eyebrow, MotionPill, Button, Grain, Reveal } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { getWhatsAppUrl } from '../../config/site';
 
@@ -91,8 +92,14 @@ function AnswerBubble({
   return (
     <div className="flex items-start gap-3">
       {/* Avatar JA */}
-      <div className="w-7 h-7 rounded-[8px] bg-surface text-ink font-display font-bold text-[11px] flex items-center justify-center shrink-0 select-none shadow-xs mt-0.5">
-        JA
+      <div className="relative w-7 h-7 rounded-full overflow-hidden shrink-0 select-none shadow-xs mt-0.5 bg-ink ring-1 ring-white/10">
+        <Image
+          src="/logo-round.png"
+          alt="Juan Álvarez"
+          fill
+          sizes="28px"
+          className="object-cover"
+        />
       </div>
 
       {/* Burbuja de respuesta */}
@@ -279,8 +286,14 @@ function ContactCard({
       <div className="relative z-10 flex flex-col justify-between">
         {/* Cabecera con avatar JA y disponibilidad */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-[12px] bg-surface text-ink font-display font-bold text-sm flex items-center justify-center shrink-0 shadow-xs select-none">
-            JA
+          <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 shadow-xs select-none bg-ink ring-1 ring-white/10">
+            <Image
+              src="/logo-round.png"
+              alt="Juan Álvarez"
+              fill
+              sizes="40px"
+              className="object-cover"
+            />
           </div>
           <div>
             <span className="font-sans font-semibold text-sm text-white block leading-tight">
@@ -368,18 +381,12 @@ export default function FAQSection() {
   return (
     <section 
       id="faq" 
-      className="relative w-full bg-bg text-ink pt-[clamp(24px,3.5vw,48px)] pb-[clamp(64px,9vw,120px)]"
+      className="relative w-full bg-bg text-ink pt-[clamp(40px,5vw,64px)] pb-[clamp(64px,9vw,120px)]"
     >
-      {/* Contenedor de retícula y auras ambientales con overflow-hidden para proteger la posición sticky */}
+      {/* Contenedor de auras ambientales con overflow-hidden para proteger la posición sticky */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none -z-0" aria-hidden="true">
-        {/* Atmósfera de partículas flotantes en azul y rojo */}
-        <ParticleAtmosphere variant="faq" />
-
-        {/* Aura cálida poppy detrás de la tarjeta de contacto interactiva */}
-        <div className="absolute top-1/4 left-0 -translate-x-1/4 w-[560px] h-[400px] rounded-full bg-gradient-to-br from-[#FF3D14]/18 via-[#FF3D14]/06 to-transparent blur-[85px] mix-blend-multiply" />
-
-        {/* Aura fría azul hielo equilibrando el cuadrante derecho del acordeón */}
-        <div className="absolute bottom-1/4 right-0 translate-x-1/4 w-[560px] h-[380px] rounded-full bg-gradient-to-bl from-[#38BDF8]/20 via-[#BFE0FF]/14 to-transparent blur-[85px] mix-blend-multiply" />
+        <div className="absolute top-1/4 left-0 -translate-x-1/4 w-[500px] h-[360px] bg-gradient-to-r from-[#BFE0FF]/30 via-[#BFE0FF]/05 to-transparent blur-[120px]" />
+        <div className="absolute bottom-1/4 right-0 translate-x-1/4 w-[450px] h-[300px] bg-gradient-to-l from-[#FF3D14]/[0.05] to-transparent blur-[110px]" />
       </div>
 
       {/* Inyección semántica de JSON-LD para Google Search Console */}
@@ -389,12 +396,6 @@ export default function FAQSection() {
       />
 
       <Container>
-        {/* Marcadores técnicos editoriales en cabecera */}
-        <div className="hidden lg:flex items-center justify-between text-ink/30 font-mono text-[10px] tracking-widest uppercase mb-6 pointer-events-none select-none">
-          <span>+ SEC_05 // FAQ_SYSTEM</span>
-          <span>CRITERIOS · INVERSIÓN · ALCANCES +</span>
-        </div>
-
         {/* RETÍCULA DE 12 COLUMNAS (DESKTOP) Y FLUJO CONTINUO (TABLET/MÓVIL) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           

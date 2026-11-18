@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useReducedMotion, type MotionValue } from 'motion/react';
-import { Container, SectionHeading, StarBullet, Reveal, ParticleAtmosphere } from '../ui';
+import { Container, SectionHeading, StarBullet, Reveal } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 // Ilustración 01: Descubrimiento (Burbujas de conversación con indicador de escritura)
@@ -366,30 +366,22 @@ export default function ProcessSection() {
     <section
       id="proceso"
       ref={containerRef}
-      className="relative w-full bg-bg text-ink pt-[clamp(64px,9vw,112px)] pb-12 lg:pb-16 overflow-hidden"
+      className="relative w-full bg-bg text-ink pt-[clamp(64px,9vw,120px)] pb-[clamp(36px,4.5vw,56px)] overflow-hidden"
     >
-      {/* Atmósfera de partículas flotantes en azul y rojo */}
-      <ParticleAtmosphere variant="process" />
-
-      {/* Auras lumínicas perceptibles con temperatura cromática calibrada */}
+      {/* Trama sutil de puntos de retícula editorial */}
       <div 
-        className="absolute -top-24 left-1/4 -translate-x-1/2 w-[680px] h-[380px] rounded-full bg-gradient-to-b from-[#38BDF8]/24 via-[#BFE0FF]/16 to-transparent blur-[85px] pointer-events-none mix-blend-multiply -z-0" 
+        className="absolute inset-0 bg-[radial-gradient(rgba(11,11,12,0.045)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-80"
+        aria-hidden="true"
+      />
+      {/* Auras lumínicas sutiles de transición de marca */}
+      <div 
+        className="absolute -top-24 left-1/2 -translate-x-1/2 w-[750px] h-[340px] bg-gradient-to-b from-[#BFE0FF]/35 to-transparent blur-[120px] pointer-events-none -z-0" 
         aria-hidden="true" 
       />
       <div 
-        className="absolute bottom-16 right-0 translate-x-1/4 w-[580px] h-[360px] rounded-full bg-gradient-to-tl from-[#FF3D14]/20 via-[#FF5722]/10 to-transparent blur-[85px] pointer-events-none mix-blend-multiply -z-0" 
+        className="absolute bottom-10 right-10 w-[500px] h-[300px] bg-gradient-to-tl from-[#FF3D14]/[0.06] to-transparent blur-[110px] pointer-events-none -z-0" 
         aria-hidden="true" 
       />
-
-      {/* Marcadores técnicos editoriales en márgenes */}
-      <div className="absolute top-8 left-8 hidden lg:flex items-center gap-2 font-mono text-[10px] tracking-widest text-ink/30 select-none uppercase pointer-events-none">
-        <span>+</span>
-        <span>SEC_04 // WORKFLOW_SYSTEM</span>
-      </div>
-      <div className="absolute top-8 right-8 hidden lg:flex items-center gap-2 font-mono text-[10px] tracking-widest text-ink/30 select-none uppercase pointer-events-none">
-        <span>STATUS: ACTIVO</span>
-        <span>+</span>
-      </div>
 
       <Container>
         {/* Encabezado editorial centrado */}
@@ -506,24 +498,6 @@ export default function ProcessSection() {
                 />
               </button>
             ))}
-          </div>
-        </div>
-
-        {/* Divisor editorial y puente arquitectónico de enlace con FAQ */}
-        <div className="w-full mt-12 lg:mt-16 pt-4 relative select-none">
-          {/* Línea horizontal continua con metadatos técnicos */}
-          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-line flex items-center justify-between pointer-events-none" aria-hidden="true">
-            <span className="font-mono text-[9px] text-ink/30 pl-2 tracking-widest hidden sm:inline">04 // FASES COMPLETADAS</span>
-            <span className="font-mono text-[9px] text-ink/30 pr-2 tracking-widest hidden sm:inline">SEC_05 // FAQ ↓</span>
-          </div>
-
-          {/* Pastilla central con indicador y StarBullets */}
-          <div className="relative z-10 flex justify-center">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-surface border border-line shadow-2xs font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-ink/80">
-              <StarBullet size={12} className="text-accent" />
-              <span>Metodología sin cajas negras</span>
-              <StarBullet size={12} className="text-accent" />
-            </div>
           </div>
         </div>
 

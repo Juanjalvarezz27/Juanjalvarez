@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView, useReducedMotion, type MotionValue } from 'motion/react';
-import { Container, Eyebrow, MotionPill, StarBullet, ParticleAtmosphere } from '../ui';
+import { Container, Eyebrow, MotionPill, StarBullet } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 
 // Palabra individual con transición de color reactiva al scroll con contraste legible en reposo
@@ -147,28 +147,15 @@ export default function StatementSection() {
       ref={containerRef}
       className="relative w-full bg-bg text-ink pt-[clamp(64px,8vw,112px)] pb-[clamp(32px,4vw,48px)] overflow-hidden"
     >
-      {/* Atmósfera de partículas flotantes en azul y rojo */}
-      <ParticleAtmosphere variant="statement" />
-
-      {/* Auras lumínicas perceptibles con temperatura cromática calibrada */}
+      {/* Auras lumínicas ambientales sutiles de marca (Azul hielo y Naranja poppy) */}
       <div 
-        className="absolute top-1/4 right-0 translate-x-1/4 w-[620px] h-[380px] rounded-full bg-gradient-to-bl from-[#FF3D14]/18 via-[#FF3D14]/06 to-transparent blur-[85px] pointer-events-none mix-blend-multiply -z-0" 
+        className="absolute top-1/4 right-0 translate-x-1/4 w-[600px] h-[360px] bg-gradient-to-bl from-[#FF3D14]/[0.05] via-[#BFE0FF]/15 to-transparent blur-[120px] pointer-events-none -z-0" 
         aria-hidden="true" 
       />
       <div 
-        className="absolute bottom-10 left-0 -translate-x-1/4 w-[540px] h-[340px] rounded-full bg-gradient-to-tr from-[#38BDF8]/24 via-[#BFE0FF]/16 to-transparent blur-[80px] pointer-events-none mix-blend-multiply -z-0" 
+        className="absolute bottom-10 left-0 -translate-x-1/4 w-[500px] h-[300px] bg-gradient-to-tr from-[#BFE0FF]/25 to-transparent blur-[110px] pointer-events-none -z-0" 
         aria-hidden="true" 
       />
-
-      {/* Marcadores técnicos editoriales en márgenes */}
-      <div className="absolute top-6 left-8 hidden lg:flex items-center gap-2 font-mono text-[10px] tracking-widest text-ink/30 select-none uppercase pointer-events-none">
-        <span>+</span>
-        <span>SEC_02 // MANIFIESTO_Y_METRICAS</span>
-      </div>
-      <div className="absolute top-6 right-8 hidden lg:flex items-center gap-2 font-mono text-[10px] tracking-widest text-ink/30 select-none uppercase pointer-events-none">
-        <span>LOC: TRUJILLO, VE (GMT-4)</span>
-        <span>+</span>
-      </div>
 
       <Container>
         {/* 1. FILA DE CABECERA: Eyebrow con línea divisoria continua */}

@@ -151,21 +151,18 @@ export default function Header() {
               : 'h-[52px] lg:h-14 shadow-[0_8px_24px_-6px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.85)]'
           }`}
         >
-          {/* LADO IZQUIERDO: Logo oficial 3D + Nombre */}
-          <Link href="#inicio" className="flex items-center gap-2.5 group shrink-0 select-none">
-            <div className="relative w-8 h-8 lg:w-9 lg:h-9 rounded-full overflow-hidden shrink-0 ring-1 ring-black/10 group-hover:scale-105 transition-transform duration-200 bg-ink">
+          {/* LADO IZQUIERDO: Logo oficial horizontal de marca */}
+          <Link href="#inicio" className="flex items-center group shrink-0 select-none" aria-label="Juan Álvarez">
+            <div className="relative h-8 sm:h-8.5 lg:h-9 w-[114px] sm:w-[126px] group-hover:opacity-90 transition-opacity">
               <Image
-                src="/Logo.png"
+                src="/logo-horizontal.png"
                 alt="Juan Álvarez"
                 fill
-                sizes="(max-width: 1024px) 32px, 36px"
-                className="object-cover"
+                sizes="(max-width: 640px) 114px, 126px"
+                className="object-contain object-left"
                 priority
               />
             </div>
-            <span className="font-display font-semibold text-xs sm:text-[14px] text-ink tracking-tight">
-              Juan Álvarez
-            </span>
           </Link>
 
           {/* CENTRO: Enlaces en cápsula segmentada visibles en ≥1024px */}
@@ -247,19 +244,15 @@ export default function Header() {
         >
           {/* Header del menú móvil */}
           <div className="flex items-center justify-between border-b border-line-dark pb-5">
-            <div className="flex items-center gap-3">
-              <div className="relative w-9 h-9 rounded-full overflow-hidden shrink-0 ring-1 ring-white/20 bg-ink">
-                <Image
-                  src="/Logo.png"
-                  alt="Juan Álvarez"
-                  fill
-                  sizes="36px"
-                  className="object-cover"
-                />
-              </div>
-              <span className="font-sans font-semibold text-base text-white">
-                Juan Álvarez
-              </span>
+            <div className="relative h-9 w-[130px] shrink-0">
+              <Image
+                src="/logo-horizontal-white.png"
+                alt="Juan Álvarez"
+                fill
+                sizes="130px"
+                className="object-contain object-left"
+                priority
+              />
             </div>
             
             <div className="flex items-center gap-2">

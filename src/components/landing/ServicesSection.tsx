@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { Container, SectionHeading, StarBullet, Grain, ParticleAtmosphere } from '../ui';
+import { Container, SectionHeading, StarBullet, Grain } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { getWhatsAppUrl } from '../../config/site';
 
@@ -103,28 +103,15 @@ export default function ServicesSection() {
       id="servicios" 
       className="relative w-full bg-bg text-ink pt-[clamp(32px,4vw,48px)] pb-[clamp(64px,8vw,112px)] overflow-hidden"
     >
-      {/* Atmósfera de partículas flotantes en azul y rojo */}
-      <ParticleAtmosphere variant="services" />
-
-      {/* Auras lumínicas perceptibles con temperatura cromática calibrada */}
+      {/* Auras lumínicas ambientales sutiles de marca (Azul hielo y Naranja poppy) */}
       <div 
-        className="absolute top-0 left-1/4 -translate-x-1/2 w-[650px] sm:w-[850px] h-[380px] rounded-full bg-gradient-to-br from-[#38BDF8]/24 via-[#BFE0FF]/16 to-transparent blur-[85px] pointer-events-none mix-blend-multiply -z-0" 
+        className="absolute top-0 left-1/4 -translate-x-1/2 w-[600px] sm:w-[800px] h-[360px] bg-gradient-to-br from-[#BFE0FF]/35 via-[#BFE0FF]/10 to-transparent blur-[120px] pointer-events-none -z-0" 
         aria-hidden="true" 
       />
       <div 
-        className="absolute bottom-12 right-0 translate-x-1/4 w-[560px] h-[360px] rounded-full bg-gradient-to-bl from-[#FF3D14]/18 via-[#FF5722]/08 to-transparent blur-[85px] pointer-events-none mix-blend-multiply -z-0" 
+        className="absolute bottom-12 right-0 translate-x-1/4 w-[500px] h-[340px] bg-gradient-to-bl from-[#FF3D14]/[0.06] via-[#FF3D14]/[0.02] to-transparent blur-[110px] pointer-events-none -z-0" 
         aria-hidden="true" 
       />
-
-      {/* Marcadores técnicos editoriales en márgenes */}
-      <div className="absolute top-6 left-8 hidden lg:flex items-center gap-2 font-mono text-[10px] tracking-widest text-ink/30 select-none uppercase pointer-events-none">
-        <span>+</span>
-        <span>SEC_03 // ALCANCE_Y_SERVICIOS</span>
-      </div>
-      <div className="absolute top-6 right-8 hidden lg:flex items-center gap-2 font-mono text-[10px] tracking-widest text-ink/30 select-none uppercase pointer-events-none">
-        <span>STACK: NEXT.JS · TYPESCRIPT · NODE</span>
-        <span>+</span>
-      </div>
 
       <Container>
         {/* Encabezado editorial centrado en dos tonos */}
