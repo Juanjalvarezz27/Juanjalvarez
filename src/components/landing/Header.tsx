@@ -155,7 +155,7 @@ export default function Header() {
           <Link href="#inicio" className="flex items-center group shrink-0 select-none" aria-label="Juan Álvarez">
             <div className="relative h-8 sm:h-8.5 lg:h-9 w-[114px] sm:w-[126px] group-hover:opacity-90 transition-opacity">
               <Image
-                src="/logo-horizontal.png"
+                src="/brand/logo-horizontal.png"
                 alt="Juan Álvarez"
                 fill
                 sizes="(max-width: 640px) 114px, 126px"
@@ -246,7 +246,7 @@ export default function Header() {
           <div className="flex items-center justify-between border-b border-line-dark pb-5">
             <div className="relative h-9 w-[130px] shrink-0">
               <Image
-                src="/logo-horizontal-white.png"
+                src="/brand/logo-horizontal-white.png"
                 alt="Juan Álvarez"
                 fill
                 sizes="130px"

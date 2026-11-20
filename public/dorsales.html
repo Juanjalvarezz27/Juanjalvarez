@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>META RUN 8K — Sistema de Entrega de Kits y Dorsales</title>
+  <!-- Tailwind CSS CDN para renderizado instantáneo y fiel -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fuentes Plus Jakarta Sans y JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              orange: '#FF5A00',
+              orangeDark: '#E04F00',
+              navy: '#0B0F19',
+              slate: '#1E293B',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Estilos de escáner y animaciones sutiles */
+    @keyframes laser {
+      0% { top: 0%; opacity: 0.8; }
+      50% { opacity: 1; }
+      100% { top: 100%; opacity: 0.8; }
+    }
+    .animate-laser {
+      animation: laser 2s ease-in-out infinite alternate;
+    }
+  </style>
+</head>
+<body class="bg-[#F4F6F9] text-slate-900 font-sans antialiased min-h-screen">
+
+  <!-- Barra de control superior para cambiar de vista antes de tomar capturas -->
+  <aside class="bg-[#0B0F19] text-white py-2.5 px-4 sm:px-8 border-b border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs font-mono select-none sticky top-0 z-50 shadow-md">
+    <div class="flex items-center gap-3">
+      <span class="inline-flex items-center gap-1.5 text-emerald-400 font-semibold">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        SISTEMA LOGÍSTICO ACTIVO
+      </span>
+      <span class="text-white/30">|</span>
+      <span class="text-white/60 hidden sm:inline">Listo para capturas de pantalla</span>
+    </div>
+
+    <!-- Selector de vistas para captura -->
+    <div class="flex items-center gap-2">
+      <button onclick="setView('desktop')" id="btn-view-desktop" class="px-3 py-1 rounded-md bg-white/15 text-white font-medium hover:bg-white/20 transition-all cursor-pointer">
+        🖥️ Vista Escritorio
+      </button>
+      <button onclick="setView('mobile')" id="btn-view-mobile" class="px-3 py-1 rounded-md bg-white/5 text-white/60 hover:text-white hover:bg-white/10 transition-all cursor-pointer">
+        📱 Vista Teléfono (Original)
+      </button>
+      <button onclick="openModal()" class="px-3 py-1 rounded-md bg-brand-orange text-white font-medium hover:bg-brand-orangeDark transition-all cursor-pointer">
+        ✨ Ver Modal Acreditado
+      </button>
+    </div>
+  </aside>
+
+  <!-- CONTENEDOR VISTA ESCRITORIO (PANORÁMICA 1920x900) -->
+  <div id="view-desktop" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all">
+
+    <!-- Encabezado de la aplicación -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 pb-6 border-b border-slate-200">
+      <div class="flex items-center gap-4">
+        <!-- Logotipo deportivo Meta Run -->
+        <div class="w-13 h-13 rounded-2xl bg-[#0B0F19] flex items-center justify-center text-white shadow-md border border-slate-800">
+          <svg class="w-7 h-7 text-brand-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0B0F19]">
+              META RUN <span class="text-brand-orange">8K</span>
+            </h1>
+            <span class="font-mono text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+              En Vivo
+            </span>
+          </div>
+          <p class="text-sm font-medium text-slate-500 mt-0.5">
+            Logística operativa · Entrega de kits y validación de dorsales
+          </p>
+        </div>
+      </div>
+
+      <!-- Acciones de cabecera -->
+      <div class="flex flex-wrap items-center gap-3">
+        <button onclick="alert('Lista sincronizada con la base de datos central.')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-mono font-semibold shadow-xs transition-all cursor-pointer">
+          <svg class="w-3.5 h-3.5 text-brand-orange animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+            <path d="M16 21h5v-5"/>
+          </svg>
+          <span>Sincronizar Datos</span>
+        </button>
+
+        <button onclick="openModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0B0F19] text-white hover:bg-slate-800 text-xs font-mono font-semibold shadow-md transition-all cursor-pointer">
+          <svg class="w-4 h-4 text-brand-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          <span>Escanear Código QR</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Fila de Tarjetas KPI idénticas a la aplicación original -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+
+      <!-- KPI 1: Total Inscritos -->
+      <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-mono text-xs font-bold uppercase tracking-wider text-slate-500">
+            Total Inscritos
+          </span>
+          <span class="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600">
+            👥
+          </span>
+        </div>
+        <div class="my-2">
+          <span class="text-4xl sm:text-5xl font-black text-[#0B0F19] tracking-tight">
+            523
+          </span>
+        </div>
+        <div class="text-xs text-slate-500 font-medium pt-3 border-t border-slate-100 flex items-center justify-between">
+          <span>Cupos oficiales</span>
+          <span class="font-mono font-semibold text-slate-700">100% completado</span>
+        </div>
+      </div>
+
+      <!-- KPI 2: Kits Entregados (Borde superior verde como en la original) -->
+      <div class="bg-white rounded-3xl p-6 border border-slate-200/90 border-t-4 border-t-emerald-500 shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-mono text-xs font-bold uppercase tracking-wider text-emerald-700">
+            Kits Entregados
+          </span>
+          <span class="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 text-sm font-bold">
+            ✓
+          </span>
+        </div>
+        <div class="my-2">
+          <span class="text-4xl sm:text-5xl font-black text-emerald-600 tracking-tight">
+            348
+          </span>
+        </div>
+        <div class="text-xs text-slate-500 font-medium pt-3 border-t border-slate-100 flex items-center justify-between">
+          <span>Avance operativo</span>
+          <span class="font-mono font-semibold text-emerald-600">66.5% entregado</span>
+        </div>
+      </div>
+
+      <!-- KPI 3: Por Entregar (Borde superior naranja como en la original) -->
+      <div class="bg-white rounded-3xl p-6 border border-slate-200/90 border-t-4 border-t-brand-orange shadow-sm flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-mono text-xs font-bold uppercase tracking-wider text-brand-orange">
+            Por Entregar
+          </span>
+          <span class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center text-brand-orange text-sm font-bold">
+            ⏳
+          </span>
+        </div>
+        <div class="my-2">
+          <span class="text-4xl sm:text-5xl font-black text-brand-orange tracking-tight">
+            175
+          </span>
+        </div>
+        <div class="text-xs text-slate-500 font-medium pt-3 border-t border-slate-100 flex items-center justify-between">
+          <span>Pendientes en fila</span>
+          <span class="font-mono font-semibold text-brand-orange">33.5% restante</span>
+        </div>
+      </div>
+
+      <!-- KPI 4: Telemetría de velocidad de atención -->
+      <div class="bg-[#0B0F19] text-white rounded-3xl p-6 border border-slate-800 shadow-md flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-mono text-xs font-bold uppercase tracking-wider text-slate-400">
+            Velocidad Despacho
+          </span>
+          <span class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-amber-400">
+            ⚡
+          </span>
+        </div>
+        <div class="my-2">
+          <span class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            1.2 <span class="text-lg font-bold text-slate-400">seg</span>
+          </span>
+        </div>
+        <div class="text-xs text-slate-400 font-medium pt-3 border-t border-white/10 flex items-center justify-between font-mono">
+          <span>Cero colas</span>
+          <span class="text-emerald-400 font-bold">Sin aglomeración</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Módulo Central: Búsqueda interactiva y Listado de Corredores -->
+    <main class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
+
+      <!-- Barra de herramientas de la tabla -->
+      <div class="p-5 sm:p-6 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-[#0B0F19] flex items-center gap-2">
+            Control de Acreditaciones
+            <span class="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-slate-100 text-slate-700">
+              523 Atletas
+            </span>
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Escanea el código QR del participante o búscalo por cédula para validar
+          </p>
+        </div>
+
+        <!-- Filtros y campo de búsqueda -->
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Filtros de pestaña -->
+          <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-mono font-semibold">
+            <button onclick="filterTable('all')" id="tab-all" class="px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 cursor-pointer">
+              Todos (523)
+            </button>
+            <button onclick="filterTable('delivered')" id="tab-delivered" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer">
+              Entregados (348)
+            </button>
+            <button onclick="filterTable('pending')" id="tab-pending" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 cursor-pointer">
+              Pendientes (175)
+            </button>
+          </div>
+
+          <!-- Input de búsqueda -->
+          <div class="relative w-full sm:w-64">
+            <input 
+              type="text" 
+              id="search-input"
+              onkeyup="searchTable()"
+              placeholder="Buscar dorsal, cédula..." 
+              class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs font-sans text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-transparent transition-all"
+            >
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.3-4.3"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Corredores con datos de prueba de alta fidelidad -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse" id="runners-table">
+          <thead>
+            <tr class="bg-slate-50/75 border-b border-slate-200 text-slate-500 font-mono uppercase tracking-wider text-[11px]">
+              <th class="py-3 px-5 font-bold">Dorsal</th>
+              <th class="py-3 px-5 font-bold">Atleta / Participante</th>
+              <th class="py-3 px-5 font-bold">Cédula</th>
+              <th class="py-3 px-5 font-bold">Categoría</th>
+              <th class="py-3 px-5 font-bold text-center">Talla</th>
+              <th class="py-3 px-5 font-bold">Chip RFID</th>
+              <th class="py-3 px-5 font-bold">Estado de Entrega</th>
+              <th class="py-3 px-5 font-bold text-right">Acción</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 font-sans">
+
+            <!-- Fila 1: Entregado -->
+            <tr class="hover:bg-slate-50/60 transition-colors" data-status="delivered">
+              <td class="py-3.5 px-5 font-mono">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-[#0B0F19] text-white">
+                  #0142
+                </span>
+              </td>
+              <td class="py-3.5 px-5">
+                <span class="font-bold text-slate-900 block">Carlos Eduardo Mendoza</span>
+                <span class="text-[11px] text-slate-400">carlos.mendoza@email.com</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-600">V-24.891.203</td>
+              <td class="py-3.5 px-5 font-medium text-slate-700">8K Libre Masculino</td>
+              <td class="py-3.5 px-5 text-center font-mono font-bold text-slate-800">
+                <span class="px-2 py-0.5 rounded bg-slate-100">M</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-500 text-[11px]">RF-88214</td>
+              <td class="py-3.5 px-5">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  Entregado (08:42 AM)
+                </span>
+              </td>
+              <td class="py-3.5 px-5 text-right">
+                <button onclick="openModal()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-xs font-medium transition-all cursor-pointer">
+                  Ver Ficha
+                </button>
+              </td>
+            </tr>
+
+            <!-- Fila 2: Pendiente -->
+            <tr class="hover:bg-slate-50/60 transition-colors" data-status="pending">
+              <td class="py-3.5 px-5 font-mono">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-brand-orange text-white">
+                  #0143
+                </span>
+              </td>
+              <td class="py-3.5 px-5">
+                <span class="font-bold text-slate-900 block">Mariana Barreto Rodríguez</span>
+                <span class="text-[11px] text-slate-400">mariana.barreto@med.org</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-600">V-19.450.112</td>
+              <td class="py-3.5 px-5 font-medium text-slate-700">8K Máster Femenino</td>
+              <td class="py-3.5 px-5 text-center font-mono font-bold text-slate-800">
+                <span class="px-2 py-0.5 rounded bg-slate-100">S</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-500 text-[11px]">RF-88215</td>
+              <td class="py-3.5 px-5">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold text-brand-orange bg-orange-50 border border-orange-200">
+                  <span class="w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse"></span>
+                  Por Entregar
+                </span>
+              </td>
+              <td class="py-3.5 px-5 text-right">
+                <button onclick="openModal()" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium font-mono shadow-xs transition-all cursor-pointer">
+                  ✓ Entregar Kit
+                </button>
+              </td>
+            </tr>
+
+            <!-- Fila 3: Entregado -->
+            <tr class="hover:bg-slate-50/60 transition-colors" data-status="delivered">
+              <td class="py-3.5 px-5 font-mono">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-[#0B0F19] text-white">
+                  #0144
+                </span>
+              </td>
+              <td class="py-3.5 px-5">
+                <span class="font-bold text-slate-900 block">Alejandro José Colmenares</span>
+                <span class="text-[11px] text-slate-400">alejandro.colmenares@gmail.com</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-600">V-27.108.994</td>
+              <td class="py-3.5 px-5 font-medium text-slate-700">8K Juvenil</td>
+              <td class="py-3.5 px-5 text-center font-mono font-bold text-slate-800">
+                <span class="px-2 py-0.5 rounded bg-slate-100">L</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-500 text-[11px]">RF-88216</td>
+              <td class="py-3.5 px-5">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  Entregado (08:39 AM)
+                </span>
+              </td>
+              <td class="py-3.5 px-5 text-right">
+                <button onclick="openModal()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-xs font-medium transition-all cursor-pointer">
+                  Ver Ficha
+                </button>
+              </td>
+            </tr>
+
+            <!-- Fila 4: Pendiente -->
+            <tr class="hover:bg-slate-50/60 transition-colors" data-status="pending">
+              <td class="py-3.5 px-5 font-mono">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-brand-orange text-white">
+                  #0145
+                </span>
+              </td>
+              <td class="py-3.5 px-5">
+                <span class="font-bold text-slate-900 block">Valeria Sofía Rivas</span>
+                <span class="text-[11px] text-slate-400">valeria.rivas@outlook.com</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-600">V-25.643.881</td>
+              <td class="py-3.5 px-5 font-medium text-slate-700">8K Libre Femenino</td>
+              <td class="py-3.5 px-5 text-center font-mono font-bold text-slate-800">
+                <span class="px-2 py-0.5 rounded bg-slate-100">M</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-500 text-[11px]">RF-88217</td>
+              <td class="py-3.5 px-5">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold text-brand-orange bg-orange-50 border border-orange-200">
+                  <span class="w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse"></span>
+                  Por Entregar
+                </span>
+              </td>
+              <td class="py-3.5 px-5 text-right">
+                <button onclick="openModal()" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium font-mono shadow-xs transition-all cursor-pointer">
+                  ✓ Entregar Kit
+                </button>
+              </td>
+            </tr>
+
+            <!-- Fila 5: Entregado -->
+            <tr class="hover:bg-slate-50/60 transition-colors" data-status="delivered">
+              <td class="py-3.5 px-5 font-mono">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-[#0B0F19] text-white">
+                  #0146
+                </span>
+              </td>
+              <td class="py-3.5 px-5">
+                <span class="font-bold text-slate-900 block">Diego Fernando Morales</span>
+                <span class="text-[11px] text-slate-400">diego.morales@corredores.ve</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-600">V-22.319.405</td>
+              <td class="py-3.5 px-5 font-medium text-slate-700">8K Sub-23</td>
+              <td class="py-3.5 px-5 text-center font-mono font-bold text-slate-800">
+                <span class="px-2 py-0.5 rounded bg-slate-100">XL</span>
+              </td>
+              <td class="py-3.5 px-5 font-mono text-slate-500 text-[11px]">RF-88218</td>
+              <td class="py-3.5 px-5">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  Entregado (08:31 AM)
+                </span>
+              </td>
+              <td class="py-3.5 px-5 text-right">
+                <button onclick="openModal()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-xs font-medium transition-all cursor-pointer">
+                  Ver Ficha
+                </button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pie de tabla informativo -->
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 font-mono">
+        <span>Mostrando 5 de 523 participantes registrados</span>
+        <div class="flex items-center gap-1">
+          <button class="px-2.5 py-1 rounded border border-slate-200 bg-white hover:bg-slate-100 disabled:opacity-50" disabled>&larr;</button>
+          <span class="px-2 py-1 font-bold text-slate-800">1</span>
+          <button class="px-2.5 py-1 rounded border border-slate-200 bg-white hover:bg-slate-100">&rarr;</button>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- CONTENEDOR VISTA TELÉFONO (RÉPLICA EXACTA DEL SMARTPHONE ORIGINAL) -->
+  <div id="view-mobile" class="hidden max-w-sm mx-auto px-4 py-8">
+    <div class="bg-white rounded-[40px] p-6 shadow-2xl border-4 border-slate-800 relative overflow-hidden">
+      
+      <!-- Cámara frontal mockup -->
+      <div class="w-32 h-4 bg-slate-800 rounded-full mx-auto mb-6"></div>
+
+      <!-- Título idéntico a la foto original -->
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-black text-[#0B0F19] tracking-tight">
+          META RUN <span class="text-brand-orange">8K</span>
+        </h1>
+        <p class="text-xs text-slate-500 font-medium mt-1">
+          Entrega de kits y dorsales
+        </p>
+      </div>
+
+      <!-- Botones superiores idénticos a la foto original -->
+      <div class="space-y-3 mb-6">
+        <button onclick="alert('Lista reseteada.')" class="w-full py-3 rounded-full border border-rose-200 bg-white text-rose-600 font-mono text-xs font-bold hover:bg-rose-50 transition-all cursor-pointer shadow-xs">
+          Vaciar Lista
+        </button>
+
+        <button onclick="alert('Sincronizando con base de datos central...')" class="w-full py-3.5 rounded-full bg-[#0B0F19] text-white font-mono text-xs font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-all cursor-pointer shadow-md">
+          <span class="text-brand-orange">🔄</span>
+          <span>Sincronizar Datos</span>
+        </button>
+      </div>
+
+      <!-- Tarjetas de métricas idénticas a la foto original -->
+      <div class="space-y-4">
+
+        <!-- Tarjeta 1: Total Inscritos -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+            TOTAL INSCRITOS
+          </span>
+          <span class="text-5xl font-black text-[#0B0F19]">
+            523
+          </span>
+        </div>
+
+        <!-- Tarjeta 2: Entregados (Borde verde superior idéntico) -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 border-t-4 border-t-emerald-500 shadow-sm text-center">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+            ENTREGADOS
+          </span>
+          <span class="text-5xl font-black text-[#0B0F19]">
+            348
+          </span>
+        </div>
+
+        <!-- Tarjeta 3: Por Entregar (Borde naranja superior idéntico) -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 border-t-4 border-t-brand-orange shadow-sm text-center">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+            POR ENTREGAR
+          </span>
+          <span class="text-5xl font-black text-brand-orange">
+            175
+          </span>
+        </div>
+
+      </div>
+
+      <!-- Barra inferior smartphone -->
+      <div class="w-28 h-1 bg-slate-300 rounded-full mx-auto mt-8"></div>
+    </div>
+  </div>
+
+  <!-- MODAL FLOTANTE DE ACREDITACIÓN EXITOSA (IDEAL PARA OTRA CAPTURA) -->
+  <div id="modal-acreditado" class="fixed inset-0 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden transition-opacity">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 text-center relative animate-in fade-in zoom-in duration-200">
+      
+      <!-- Icono de éxito con pulso verde -->
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-4 ring-8 ring-emerald-50">
+        ✓
+      </div>
+
+      <span class="font-mono text-[11px] font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full inline-block mb-3">
+        DORSAL ASIGNADO Y VALIDADO
+      </span>
+
+      <!-- Número de dorsal principal grande -->
+      <div class="bg-[#0B0F19] text-white rounded-2xl py-4 px-6 mb-5 shadow-md">
+        <span class="font-mono text-xs uppercase tracking-wider text-slate-400 block mb-0.5">Dorsal Oficial</span>
+        <span class="text-5xl font-black font-mono tracking-tight text-brand-orange">#0142</span>
+      </div>
+
+      <!-- Datos del corredor validado -->
+      <div class="bg-slate-50 rounded-2xl p-4 text-left border border-slate-200/80 mb-6 space-y-2 text-xs">
+        <div class="flex justify-between pb-2 border-b border-slate-200">
+          <span class="text-slate-500 font-mono">Atleta:</span>
+          <span class="font-bold text-slate-900">Carlos Eduardo Mendoza</span>
+        </div>
+        <div class="flex justify-between pb-2 border-b border-slate-200">
+          <span class="text-slate-500 font-mono">Cédula:</span>
+          <span class="font-mono font-bold text-slate-900">V-24.891.203</span>
+        </div>
+        <div class="flex justify-between pb-2 border-b border-slate-200">
+          <span class="text-slate-500 font-mono">Categoría:</span>
+          <span class="font-semibold text-slate-800">8K Libre Masculino</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-slate-500 font-mono">Kit Entregado:</span>
+          <span class="inline-flex items-center gap-1 font-mono font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
+            Franela Talla M + Chip RFID
+          </span>
+        </div>
+      </div>
+
+      <!-- Botón de cierre / Siguiente corredor -->
+      <button onclick="closeModal()" class="w-full py-3.5 rounded-full bg-[#0B0F19] hover:bg-slate-800 text-white font-mono text-xs uppercase tracking-wider font-bold shadow-lg transition-all cursor-pointer">
+        Confirmar y Pasar Siguiente
+      </button>
+    </div>
+  </div>
+
+  <!-- Scripts interactivos para búsqueda y cambio de vistas -->
+  <script>
+    function setView(view) {
+      const desktop = document.getElementById('view-desktop');
+      const mobile = document.getElementById('view-mobile');
+      const btnDesktop = document.getElementById('btn-view-desktop');
+      const btnMobile = document.getElementById('btn-view-mobile');
+
+      if (view === 'desktop') {
+        desktop.classList.remove('hidden');
+        mobile.classList.add('hidden');
+        btnDesktop.classList.add('bg-white/15', 'text-white');
+        btnDesktop.classList.remove('bg-white/5', 'text-white/60');
+        btnMobile.classList.remove('bg-white/15', 'text-white');
+        btnMobile.classList.add('bg-white/5', 'text-white/60');
+      } else {
+        desktop.classList.add('hidden');
+        mobile.classList.remove('hidden');
+        btnMobile.classList.add('bg-white/15', 'text-white');
+        btnMobile.classList.remove('bg-white/5', 'text-white/60');
+        btnDesktop.classList.remove('bg-white/15', 'text-white');
+        btnDesktop.classList.add('bg-white/5', 'text-white/60');
+      }
+    }
+
+    function openModal() {
+      document.getElementById('modal-acreditado').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal-acreditado').classList.add('hidden');
+    }
+
+    function filterTable(status) {
+      const rows = document.querySelectorAll('#runners-table tbody tr');
+      const tabAll = document.getElementById('tab-all');
+      const tabDelivered = document.getElementById('tab-delivered');
+      const tabPending = document.getElementById('tab-pending');
+
+      [tabAll, tabDelivered, tabPending].forEach(t => {
+        t.classList.remove('bg-white', 'shadow-xs', 'text-slate-900');
+        t.classList.add('text-slate-600');
+      });
+
+      if (status === 'all') {
+        tabAll.classList.add('bg-white', 'shadow-xs', 'text-slate-900');
+      } else if (status === 'delivered') {
+        tabDelivered.classList.add('bg-white', 'shadow-xs', 'text-slate-900');
+      } else if (status === 'pending') {
+        tabPending.classList.add('bg-white', 'shadow-xs', 'text-slate-900');
+      }
+
+      rows.forEach(row => {
+        if (status === 'all') {
+          row.style.display = '';
+        } else {
+          row.style.display = row.getAttribute('data-status') === status ? '' : 'none';
+        }
+      });
+    }
+
+    function searchTable() {
+      const term = document.getElementById('search-input').value.toLowerCase();
+      const rows = document.querySelectorAll('#runners-table tbody tr');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(term) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

@@ -20,7 +20,7 @@ export default function Footer() {
         {/* Wordmark monumental: sin recorte del descendente para que se lea 'juan álvarez' y no 'iuan álvarez' */}
         <div className="relative w-full overflow-hidden select-none px-2 sm:px-4 pb-2 sm:pb-4">
           <div className="flex items-center justify-center">
-            <span className="font-display font-bold text-[clamp(2.75rem,14.5vw,13.5rem)] tracking-[-0.05em] text-ink leading-none whitespace-nowrap">
+            <span className="font-display font-bold text-[clamp(2.25rem,13.5vw,13.5rem)] tracking-[-0.05em] text-ink leading-none whitespace-nowrap">
               juan álvarez
             </span>
             <span className="inline-flex align-baseline ml-2 sm:ml-4 mb-1 sm:mb-3 w-[28px] sm:w-[48px] h-[12px] sm:h-[18px] rounded-full overflow-hidden shrink-0 shadow-xs">

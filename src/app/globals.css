@@ -73,6 +73,15 @@ html {
   }
 }
 
+/* Fondo con ruido fractal y auras de marca (naranja + hielo) para secciones claras */
+.section-noise {
+  background-color: var(--bg);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 80% 100% at 0% 50%, rgba(191,224,255,0.70) 0%, transparent 70%),
+    radial-gradient(ellipse 65% 100% at 100% 50%, rgba(255,61,20,0.32) 0%, transparent 65%);
+}
+
 /* Texto de titular con degradado cromático y deriva suave */
 .hero-gradient-text {
   color: #FF3D14;

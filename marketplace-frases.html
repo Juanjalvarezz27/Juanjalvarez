@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Frases Marketplace</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body { font-family: 'Inter', sans-serif; }
+
+    /* Gradiente de fondo animado */
+    .bg-app {
+      background: #0a0f1e;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(59,130,246,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(139,92,246,0.10) 0%, transparent 60%);
+      min-height: 100vh;
+    }
+
+    /* Header glassmorphism */
+    .header-glass {
+      background: rgba(10, 15, 30, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+    }
+
+    /* Tarjeta con borde sutil y hover */
+    .card {
+      background: rgba(15, 23, 42, 0.90);
+      border: 1px solid rgba(99, 102, 241, 0.12);
+      border-radius: 1.25rem;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(99,102,241,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .card:hover {
+      border-color: rgba(99, 102, 241, 0.30);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(99,102,241,0.08);
+    }
+
+    /* Área de texto con gradiente de fondo */
+    .text-area {
+      background: rgba(2, 6, 23, 0.80);
+      border: 1px solid rgba(99, 102, 241, 0.10);
+      border-radius: 0.875rem;
+      transition: border-color 0.2s;
+    }
+    .text-area:focus-within {
+      border-color: rgba(99, 102, 241, 0.35);
+    }
+
+    /* Botón base */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      padding: 0.6rem 0.5rem;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .btn:active { transform: scale(0.94); }
+
+    /* Variantes de botón */
+    .btn-ghost {
+      background: rgba(30, 41, 59, 0.80);
+      border: 1px solid rgba(99, 102, 241, 0.12);
+      color: #94a3b8;
+    }
+    .btn-ghost:hover { background: rgba(51, 65, 85, 0.90); color: #e2e8f0; border-color: rgba(99,102,241,0.25); }
+
+    .btn-indigo {
+      background: rgba(79, 70, 229, 0.18);
+      border: 1px solid rgba(99, 102, 241, 0.30);
+      color: #818cf8;
+    }
+    .btn-indigo:hover { background: rgba(79, 70, 229, 0.30); color: #a5b4fc; }
+
+    .btn-copy {
+      background: linear-gradient(135deg, #059669, #047857);
+      border: 1px solid rgba(5, 150, 105, 0.40);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(5,150,105,0.25);
+    }
+    .btn-copy:hover { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 16px rgba(5,150,105,0.35); }
+
+    .btn-copy.copied {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-color: rgba(37, 99, 235, 0.40);
+      box-shadow: 0 2px 8px rgba(37,99,235,0.30);
+    }
+
+    /* Botón Variar Todo (header) */
+    .btn-vary-all {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border: 1px solid rgba(139,92,246,0.35);
+      color: #fff;
+      border-radius: 0.875rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 4px 16px rgba(79,70,229,0.30);
+      white-space: nowrap;
+    }
+    .btn-vary-all:hover { background: linear-gradient(135deg, #6366f1, #8b5cf6); box-shadow: 0 6px 20px rgba(79,70,229,0.45); }
+    .btn-vary-all:active { transform: scale(0.95); }
+
+    /* Badge de variante */
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.20);
+      transition: all 0.2s;
+    }
+
+    /* Número de categoría */
+    .cat-number {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 0.4rem;
+      background: rgba(79,70,229,0.18);
+      border: 1px solid rgba(99,102,241,0.25);
+      color: #818cf8;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* Animación de flash al variar */
+    @keyframes flash {
+      0%   { opacity: 1; }
+      30%  { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+    .flash { animation: flash 0.25s ease; }
+
+    /* Scroll suave en iOS */
+    html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+
+    /* Grid responsive para tarjetas */
+    @media (min-width: 640px) {
+      .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    }
+    @media (min-width: 1024px) {
+      .cards-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    /* Separador decorativo entre secciones */
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #475569;
+    }
+  </style>
+</head>
+<body class="bg-app text-slate-100 pb-20 select-none">
+
+  <!-- ── HEADER ── -->
+  <header class="header-glass sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <!-- Icono app -->
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg flex-shrink-0">
+          <span class="text-base">💬</span>
+        </div>
+        <div class="min-w-0">
+          <h1 class="text-sm font-bold text-white leading-tight truncate">Frases Marketplace</h1>
+          <p class="text-[11px] text-slate-500 leading-tight">Toca una frase para copiarla</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <!-- Contador global -->
+        <div class="hidden sm:flex flex-col items-end">
+          <span id="total-variantes" class="text-xs font-bold text-indigo-400">0 variantes</span>
+          <span class="text-[10px] text-slate-600">disponibles</span>
+        </div>
+        <button onclick="variarTodoGeneral()" class="btn-vary-all">
+          <span>🎲</span> Variar Todo
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de progreso decorativa -->
+    <div class="h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent"></div>
+  </header>
+
+  <!-- ── CONTENIDO PRINCIPAL ── -->
+  <main class="max-w-6xl mx-auto px-4 pt-5">
+
+    <!-- Sección: Preguntas de inspección -->
+    <div class="mb-3 flex items-center gap-2">
+      <span class="section-label">Inspección del producto</span>
+      <div class="flex-1 h-px bg-slate-800"></div>
+    </div>
+    <div class="cards-grid mb-6" id="grupo-inspeccion"></div>
+
+    <!-- Sección: Negociación -->
+    <div class="mb-3 flex items-center gap-2">
+      <span class="section-label">Negociación y cierre</span>
+      <div class="flex-1 h-px bg-slate-800"></div>
+    </div>
+    <div class="cards-grid mb-6" id="grupo-negociacion"></div>
+
+    <!-- Sección: Pago camuflado -->
+    <div class="mb-3 flex items-center gap-2">
+      <span class="section-label">Pago y logística</span>
+      <div class="flex-1 h-px bg-slate-800"></div>
+    </div>
+    <div class="cards-grid" id="grupo-pago"></div>
+
+  </main>
+
+  <!-- ── FAB móvil (alternativo al header en pantallas pequeñas) ── -->
+  <div class="sm:hidden fixed bottom-5 right-4 z-40">
+    <button onclick="variarTodoGeneral()" class="btn-vary-all shadow-2xl px-5 py-3 text-sm rounded-2xl">
+      🎲 Variar Todo
+    </button>
+  </div>
+
+  <script>
+    // =========================================================================
+    // BANCO DE MENSAJES (agrupados por sección)
+    // =========================================================================
+    const bancoMensajes = {
+
+      // ── Inspección ──────────────────────────────────────────────────────────
+      disponible: {
+        titulo: "¿Está disponible?",
+        num: "1",
+        grupo: "inspeccion",
+        icono: "✅",
+        opciones: [
+          "¿Está disponible?",
+          "¿Sigue disponible?",
+          "¿Todavía lo tienes?",
+          "¿Aún está a la venta?",
+          "¿No se ha vendido?",
+          "¿Continúa disponible?",
+          "¿Lo tienes aún?",
+          "¿Ya se fue o sigue disponible?",
+          "¿Sigues con él?",
+          "¿No lo has vendido aún?",
+          "¿Está libre todavía?",
+          "¿Sigue en venta?",
+          "¿Aún no lo has dado?",
+          "¿Está apartado o disponible?",
+          "¿Sigue siendo tuyo?",
+          "¿No tiene reserva?",
+          "¿Todavía no tiene dueño?",
+          "¿Lo puedo apartar?",
+          "¿Sigue disponible para verlo?",
+          "¿No lo han separado ya?"
+        ]
+      },
+      mecanica: {
+        titulo: "¿Mecánica?",
+        num: "2",
+        grupo: "inspeccion",
+        icono: "⚙️",
+        opciones: [
+          "¿Mecánica qué tal?","¿Cómo está de mecánica?","¿Mecánicamente al cien?",
+          "¿De motor y caja cómo anda?","¿Qué tal jala de mecánica?","¿Trae algún pendiente mecánico?",
+          "¿Cómo se siente de mecánica?","¿En cuestión mecánica todo bien?","¿Mecánicamente no le falla nada?",
+          "¿Cómo responde del motor?","¿De mecánica cómo lo traes?","¿Anda bien de lo mecánico?",
+          "¿Qué tal está del motor y suspensión?","¿Cómo anda trabajando de mecánica?","¿Mecánicamente cómo se comporta?",
+          "¿De motor y transmisión todo en orden?","¿Tiene algún tema mecánico?","¿Mecánicamente está listo para rodar?",
+          "¿Cómo anda de motor y caja?","¿Qué tal funciona mecánicamente?"
+        ]
+      },
+      papeles: {
+        titulo: "¿Papeles en regla?",
+        num: "3",
+        grupo: "inspeccion",
+        icono: "📄",
+        opciones: [
+          "¿Papeles en regla?","¿Cómo anda de papeles?","¿Qué tal de papelería?",
+          "¿Tiene sus papeles completos?","¿Cómo anda de documentos?","¿Qué papeles entregas?",
+          "¿Cómo se encuentra de documentación?","¿Los papeles están en orden?","¿Qué tal está de documentos?",
+          "¿De papeles cómo lo tienes?","¿Trae toda su papelería al día?","¿Cómo está el tema de los papeles?",
+          "¿Qué documentos tiene a la mano?","¿De papeles todo bien?","¿Cuenta con su papelería en regla?",
+          "¿Cómo anda en cuestión de papeles?","¿Qué papeles trae?","¿De documentación cómo anda?",
+          "¿Sus papeles están listos para cambio?","¿Los papeles están a su nombre?"
+        ]
+      },
+
+      // ── Negociación ──────────────────────────────────────────────────────────
+      pago: {
+        titulo: "Métodos de pago",
+        num: "4",
+        grupo: "negociacion",
+        icono: "💳",
+        opciones: [
+          "¿Qué métodos de pago manejas?","¿Cómo aceptas el pago?","¿Qué formas de pago recibes?",
+          "¿Cómo te manejas para el pago?","¿Qué opciones de pago aceptas?","¿De qué manera recibes el pago?",
+          "¿Qué modalidad de pago prefieres?","¿Cómo sería la forma de pago?","¿Qué medios de pago tienes?",
+          "¿Aceptas cualquier forma de pago?","¿Cómo prefieres que se haga el pago?","¿Qué tipo de pago recibes?",
+          "¿Cuáles formas de pago manejas?","¿Cómo recibes lo del pago?","¿Qué alternativas de pago aceptas?",
+          "¿Cómo se manejaría el pago?","¿Qué forma de pago te acomoda?","¿Cómo manejas el trato del pago?",
+          "¿Qué métodos de pago utilizas?","¿Bajo qué forma recibes el pago?"
+        ]
+      },
+      precio: {
+        titulo: "¿Cuánto pides?",
+        num: "5",
+        grupo: "negociacion",
+        icono: "💰",
+        opciones: [
+          "¿Cuánto pides?","¿Cuál es el precio?","¿Cuánto es lo menos que pides?",
+          "¿En cuánto lo tienes?","¿Cuál sería tu mejor precio?","¿Cuánto estás pidiendo?",
+          "¿En cuánto sale?","¿Qué precio tiene?","¿Cuánto es lo último que pides?",
+          "¿En cuánto lo dejas?","¿Cuál es su precio ya para trato?","¿Cuánto pides por él?",
+          "¿En cuánto lo estás dando?","¿Cuál es el precio final?","¿A cómo lo tienes?",
+          "¿En cuánto me lo dejarías?","¿Cuál es el precio que manejas?","¿Cuánto pides en total?",
+          "¿Qué precio le pones?","¿En cuánto queda lo menos?"
+        ]
+      },
+      ubicacion: {
+        titulo: "Estoy en USA",
+        num: "6",
+        grupo: "negociacion",
+        icono: "🇺🇸",
+        opciones: [
+          "Estoy en USA.",
+          "Me encuentro en los Estados Unidos.",
+          "Ahorita estoy en US.",
+          "Yo estoy en Oklahoma.",
+          "Me ubico en Oklahoma City.",
+          "Estoy en Texas ahorita.",
+          "Ando por acá en Estados Unidos.",
+          "Resido en USA.",
+          "Estoy del lado americano.",
+          "Me encuentro en el norte, en USA.",
+          "Vivo en los States.",
+          "Estoy en Oklahoma, en el área de OKC.",
+          "Me ubico en USA, por Oklahoma.",
+          "Ando por Texas ahorita.",
+          "Estoy en territorio americano.",
+          "Me encuentro en el lado de USA.",
+          "Vivo en los Estados Unidos, en Oklahoma.",
+          "Estoy por acá en OKC.",
+          "Me ubico en US, por el suroeste.",
+          "Estoy en América, en Oklahoma."
+        ]
+      },
+      cita: {
+        titulo: "¿Puede usted en X día?",
+        num: "7",
+        grupo: "negociacion",
+        icono: "📅",
+        opciones: [
+          "¿Puede usted mañana?","¿Tendrá tiempo hoy mismo?","¿Se le acomoda el lunes?",
+          "¿Cree que pueda el martes?","¿Podría el miércoles?","¿Le queda bien el jueves?",
+          "¿Tendrá chance el viernes?","¿Usted puede este sábado?","¿Se le facilita el domingo?",
+          "¿Estará libre mañana?","¿Le parece bien hoy?","¿Puede usted recibirnos el lunes?",
+          "¿Tendrá espacio el martes?","¿Podrá el miércoles para pasar?","¿Le acomoda el jueves?",
+          "¿Usted tendría oportunidad el viernes?","¿Se podrá este sábado?","¿Cómo anda de tiempo el domingo?",
+          "¿Se le hace fácil mañana?","¿Tendrá chance de mostrarlo hoy?"
+        ]
+      },
+
+      // ── Pago camuflado ────────────────────────────────────────────────────────
+      enganche: {
+        titulo: "Apartado + Resto en mano",
+        num: "8",
+        grupo: "pago",
+        icono: "🤝",
+        opciones: [
+          "Para no hacerle perder su tiempo, le dejo un apartado y el resto en mano.",
+          "Para ir a la segura, le adelanto una parte y la diferencia se la doy en físico.",
+          "Para que vea que es trato serio, le pongo un adelanto y lo demás al vernos.",
+          "Para no perder la vuelta, le paso un apartado y el resto se lo liquido en persona.",
+          "Para asegurar el trato, le dejo un adelanto y lo que falta se lo pago en mano.",
+          "Para ir seguros los dos, le paso un apartado hoy y el resto en efectivo al vernos.",
+          "Para formalizar, le dejo algo a cuenta y la diferencia se la doy allá mismo.",
+          "Para no quitarle tiempo, le adelanto para apartarlo y el resto en mano.",
+          "Para amarrar el trato, le puedo dejar un adelanto y lo demás en físico.",
+          "Para ir a lo seguro, le paso un apartado y el resto se lo entrego al llegar."
+        ]
+      },
+      cuentaAmericana: {
+        titulo: "Cuenta americana / No MX",
+        num: "9",
+        grupo: "pago",
+        icono: "🇺🇸",
+        opciones: [
+          "¿Tienes cuenta americana para pasarte eso? Ahorita no puedo usar mi cuenta MX.",
+          "¿Manejas cuenta de USA para mandarte el apartado? Ahorita no tengo activa la mexicana.",
+          "¿Cuentas con banco de Estados Unidos para pasarte eso? No puedo usar mi cuenta MX.",
+          "¿De casualidad tienes cuenta americana donde puedas recibir? Mi cuenta MX está inactiva.",
+          "¿Tienes forma de recibir desde banco del otro lado? Ahorita no puedo usar la de México.",
+          "¿Manejas cuenta de allá arriba (USA) para pasarte esa parte? No tengo mi cuenta MX a la mano.",
+          "¿Tendrás cuenta en Estados Unidos para mandarte el adelanto? Ahorita la MX me falla.",
+          "¿De pura casualidad usas banco americano para pasártelo? No puedo mover de la mexicana.",
+          "¿Tienes cuenta de allá del norte para enviarte? Ahorita solo tengo activa la otra.",
+          "¿Cuentas con algún banco de USA para pasar el dinero? Ahorita no tengo mi tarjeta MX."
+        ]
+      },
+      favorPorcentaje: {
+        titulo: "Buscar favor + Comisión",
+        num: "10",
+        grupo: "pago",
+        icono: "🔗",
+        opciones: [
+          "Buscaré quién me haga el favor. ¿Usted no podría conseguir una americana con un conocido? Le doy un extra.",
+          "Voy a ver quién me presta una. ¿De su lado no tendrá un familiar con cuenta de allá? Pago porcentaje extra.",
+          "Trataré de conseguir. ¿O no le será posible buscar una cuenta de USA? Le reconozco una comisión.",
+          "Déjeme checar quién me apoya. ¿Usted no podría conseguir una americana? Pago extra sin problema.",
+          "Buscaré apoyo. ¿No podría conseguir una cuenta del otro lado y le doy un porcentaje?",
+          "Voy a ver quién me echa la mano. ¿Usted no tendrá un pariente que reciba allá? Le doy comisión.",
+          "Trataré de que me presten. ¿No podría buscar una cuenta americana y le pago un extra?",
+          "Déjeme ver quién me apoya de este lado. ¿Usted no puede conseguir una de USA? Le doy su porcentaje.",
+          "Buscaré quién me preste cuenta. ¿O usted no tendría forma de conseguir una americana? Pago comisión.",
+          "Voy a ver cómo le hago. ¿No podría conseguir una cuenta de allá y le reconozco un extra?"
+        ]
+      },
+      bancos: {
+        titulo: "Bancos (Anti-ban)",
+        num: "11",
+        grupo: "pago",
+        icono: "🏦",
+        opciones: [
+          "Te puedo pasar por cualquiera de estos: Wells / PNC / US Bnk / Citi / Zlle.",
+          "Manejo estas opciones de allá: el Wells, PNC, US Bnk, Citi o Zlle.",
+          "Se me facilita mandar por medio de: Wells F., PNC, US Bnk, Citi Bnk o Zlle.",
+          "Puedo moverlo rápido desde: el Wells, PNC, U.S. Bank, Citibnk o la app Zlle.",
+          "Te paso los que manejo de allá: Wells, PNC, US Bnk, Citi y Zlle.",
+          "Si consiguen, te mando directo por: Wells F., PNC, US Bnk, Citi o Zlle.",
+          "Trabajo con estas opciones de allá: Wells, el PNC, US Bnk, el Citi o Zlle.",
+          "Me queda al cien mandarte por: Wells, PNC, US Bnk, Citi, Zlle.",
+          "Tengo activos estos: Wells F., PNC, US Bnk, Citibnk, Zlle.",
+          "Puedo hacer el movimiento desde: el Wells, PNC, US Bnk, Citi, Zlle."
+        ]
+      }
+    };
+
+    // =========================================================================
+    // ESTADO
+    // =========================================================================
+    const estadoIndices = {};
+
+    // =========================================================================
+    // INICIALIZACIÓN
+    // =========================================================================
+    function inicializarUI() {
+      let totalVariantes = 0;
+
+      Object.keys(bancoMensajes).forEach(key => {
+        estadoIndices[key] = 0;
+        const item = bancoMensajes[key];
+        totalVariantes += item.opciones.length;
+
+        const contenedor = document.getElementById(`grupo-${item.grupo}`);
+        if (!contenedor) return;
+
+        const tarjeta = document.createElement('article');
+        tarjeta.className = "card p-4 flex flex-col gap-3";
+        tarjeta.id = `card-${key}`;
+        tarjeta.innerHTML = `
+          <!-- Encabezado de tarjeta -->
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <!-- Paso número -->
+              <div class="flex-shrink-0 flex flex-col items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600/30 to-purple-600/20 border border-indigo-500/25">
+                <span class="text-[8px] font-bold text-indigo-400 uppercase leading-none">Paso</span>
+                <span class="text-sm font-extrabold text-indigo-300 leading-none">${item.num}</span>
+              </div>
+              <div class="min-w-0">
+                <div class="w-5 h-5 text-base leading-none mb-0.5">${item.icono}</div>
+                <span class="text-xs font-semibold text-slate-300 leading-tight block truncate">${item.titulo}</span>
+              </div>
+            </div>
+            <span id="badge-${key}" class="badge flex-shrink-0">1 / ${item.opciones.length}</span>
+          </div>
+
+          <!-- Texto de la frase (clickeable para copiar) -->
+          <div
+            id="texto-${key}"
+            class="text-area p-3.5 text-sm text-slate-100 leading-relaxed min-h-[60px] flex items-center cursor-pointer active:opacity-70 transition-opacity"
+            onclick="copiarTextoDesdeArea('${key}', this)"
+            title="Toca para copiar"
+          >
+            ${item.opciones[0]}
+          </div>
+
+          <!-- Acciones: solo Variar y Copiar -->
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="variarIndividual('${key}')" class="btn btn-indigo" title="Variante aleatoria">
+              🎲 Variar
+            </button>
+            <button id="btn-copy-${key}" onclick="copiarTexto('${key}', this)" class="btn btn-copy">
+              📋 Copiar
+            </button>
+          </div>
+        `;
+        contenedor.appendChild(tarjeta);
+      });
+
+      // Actualizar contador global
+      const el = document.getElementById('total-variantes');
+      if (el) el.textContent = `${totalVariantes} variantes`;
+    }
+
+    // =========================================================================
+    // LÓGICA
+    // =========================================================================
+    function actualizarVista(key) {
+      const item = bancoMensajes[key];
+      const idx  = estadoIndices[key];
+      const textoEl = document.getElementById(`texto-${key}`);
+      const badgeEl = document.getElementById(`badge-${key}`);
+
+      textoEl.classList.add('flash');
+      textoEl.addEventListener('animationend', () => textoEl.classList.remove('flash'), { once: true });
+
+      textoEl.textContent = item.opciones[idx];
+      badgeEl.textContent = `${idx + 1} / ${item.opciones.length}`;
+    }
+
+    function variarIndividual(key) {
+      const total = bancoMensajes[key].opciones.length;
+      let nuevo   = Math.floor(Math.random() * total);
+      if (nuevo === estadoIndices[key]) nuevo = (estadoIndices[key] + 1) % total;
+      estadoIndices[key] = nuevo;
+      actualizarVista(key);
+    }
+
+    function variarTodoGeneral() {
+      Object.keys(bancoMensajes).forEach(key => variarIndividual(key));
+    }
+
+    // Copia y luego varía automáticamente para la próxima vez
+    function _ejecutarCopia(key, btnEl) {
+      const texto = document.getElementById(`texto-${key}`).textContent.trim();
+      navigator.clipboard.writeText(texto).then(() => {
+        const original = btnEl.innerHTML;
+        btnEl.innerHTML = "✅ Copiado";
+        btnEl.classList.add('copied');
+        setTimeout(() => {
+          btnEl.innerHTML = original;
+          btnEl.classList.remove('copied');
+          variarIndividual(key); // rota automáticamente
+        }, 900);
+      }).catch(() => {
+        // Fallback para navegadores sin permisos
+        const r = document.createRange();
+        const sel = window.getSelection();
+        const el = document.getElementById(`texto-${key}`);
+        r.selectNodeContents(el);
+        sel.removeAllRanges();
+        sel.addRange(r);
+        document.execCommand('copy');
+        sel.removeAllRanges();
+      });
+    }
+
+    function copiarTexto(key, btnEl) { _ejecutarCopia(key, btnEl); }
+
+    // Al tocar el área de texto también copia
+    function copiarTextoDesdeArea(key, _areaEl) {
+      const btnEl = document.getElementById(`btn-copy-${key}`);
+      _ejecutarCopia(key, btnEl);
+    }
+
+    window.onload = inicializarUI;
+  </script>
+</body>
+</html>

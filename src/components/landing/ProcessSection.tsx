@@ -137,7 +137,7 @@ function IllustrationDevelopment({ shouldReduceMotion }: { shouldReduceMotion: b
   );
 }
 
-// Ilustración 04: Lanzamiento y soporte (Modo oscuro con chip En línea, switch y telemetría de pulso tipo latido)
+// Ilustración 04: Lanzamiento y soporte (Consola oscura con chip En línea, switch y telemetría ECG viva)
 function IllustrationLaunch({ 
   statusText, 
   shouldReduceMotion 
@@ -151,7 +151,7 @@ function IllustrationLaunch({
       <div className="flex items-center justify-between">
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-mono text-[10px] font-semibold text-emerald-300">
+          <span className="font-mono text-[10px] font-semibold text-emerald-400">
             {statusText}
           </span>
         </div>
@@ -162,13 +162,15 @@ function IllustrationLaunch({
         </div>
       </div>
 
-      {/* Latido de pulso ECG de ancho completo centrado verticalmente con strokeDashoffset animado */}
-      <div className="w-full flex-1 flex items-center justify-center py-2">
+      {/* Latido de pulso ECG con línea de base tenue y trazo blanco nítido */}
+      <div className="w-full flex-1 flex items-center justify-center py-2 relative">
         <svg className="w-full h-10 overflow-visible" viewBox="0 0 280 40" preserveAspectRatio="none">
+          {/* Línea horizontal base de telemetría */}
+          <line x1="0" y1="20" x2="280" y2="20" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" strokeDasharray="3 3" />
           <motion.path
             d="M 0 20 L 105 20 L 115 6 L 125 34 L 135 12 L 145 26 L 155 20 L 280 20"
             fill="none"
-            stroke="rgba(255, 255, 255, 0.6)"
+            stroke="#FFFFFF"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -229,6 +231,50 @@ function TimelineNode({
   );
 }
 
+// Paleta por tarjeta — mismo sistema visual que ServicesSection
+const STEP_STYLES = [
+  {
+    // 01 Descubrimiento — oscuro como "Sistemas"
+    card: 'bg-ink text-white border border-line-dark',
+    visual: 'bg-white/5 border border-white/10',
+    badge: 'border-white/20 text-white/80 bg-white/5',
+    num: 'text-white/40',
+    title: 'text-white',
+    desc: 'text-white/70',
+    glow: 'absolute top-0 right-0 w-48 h-28 rounded-full bg-gradient-to-r from-accent to-accent-deep blur-2xl opacity-40 pointer-events-none',
+  },
+  {
+    // 02 Propuesta — blanco limpio como "Web"
+    card: 'bg-surface text-ink border border-line',
+    visual: 'bg-bg border border-line/60',
+    badge: 'border-line text-ink bg-bg',
+    num: 'text-ink/40',
+    title: 'text-ink',
+    desc: 'text-ink-soft',
+    glow: null,
+  },
+  {
+    // 03 Desarrollo — rojo acento como "Automatización"
+    card: 'bg-accent-deep text-white border border-white/20',
+    visual: 'bg-white/10 border border-white/15',
+    badge: 'border-white/30 text-white bg-white/10',
+    num: 'text-white/50',
+    title: 'text-white',
+    desc: 'text-white/90',
+    glow: null,
+  },
+  {
+    // 04 Lanzamiento — gris cálido como "Soporte" con consola de monitoreo oscura
+    card: 'bg-surface-2 text-ink border border-line/50',
+    visual: 'bg-[#111115] border border-black/20',
+    badge: 'border-line text-ink bg-bg/80',
+    num: 'text-ink/40',
+    title: 'text-ink',
+    desc: 'text-ink-soft',
+    glow: null,
+  },
+];
+
 // Tarjeta individual de paso reutilizable en desktop, tablet y móvil
 function StepCard({
   step,
@@ -250,78 +296,59 @@ function StepCard({
   showStarBullet?: boolean;
   visualHeight?: string;
 }) {
-  const isDark = index === 3;
+  const styles = STEP_STYLES[index] ?? STEP_STYLES[1];
 
   return (
     <div
-      className={`rounded-[28px] p-5 xl:p-6 flex flex-col justify-between h-full transition-all duration-300 group hover:-translate-y-1.5 shadow-xs hover:shadow-lg ${
-        isDark
-          ? 'bg-ink text-white border border-line-dark'
-          : 'bg-surface text-ink border border-line'
-      }`}
+      className={`rounded-[28px] p-5 xl:p-6 flex flex-col gap-4 h-full transition-all duration-300 group hover:-translate-y-1.5 shadow-xs hover:shadow-lg relative overflow-hidden border ${styles.card}`}
     >
-      <div>
-        {/* Zona visual con la mini ilustración específica */}
-        <div
-          className={`w-full ${visualHeight} rounded-[20px] overflow-hidden mb-5 ${
-            isDark ? 'bg-white/[0.06] border border-white/10' : 'bg-bg border border-line/60'
-          }`}
-        >
-          {index === 0 && <IllustrationDiscovery shouldReduceMotion={shouldReduceMotion} />}
-          {index === 1 && <IllustrationDesign />}
-          {index === 2 && <IllustrationDevelopment shouldReduceMotion={shouldReduceMotion} />}
-          {index === 3 && (
-            <IllustrationLaunch 
-              statusText={statusOnline} 
-              shouldReduceMotion={shouldReduceMotion} 
-            />
-          )}
-        </div>
+      {/* Glow decorativo solo en la tarjeta oscura */}
+      {styles.glow && (
+        <div className={styles.glow} aria-hidden="true" />
+      )}
 
-        {/* Fila con etiqueta de etapa y número grande */}
-        <div className="flex items-center justify-between gap-2 mb-3.5">
-          <span
-            className={`inline-flex items-center px-3 py-1 rounded-full font-mono text-[11px] font-semibold uppercase tracking-wider border ${
-              isDark
-                ? 'border-white/20 text-white/90 bg-white/5'
-                : 'border-line text-ink bg-bg'
-            }`}
-          >
-            {step.stage}
-          </span>
-
-          <div className="flex items-center gap-2">
-            {showStarBullet && (
-              <StarBullet size={14} className="text-accent" />
-            )}
-            <span
-              className={`font-display font-bold text-3xl select-none transition-colors ${
-                isDark ? 'text-white/40 group-hover:text-white' : 'text-muted/60 group-hover:text-ink'
-              }`}
-            >
-              {step.num}
-            </span>
-          </div>
-        </div>
-
-        {/* Título de la etapa con altura mínima de 2 líneas para alinear descripciones */}
-        <h3
-          className={`font-display font-semibold text-[21px] xl:text-[23px] tracking-[-0.03em] leading-tight mb-2.5 min-h-[3.25rem] sm:min-h-[3.5rem] flex items-start ${
-            isDark ? 'text-white' : 'text-ink'
-          }`}
-        >
-          {step.title}
-        </h3>
+      {/* Zona visual con la mini ilustración específica */}
+      <div
+        className={`w-full ${visualHeight} rounded-[20px] overflow-hidden shrink-0 border ${styles.visual}`}
+      >
+        {index === 0 && <IllustrationDiscovery shouldReduceMotion={shouldReduceMotion} />}
+        {index === 1 && <IllustrationDesign />}
+        {index === 2 && <IllustrationDevelopment shouldReduceMotion={shouldReduceMotion} />}
+        {index === 3 && (
+          <IllustrationLaunch 
+            statusText={statusOnline} 
+            shouldReduceMotion={shouldReduceMotion} 
+          />
+        )}
       </div>
 
-      {/* Descripción completa sin recorte artificial */}
-      <p
-        className={`text-[14px] xl:text-[14.5px] leading-relaxed mt-1 ${
-          isDark ? 'text-white/70' : 'text-ink-soft'
-        }`}
-      >
-        {step.desc}
-      </p>
+      {/* Fila con etiqueta de etapa y número grande */}
+      <div className="flex items-center justify-between gap-2">
+        <span
+          className={`inline-flex items-center px-3 py-1 rounded-full font-mono text-[11px] font-semibold uppercase tracking-wider border ${styles.badge}`}
+        >
+          {step.stage}
+        </span>
+
+        <div className="flex items-center gap-2">
+          {showStarBullet && (
+            <StarBullet size={14} className="text-accent" />
+          )}
+          <span className={`font-display font-bold text-3xl select-none ${styles.num}`}>
+            {step.num}
+          </span>
+        </div>
+      </div>
+
+      {/* Título y descripción sin espaciado forzado */}
+      <div>
+        <h3 className={`font-display font-semibold text-[21px] xl:text-[23px] tracking-[-0.03em] leading-tight mb-2 ${styles.title}`}>
+          {step.title}
+        </h3>
+        <p className={`text-[14px] xl:text-[14.5px] leading-relaxed ${styles.desc}`}>
+          {step.desc}
+        </p>
+      </div>
     </div>
   );
 }
@@ -368,20 +395,7 @@ export default function ProcessSection() {
       ref={containerRef}
       className="relative w-full bg-bg text-ink pt-[clamp(64px,9vw,120px)] pb-[clamp(36px,4.5vw,56px)] overflow-hidden"
     >
-      {/* Trama sutil de puntos de retícula editorial */}
-      <div 
-        className="absolute inset-0 bg-[radial-gradient(rgba(11,11,12,0.045)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-80"
-        aria-hidden="true"
-      />
-      {/* Auras lumínicas sutiles de transición de marca */}
-      <div 
-        className="absolute -top-24 left-1/2 -translate-x-1/2 w-[750px] h-[340px] bg-gradient-to-b from-[#BFE0FF]/35 to-transparent blur-[120px] pointer-events-none -z-0" 
-        aria-hidden="true" 
-      />
-      <div 
-        className="absolute bottom-10 right-10 w-[500px] h-[300px] bg-gradient-to-tl from-[#FF3D14]/[0.06] to-transparent blur-[110px] pointer-events-none -z-0" 
-        aria-hidden="true" 
-      />
+      {/* Auras lumínicas sutiles de transición de marca — ahora vienen del CSS .section-noise */}
 
       <Container>
         {/* Encabezado editorial centrado */}

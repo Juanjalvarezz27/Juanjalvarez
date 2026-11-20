@@ -18,8 +18,8 @@ export default function HeroVisual({
       className={`absolute inset-0 overflow-hidden pointer-events-none select-none z-0 ${className}`}
       aria-hidden="true"
     >
-      {/* Contenedor de la estela aerodinámica en la mitad derecha (desde ~55% hacia la derecha, opacidad reducida un 25%) */}
-      <div className="absolute top-[46%] sm:top-[48%] lg:top-[50%] left-[55%] -right-[6vw] w-[48vw] flex flex-col items-end animate-drift-estela opacity-75 pointer-events-none">
+      {/* Contenedor de la estela aerodinámica en la mitad derecha (solo visible en desktop ≥1280px para acompañar la escena 3D) */}
+      <div className="hidden xl:flex absolute top-[46%] sm:top-[48%] lg:top-[50%] left-[55%] -right-[6vw] w-[48vw] flex-col items-end animate-drift-estela opacity-75 pointer-events-none">
         
         {/* Franja 1: Rojo (#E11D12) elipse con desvanecimiento horizontal */}
         <div 
@@ -60,6 +60,16 @@ export default function HeroVisual({
           }}
         />
       </div>
+
+      {/* Resplandor radial cinemático centrado para móvil/tablet (<1280px) detrás del elemento 3D */}
+      <div 
+        className="xl:hidden absolute left-1/2 -translate-x-1/2 top-[44%] -translate-y-1/2 w-[340px] sm:w-[440px] h-[300px] rounded-full pointer-events-none opacity-80"
+        style={{
+          background: 'radial-gradient(circle, rgba(255, 61, 20, 0.28) 0%, rgba(225, 29, 18, 0.14) 45%, transparent 70%)',
+          filter: 'blur(36px)',
+          mixBlendMode: 'multiply',
+        }}
+      />
 
       {/* Slot preparado para /public/hero-portrait.png si se añade en el futuro */}
       {hasPortrait && (

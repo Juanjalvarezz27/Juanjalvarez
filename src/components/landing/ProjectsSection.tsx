@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ExternalLink } from 'lucide-react';
 import { Container, SectionHeading, Button, StarBullet } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { getProjects, type Project } from '../../data/projects';
 import { getWhatsAppUrl } from '../../config/site';
+import ProjectModal from './ProjectModal';
 
 // Mockup visual con aspect ratio 16/10 uniforme para escritorio, móviles en marco y proyectos en desarrollo
 function ProjectMockup({ 
@@ -71,7 +71,7 @@ function ProjectMockup({
   }
 
   return (
-    <div className="relative w-full aspect-[16/10] overflow-hidden bg-[#09090D] border-b border-white/10 flex items-center justify-center select-none">
+    <div className={`relative w-full ${isMobile ? 'aspect-[16/10]' : 'aspect-[16/8.5]'} overflow-hidden bg-[#09090D] border-b border-white/10 flex items-center justify-center select-none`}>
       {/* Sutil resplandor radial temático (Azul hielo o Naranja/Rojo Poppy) */}
       <div 
         className={`absolute inset-0 bg-radial ${isAccent ? 'from-accent/15 via-accent/5' : 'from-ice/15 via-ice/5'} to-transparent pointer-events-none`} 
@@ -102,16 +102,9 @@ function ProjectMockup({
               aria-hidden="true" 
             />
           </div>
-
-          {/* Pill de dominio temático en esquina superior derecha */}
-          <div className={`absolute top-2.5 right-3 bg-black/60 backdrop-blur-md rounded-full px-2.5 py-0.5 border font-mono text-[9px] max-w-[150px] truncate ${
-            isAccent ? 'border-accent/20 text-accent/80' : 'border-ice/20 text-ice/80'
-          }`}>
-            {project.slug}.dev
-          </div>
         </div>
       ) : (
-        // Mockup de navegador de escritorio con barra de control y aspect 16/10
+        // Mockup de navegador de escritorio con barra de control minimalista y estado en vivo
         <div className="relative w-full h-full flex flex-col">
           <div className="h-7 bg-black/70 backdrop-blur-sm border-b border-white/10 px-3.5 flex items-center justify-between shrink-0 select-none">
             <div className="flex items-center gap-1.5">
@@ -119,12 +112,13 @@ function ProjectMockup({
               <span className="w-2 h-2 rounded-full bg-[#FFBD2E] opacity-75 inline-block" />
               <span className="w-2 h-2 rounded-full bg-[#27C93F] opacity-75 inline-block" />
             </div>
-            <div className={`rounded-full px-3 py-0.5 font-mono text-[9.5px] truncate max-w-[200px] border ${
-              isAccent ? 'bg-accent/10 border-accent/20 text-accent/80' : 'bg-ice/10 border-ice/20 text-ice/80'
-            }`}>
-              {project.slug}.juanalvarez.dev
-            </div>
-            <div className="w-8" />
+
+            {project.url && (
+              <span className="font-mono text-[10px] text-accent/90 font-medium tracking-wide flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                <span>{lang === 'es' ? 'En vivo' : 'Live'}</span>
+              </span>
+            )}
           </div>
 
           <div className="relative flex-1 w-full overflow-hidden bg-black">
@@ -133,7 +127,7 @@ function ProjectMockup({
               alt={project.name}
               fill
               sizes="(max-width: 768px) 100vw, 33vw"
-              className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+              className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.015]"
             />
           </div>
         </div>
@@ -142,17 +136,19 @@ function ProjectMockup({
   );
 }
 
-// Tarjeta individual de proyecto con dimensiones uniformes en grid de 3 columnas
+// Tarjeta individual de proyecto con disparador interactivo hacia el modal de caso
 function ProjectCard({
   project,
   lang,
   viewCaseLabel,
   theme = 'ice',
+  onOpenModal,
 }: {
   project: Project;
   lang: 'es' | 'en';
   viewCaseLabel: string;
   theme?: 'ice' | 'accent';
+  onOpenModal: (project: Project) => void;
 }) {
   const isAccent = theme === 'accent';
 
@@ -177,9 +173,17 @@ function ProjectCard({
       transition={{ duration: 0.3 }}
       className="h-full col-span-1"
     >
-      <Link
-        href={`/projects/${project.slug}`}
-        className={`group relative rounded-[28px] sm:rounded-[32px] bg-[#111115] border border-white/10 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-xl hover:-translate-y-1.5 cursor-pointer h-full ${
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => onOpenModal(project)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onOpenModal(project);
+          }
+        }}
+        className={`group relative rounded-[28px] sm:rounded-[32px] bg-[#111115] border border-white/10 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-xl hover:-translate-y-1.5 cursor-pointer h-full select-none focus-visible:outline-2 focus-visible:outline-accent ${
           isAccent
             ? 'hover:border-accent/40 hover:shadow-[0_20px_50px_-15px_rgba(255,61,20,0.22)]'
             : 'hover:border-ice/40 hover:shadow-[0_20px_50px_-15px_rgba(191,224,255,0.18)]'
@@ -191,23 +195,19 @@ function ProjectCard({
         </div>
 
         {/* Ficha descriptiva con dimensiones uniformes */}
-        <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+        <div className="p-5 sm:p-7 flex-1 flex flex-col justify-between">
           <div>
-            {/* Categoría y año / estado con color temático de marca */}
+            {/* Categoría y estado con color temático de marca */}
             <div className="flex items-center justify-between gap-3 mb-3">
               <span className={`font-mono text-xs uppercase tracking-wider font-semibold transition-colors ${
                 isAccent ? 'text-accent' : 'text-ice'
               }`}>
                 {categoryLabel}
               </span>
-              {project.isUpcoming ? (
+              {project.isUpcoming && (
                 <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] font-semibold text-accent bg-accent/10 border border-accent/30 px-2.5 py-0.5 rounded-full">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                   {lang === 'es' ? 'En desarrollo' : 'In development'}
-                </span>
-              ) : (
-                <span className="font-mono text-xs text-white/50 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full">
-                  {project.year}
                 </span>
               )}
             </div>
@@ -218,37 +218,65 @@ function ProjectCard({
             </h4>
 
             {/* Resumen conciso con altura mínima consistente para alinear tarjetas */}
-            <p className="text-sm leading-relaxed text-white/70 font-normal mb-5 line-clamp-3 min-h-[60px]">
+            <p className="text-sm leading-relaxed text-white/70 font-normal mb-4 line-clamp-3 min-h-[58px]">
               {project.oneLiner}
             </p>
-          </div>
 
-          {/* Fila inferior: Stack tecnológico y enlace interactivo temático */}
-          <div className="flex items-center justify-between gap-3 pt-4 border-t border-white/10 mt-auto">
-            <div className="flex flex-wrap gap-1.5">
+            {/* Stack tecnológico en fila dedicada horizontal sin solapamiento */}
+            <div className="flex flex-wrap items-center gap-1.5 mb-5">
               {project.stack.slice(0, 3).map((tech, tIdx) => (
                 <span
                   key={tIdx}
-                  className="font-mono text-[10.5px] text-white/60 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full"
+                  className="font-mono text-[10.5px] text-white/60 bg-white/[0.04] border border-white/10 px-2.5 py-1 rounded-md whitespace-nowrap max-w-full truncate"
                 >
                   {tech}
                 </span>
               ))}
             </div>
+          </div>
 
-            <div className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold px-3.5 py-1.5 rounded-full border transition-all shrink-0 min-h-[44px] ${
-              isAccent
-                ? 'border-accent/25 bg-accent/5 text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent'
-                : 'border-ice/25 bg-ice/5 text-ice group-hover:bg-ice group-hover:text-ink group-hover:border-ice'
-            }`}>
-              <span className="hidden xs:inline">
-                {project.isUpcoming ? (lang === 'es' ? 'Ver ficha' : 'View specs') : viewCaseLabel}
-              </span>
-              <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </div>
+          {/* Fila inferior de acciones: Botones equilibrados a ancho completo */}
+          <div className="pt-4 border-t border-white/10 mt-auto">
+            {project.url ? (
+              <div className="flex items-center gap-2 sm:gap-2.5">
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 font-mono text-[11px] sm:text-xs font-semibold px-2.5 sm:px-3 py-2 sm:py-2.5 rounded-full border border-white/15 bg-white/[0.04] text-white/80 hover:text-white hover:bg-white/10 hover:border-white/30 transition-all min-h-[42px] cursor-pointer group/btn"
+                  title={lang === 'es' ? 'Visitar sitio web en vivo' : 'Visit live website'}
+                >
+                  <span>{lang === 'es' ? 'Visitar web' : 'Live site'}</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-white/50 group-hover/btn:text-white transition-colors" />
+                </a>
+
+                <div
+                  className={`flex-1 inline-flex items-center justify-center gap-1 sm:gap-1.5 font-mono text-[11px] sm:text-xs font-semibold px-2.5 sm:px-3 py-2 sm:py-2.5 rounded-full border transition-all min-h-[42px] ${
+                    isAccent
+                      ? 'border-accent/30 bg-accent/10 text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent'
+                      : 'border-ice/30 bg-ice/10 text-ice group-hover:bg-ice group-hover:text-ink group-hover:border-ice'
+                  }`}
+                >
+                  <span>{viewCaseLabel}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </div>
+              </div>
+            ) : (
+              <div
+                className={`w-full inline-flex items-center justify-center gap-1.5 font-mono text-xs font-semibold px-4 py-2.5 rounded-full border transition-all min-h-[42px] ${
+                  isAccent
+                    ? 'border-accent/30 bg-accent/10 text-accent group-hover:bg-accent group-hover:text-white group-hover:border-accent'
+                    : 'border-ice/30 bg-ice/10 text-ice group-hover:bg-ice group-hover:text-ink group-hover:border-ice'
+                }`}
+              >
+                <span>{project.isUpcoming ? (lang === 'es' ? 'Ver ficha técnica' : 'View specs') : (lang === 'es' ? 'Ver caso de estudio' : 'View case study')}</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </div>
+            )}
           </div>
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 }
@@ -324,6 +352,7 @@ export default function ProjectsSection() {
   const cm = ps.category_meta;
 
   const [activeFilter, setActiveFilter] = useState<'all' | 'sistemas' | 'webs' | 'soluciones'>('all');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const allProjects = getProjects(lang);
 
@@ -358,32 +387,25 @@ export default function ProjectsSection() {
             className="flex-1 max-w-2xl"
           />
 
-          {/* Barra de píldoras responsiva con shrink-0 estricto para evitar truncado o corte de texto */}
-          <div className="w-full xl:w-auto shrink-0 overflow-x-auto no-scrollbar py-1">
-            <div className="inline-flex items-center p-1.5 pr-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shrink-0 whitespace-nowrap shadow-xs">
-              {filterOptions.map((opt) => {
-                const isActive = activeFilter === opt.id;
-                return (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => setActiveFilter(opt.id)}
-                    className={`relative px-4 py-2 min-h-[44px] rounded-full font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer select-none flex items-center justify-center whitespace-nowrap shrink-0 ${
-                      isActive ? 'text-ink font-semibold' : 'text-white/70 hover:text-white'
-                    }`}
-                  >
-                    {isActive && (
-                      <motion.span
-                        layoutId="activeFilterIndicator"
-                        className="absolute inset-0 bg-white rounded-full shadow-sm"
-                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                      />
-                    )}
-                    <span className="relative z-10 whitespace-nowrap">{opt.label}</span>
-                  </button>
-                );
-              })}
-            </div>
+          {/* Barra de filtros responsiva con ajuste dinámico flex-wrap y botones táctiles accesibles */}
+          <div className="w-full xl:w-auto flex flex-wrap items-center gap-2 sm:gap-2.5">
+            {filterOptions.map((opt) => {
+              const isActive = activeFilter === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => setActiveFilter(opt.id)}
+                  className={`relative px-3.5 sm:px-5 py-2 sm:py-2.5 min-h-[44px] rounded-full font-mono text-[11px] sm:text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer select-none flex items-center justify-center border ${
+                    isActive
+                      ? 'bg-white text-ink border-white font-semibold shadow-md'
+                      : 'bg-white/5 text-white/75 hover:text-white hover:bg-white/10 border-white/10'
+                  }`}
+                >
+                  <span className="relative z-10">{opt.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -420,6 +442,7 @@ export default function ProjectsSection() {
                       lang={lang}
                       viewCaseLabel={ps.card_view_case}
                       theme="ice"
+                      onOpenModal={setSelectedProject}
                     />
                   ))}
                 </div>
@@ -455,6 +478,7 @@ export default function ProjectsSection() {
                       lang={lang}
                       viewCaseLabel={ps.card_view_case}
                       theme="accent"
+                      onOpenModal={setSelectedProject}
                     />
                   ))}
                 </div>
@@ -490,6 +514,7 @@ export default function ProjectsSection() {
                       lang={lang}
                       viewCaseLabel={ps.card_view_case}
                       theme="ice"
+                      onOpenModal={setSelectedProject}
                     />
                   ))}
                 </div>
@@ -515,6 +540,14 @@ export default function ProjectsSection() {
           </a>
         </div>
       </Container>
+
+      {/* Modal de caso de estudio en arquitectura editorial cinética */}
+      <ProjectModal
+        project={selectedProject}
+        isOpen={Boolean(selectedProject)}
+        onClose={() => setSelectedProject(null)}
+        lang={lang}
+      />
     </section>
   );
 }

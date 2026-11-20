@@ -103,7 +103,7 @@ export default function HeroSystem3D({
       onMouseLeave={handleMouseLeave}
       className={`relative select-none ${
         isMobile
-          ? 'w-[280px] h-[300px] pointer-events-none'
+          ? 'w-[280px] h-[290px] pointer-events-none'
           : 'w-[380px] h-[440px] pointer-events-auto cursor-default'
       } ${className}`}
       style={{
@@ -116,18 +116,19 @@ export default function HeroSystem3D({
         style={{
           transformStyle: 'preserve-3d',
           transformOrigin: 'center center',
-          scale: isMobile ? 0.7 : 1,
+          scale: isMobile ? 0.76 : 1,
+          x: isMobile ? -50 : 0,
         }}
         animate={
-          isInView && !shouldReduceMotion && !isMobile
+          isInView && !shouldReduceMotion
             ? {
-                y: [-8, 8, -8],
-                rotateZ: [-1.2, 1.2, -1.2],
+                y: isMobile ? [-5, 5, -5] : [-8, 8, -8],
+                rotateZ: isMobile ? [-0.8, 0.8, -0.8] : [-1.2, 1.2, -1.2],
               }
             : { y: 0, rotateZ: 0 }
         }
         transition={{
-          duration: 7,
+          duration: isMobile ? 6 : 7,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
@@ -389,7 +390,7 @@ export default function HeroSystem3D({
               <motion.div
                 className="rounded-full bg-white/80 border border-white/90 shadow-md px-3 py-1.5 flex items-center gap-2 text-ink font-sans text-xs font-semibold whitespace-nowrap"
                 animate={
-                  isInView && !shouldReduceMotion && !isMobile
+                  isInView && !shouldReduceMotion
                     ? { y: [chip.initialOffset, -chip.initialOffset, chip.initialOffset] }
                     : { y: 0 }
                 }

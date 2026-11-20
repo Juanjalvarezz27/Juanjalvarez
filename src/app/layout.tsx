@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter_Tight, Inter, JetBrains_Mono, Anton, Space_Grotesk, Geist_Mono } from "next/font/google";
+import { Inter_Tight, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "../i18n/LanguageContext";
 import { SITE_CONFIG } from "../config/site";
 import Grain from "../components/ui/Grain";
-import BreakpointBadge from "../components/ui/BreakpointBadge";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -26,26 +25,6 @@ const inter = Inter({
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
-const anton = Anton({
-  weight: "400",
-  variable: "--font-anton",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -77,7 +56,7 @@ export const metadata: Metadata = {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
       { url: "/icon.png", type: "image/png", sizes: "32x32" },
-      { url: "/logo-round.png", type: "image/png", sizes: "192x192" },
+      { url: "/brand/logo-round.png", type: "image/png", sizes: "192x192" },
     ],
     apple: [
       { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
@@ -130,7 +109,7 @@ export default function RootLayout({
       lang="es"
       translate="no"
       suppressHydrationWarning
-      className={`${interTight.variable} ${inter.variable} ${jetbrainsMono.variable} ${anton.variable} ${spaceGrotesk.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
+      className={`${interTight.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased scroll-smooth`}
     >
       <head>
         <script
@@ -144,7 +123,6 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-bg text-ink overflow-x-clip font-sans antialiased selection:bg-accent selection:text-white relative" suppressHydrationWarning>
         <Grain />
-        <BreakpointBadge />
         <LanguageProvider>
           {children}
         </LanguageProvider>

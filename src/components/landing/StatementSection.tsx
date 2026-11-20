@@ -147,15 +147,7 @@ export default function StatementSection() {
       ref={containerRef}
       className="relative w-full bg-bg text-ink pt-[clamp(64px,8vw,112px)] pb-[clamp(32px,4vw,48px)] overflow-hidden"
     >
-      {/* Auras lumínicas ambientales sutiles de marca (Azul hielo y Naranja poppy) */}
-      <div 
-        className="absolute top-1/4 right-0 translate-x-1/4 w-[600px] h-[360px] bg-gradient-to-bl from-[#FF3D14]/[0.05] via-[#BFE0FF]/15 to-transparent blur-[120px] pointer-events-none -z-0" 
-        aria-hidden="true" 
-      />
-      <div 
-        className="absolute bottom-10 left-0 -translate-x-1/4 w-[500px] h-[300px] bg-gradient-to-tr from-[#BFE0FF]/25 to-transparent blur-[110px] pointer-events-none -z-0" 
-        aria-hidden="true" 
-      />
+
 
       <Container>
         {/* 1. FILA DE CABECERA: Eyebrow con línea divisoria continua */}

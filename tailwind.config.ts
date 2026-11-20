@@ -59,8 +59,6 @@ const config: Config = {
         sans: ['var(--font-inter)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         mono: ['var(--font-jetbrains-mono)', 'monospace'],
         helvetica: ['var(--font-inter)', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
-        anton: ['var(--font-anton)', 'sans-serif'],
-        space: ['var(--font-space)', 'sans-serif'],
       },
       borderRadius: {
         card: '28px',

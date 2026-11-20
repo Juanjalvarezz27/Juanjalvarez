@@ -94,7 +94,7 @@ function AnswerBubble({
       {/* Avatar JA */}
       <div className="relative w-7 h-7 rounded-full overflow-hidden shrink-0 select-none shadow-xs mt-0.5 bg-ink ring-1 ring-white/10">
         <Image
-          src="/logo-round.png"
+          src="/brand/logo-round.png"
           alt="Juan Álvarez"
           fill
           sizes="28px"
@@ -288,7 +288,7 @@ function ContactCard({
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 shadow-xs select-none bg-ink ring-1 ring-white/10">
             <Image
-              src="/logo-round.png"
+              src="/brand/logo-round.png"
               alt="Juan Álvarez"
               fill
               sizes="40px"
@@ -383,11 +383,7 @@ export default function FAQSection() {
       id="faq" 
       className="relative w-full bg-bg text-ink pt-[clamp(40px,5vw,64px)] pb-[clamp(64px,9vw,120px)]"
     >
-      {/* Contenedor de auras ambientales con overflow-hidden para proteger la posición sticky */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-0" aria-hidden="true">
-        <div className="absolute top-1/4 left-0 -translate-x-1/4 w-[500px] h-[360px] bg-gradient-to-r from-[#BFE0FF]/30 via-[#BFE0FF]/05 to-transparent blur-[120px]" />
-        <div className="absolute bottom-1/4 right-0 translate-x-1/4 w-[450px] h-[300px] bg-gradient-to-l from-[#FF3D14]/[0.05] to-transparent blur-[110px]" />
-      </div>
+      {/* Auras lumínicas sutiles — ahora vienen del CSS .section-noise */}
 
       {/* Inyección semántica de JSON-LD para Google Search Console */}
       <script
@@ -406,7 +402,7 @@ export default function FAQSection() {
                 <Eyebrow text={faq.eyebrow} className="mb-4" />
                 <h2 className="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] tracking-[-0.04em] leading-[1.05] text-ink mb-3 select-none [text-wrap:balance]">
                   <span>{faq.title_part1} </span>
-                  <span className="text-muted">{faq.title_part2}</span>
+                  <span className="hero-gradient-text inline-block">{faq.title_part2}</span>
                 </h2>
                 <p className="text-body-lg text-ink-soft max-w-[380px] font-normal leading-relaxed">
                   {faq.subtitle}

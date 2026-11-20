@@ -2,7 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, ExternalLink, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ExternalLink, ArrowUpRight, FileText, CheckCircle2 } from 'lucide-react';
 import Header from '@/src/components/landing/Header';
 import Footer from '@/src/components/landing/Footer';
 import { Container, Button, StarBullet } from '@/src/components/ui';
@@ -88,41 +88,61 @@ export default async function ProjectPage({
               </div>
             </div>
 
-            {project.url && (
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider bg-ink text-white hover:bg-[#1C1C1F] px-5 py-3 rounded-full transition-all self-start md:self-auto shrink-0 group"
-              >
-                <span>Visitar sitio en vivo</span>
-                <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-            )}
+            <div className="flex flex-wrap items-center gap-3 self-start md:self-auto shrink-0">
+              {project.pdfUrl && (
+                <a
+                  href={project.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider bg-emerald-600 text-white hover:bg-emerald-700 px-5 py-3 rounded-full transition-all group"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Ver informe PDF</span>
+                </a>
+              )}
+
+              {project.url && (
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider bg-ink text-white hover:bg-[#1C1C1F] px-5 py-3 rounded-full transition-all group"
+                >
+                  <span>Visitar sitio en vivo</span>
+                  <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
+              )}
+            </div>
           </div>
 
-          {/* Desglose editorial: Problema y Solución */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 sm:mb-24">
-            <div className="bg-surface border border-line rounded-[28px] p-8 sm:p-10 shadow-xs flex flex-col justify-between">
-              <div>
-                <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold block mb-3">
-                  01 · El problema
-                </span>
-                <p className="text-body text-ink leading-relaxed font-normal">
-                  {project.problem}
-                </p>
-              </div>
+          {/* Bloque de valor comercial: ¿En qué beneficia a tu negocio? */}
+          <div className="mb-16 sm:mb-20">
+            <div className="flex items-center gap-2 mb-6">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              <h2 className="font-mono text-xs uppercase tracking-widest text-ink font-semibold">
+                ¿En qué beneficia a tu negocio?
+              </h2>
             </div>
 
-            <div className="bg-surface border border-line rounded-[28px] p-8 sm:p-10 shadow-xs flex flex-col justify-between">
-              <div>
-                <span className="font-mono text-xs uppercase tracking-widest text-accent font-semibold block mb-3">
-                  02 · La solución
-                </span>
-                <p className="text-body text-ink leading-relaxed font-normal">
-                  {project.solution}
-                </p>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+              {(project.businessBenefits || []).map((item, bIdx) => (
+                <div
+                  key={bIdx}
+                  className="bg-surface border border-line rounded-[24px] p-6 sm:p-7 shadow-xs flex items-start gap-4"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-accent/10 border border-accent/25 flex items-center justify-center shrink-0 text-accent mt-0.5">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-sans font-bold text-base sm:text-lg text-ink block leading-snug">
+                      {item.title}
+                    </h3>
+                    <p className="text-body text-ink-soft leading-relaxed mt-1">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -131,7 +151,7 @@ export default async function ProjectPage({
             {project.images.map((img, idx) => (
               <div
                 key={idx}
-                className="relative w-full aspect-[16/10] bg-[#111115] border border-line rounded-[28px] sm:rounded-[36px] overflow-hidden shadow-md"
+                className="relative w-full aspect-[16/8.5] bg-[#111115] border border-line rounded-[28px] sm:rounded-[36px] overflow-hidden shadow-md"
               >
                 <Image
                   src={img}
