@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
 import { Container, SectionHeading, StarBullet, Grain } from '../ui';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { getWhatsAppUrl } from '../../config/site';
@@ -60,31 +59,37 @@ export default function ServicesSection() {
   const serv = t.single_page.services_section;
   const carouselRef = useRef<HTMLDivElement>(null);
   const [activeCard, setActiveCard] = useState(0);
-  const shouldReduceMotion = useReducedMotion();
+  const isScrollingRef = useRef(false);
 
-  // Detección en tiempo real de la tarjeta activa según desplazamiento horizontal en móvil
+  // Detección en tiempo real de la tarjeta activa mediante rAF para evitar re-renderizados continuos
   const handleCarouselScroll = () => {
-    if (!carouselRef.current) return;
-    const { scrollLeft, scrollWidth, offsetWidth } = carouselRef.current;
-    if (scrollWidth <= offsetWidth) return;
+    if (!carouselRef.current || isScrollingRef.current) return;
+    isScrollingRef.current = true;
 
-    const children = Array.from(carouselRef.current.children) as HTMLElement[];
-    if (children.length === 0) return;
+    requestAnimationFrame(() => {
+      isScrollingRef.current = false;
+      if (!carouselRef.current) return;
+      const { scrollLeft, scrollWidth, offsetWidth } = carouselRef.current;
+      if (scrollWidth <= offsetWidth) return;
 
-    const containerCenter = scrollLeft + offsetWidth / 2;
-    let closestIdx = 0;
-    let minDistance = Infinity;
+      const children = Array.from(carouselRef.current.children) as HTMLElement[];
+      if (children.length === 0) return;
 
-    children.forEach((child, idx) => {
-      const childCenter = child.offsetLeft + child.offsetWidth / 2;
-      const distance = Math.abs(containerCenter - childCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIdx = idx;
-      }
+      const containerCenter = scrollLeft + offsetWidth / 2;
+      let closestIdx = 0;
+      let minDistance = Infinity;
+
+      children.forEach((child, idx) => {
+        const childCenter = child.offsetLeft + child.offsetWidth / 2;
+        const distance = Math.abs(containerCenter - childCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIdx = idx;
+        }
+      });
+
+      setActiveCard((prev) => (prev !== closestIdx ? closestIdx : prev));
     });
-
-    setActiveCard(closestIdx);
   };
 
   // Desplazamiento suave centrado al pulsar un indicador
@@ -139,28 +144,14 @@ export default function ServicesSection() {
             return (
               <div
                 key={card.id}
-                className={`w-[84vw] max-w-[340px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink transition-all duration-300 ease-out ${
+                className={`w-[84vw] max-w-[340px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink ${
                   isStaggered ? 'xl:translate-y-6' : ''
-                } ${
-                  shouldReduceMotion
-                    ? ''
-                    : isActive
-                    ? 'scale-100 opacity-100'
-                    : 'scale-[0.95] opacity-75 md:scale-100 md:opacity-100'
                 }`}
               >
-                {/* Animación cinemática de entrada al hacer scroll vertical */}
-                <motion.div
-                  initial={shouldReduceMotion ? false : { opacity: 0, y: 36, scale: 0.96 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ 
-                    duration: 0.55, 
-                    delay: shouldReduceMotion ? 0 : idx * 0.08, 
-                    ease: [0.16, 1, 0.3, 1] 
-                  }}
+                {/* Tarjeta de servicio con renderizado estable sin flickers de escala ni opacidad */}
+                <div
                   className={`relative rounded-[28px] p-6 sm:p-7 min-h-[440px] overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 group cursor-default select-none ${styles.card} ${
-                    isActive ? 'shadow-xl' : 'shadow-xs'
+                    isActive ? 'shadow-xl ring-1 ring-accent/20' : 'shadow-xs'
                   }`}
                 >
                   {/* Fondo decorativo con MotionPill desenfocada confinada dentro de la tarjeta */}
@@ -237,7 +228,7 @@ export default function ServicesSection() {
                     </div>
                   </div>
 
-                </motion.div>
+                </div>
               </div>
             );
           })}
